@@ -75,6 +75,23 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 - **Stay runtime-agnostic:** use standard `Dockerfile`s and `docker compose` only, with nothing OrbStack-specific, so teammates and CI can use Docker Desktop or Linux unchanged.
 - **Architecture:** prefer multi-arch images that run natively on ARM64 locally. Pin `platform: linux/amd64` only when an image has no ARM64 build or production needs it.
 
+## Auth
+- **Default: Supabase Auth** for every stack. Next.js uses `@supabase/ssr` (cookie sessions). An ASP.NET Core API validates Supabase's JWTs with `AddAuthentication().AddJwtBearer()` and authorises with policies.
+- **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
+- Never store passwords yourself. Authorise on the server for every request and deny by default; hiding UI is not authorisation.
+- Supabase tables reachable from the client have Row Level Security on, with policies covered by tests.
+
+## Migrations
+Schema changes go only through committed migrations, never by hand on a shared database.
+
+| Stack | Create | Apply in deploy |
+|---|---|---|
+| Supabase | `pnpm supabase migration new <name>`, SQL in `supabase/migrations/`. Replay locally with `pnpm supabase db reset` | `pnpm supabase db push --db-url "$DATABASE_URL"` as an explicit step before the app deploys |
+| EF Core | `dotnet ef migrations add <Name>`. Review the SQL with `dotnet ef migrations script --idempotent` | A migration bundle (`dotnet ef migrations bundle`) run as its own step. Never `Database.Migrate()` at startup |
+
+- **Breaking changes use expand and contract:** add the new column or table, backfill, switch the code, then drop the old one in a later deploy. Migrations ship before the code that needs them.
+- Integration tests run against the migrated schema, so a broken migration fails CI.
+
 ## Package manager
 - pnpm for new JS/TS projects. Pin it with a `"packageManager": "pnpm@<version>"` field in `package.json`.
 - In an existing repo, use whatever its lockfile says (`package-lock.json` → npm, `yarn.lock` → Yarn). Never mix lockfiles.
@@ -126,7 +143,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 | Deploy | Production on push to `main`, with previews on agent PRs | Preview on each PR, production on merge |
 
 - **CI:** one workflow, copied from [templates/ci.yml](templates/ci.yml). It runs a frozen install, the Lint & format checks, tests, then a build. Add a Postgres service once integration tests exist, and the Playwright smoke run once the first user journey exists (Phase 1).
-- **Deploy:** Vercel's Git integration, with no workflow file. For .NET or FastAPI hosts, add a `deploy.yml` on `push: main` that needs CI to pass and runs migrations as an explicit step. If a deploy is bad, roll back to the previous one in the host.
+- **Deploy:** Vercel's Git integration, with no workflow file. For .NET or FastAPI hosts, add a `deploy.yml` on `push: main` that needs CI to pass and runs migrations as an explicit step (see [Migrations](#migrations)). If a deploy is bad, roll back to the previous one in the host.
 - **Dependencies and secrets:** Dependabot weekly with minor and patch updates grouped ([templates/dependabot.yml](templates/dependabot.yml)). Turn on GitHub secret scanning and push protection.
 - **Git conventions (both modes):**
   - Commits: Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), small and green.
