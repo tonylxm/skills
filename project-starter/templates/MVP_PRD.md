@@ -12,9 +12,9 @@ _Summary: {who} struggles with {problem}; {product} lets them {outcome}. MVP suc
 |---|---|---|---|
 
 ## Scope
-| # | Feature | Acceptance criteria | Phase |
-|---|---|---|---|
-| F1 | | - {observable criterion} | 1 |
+| # | Feature | Acceptance criteria |
+|---|---|---|
+| F1 | | - {observable criterion} |
 
 **Non-goals (MVP):** {explicitly out}. The deferred list lives in [TODO.md](TODO.md).
 
