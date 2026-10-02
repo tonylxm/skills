@@ -58,6 +58,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [frontend-verify](frontend-verify/SKILL.md) | Check a UI change in a real browser: widths, themes, console, keyboard, accessibility | Original |
 | [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf); needs `npm i -g gnhf` |
 | [typescript-standards](typescript-standards/SKILL.md) | TypeScript code standards: strict types, early returns, injected dependencies | Original |
+| [dotnet-standards](dotnet-standards/SKILL.md) | C# and ASP.NET Core standards: nullable types, async all the way, minimal API endpoints, EF Core | Original |
 | [cli-tooling](cli-tooling/SKILL.md) | Fast, non-interactive shell tools: ast-grep, rg, fd, jq, yq, gh | Original |
 | [handoff](handoff/SKILL.md) | Compact a session into a handoff document for a fresh context | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **Meta** | | |
