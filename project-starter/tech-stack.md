@@ -62,13 +62,18 @@ Infrastructure/
 - PostgreSQL by default
 - Supabase when managed Postgres, Auth or Storage materially helps
 - Vercel for Next.js where appropriate
-- Docker when useful
+- Docker when useful (see [Containers](#containers))
 - GitHub Actions for CI, Vercel's Git integration for deploys (see [CI/CD](#cicd))
 - Stripe for payments, Resend for email
 - Sentry for error monitoring, PostHog for product analytics
 - Managed background jobs where appropriate
 
 Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
+
+### Containers
+- **Local runtime:** OrbStack on macOS/Apple Silicon. It's light, starts fast, is fully Docker/Compose compatible and runs ARM64 natively. Use Docker Desktop instead when ecosystem compatibility or team standardisation matters.
+- **Stay runtime-agnostic:** use standard `Dockerfile`s and `docker compose` only, with nothing OrbStack-specific, so teammates and CI can use Docker Desktop or Linux unchanged.
+- **Architecture:** prefer multi-arch images that run natively on ARM64 locally. Pin `platform: linux/amd64` only when an image has no ARM64 build or production needs it.
 
 ## Package manager
 - pnpm for new JS/TS projects. Pin it with a `"packageManager": "pnpm@<version>"` field in `package.json`.
