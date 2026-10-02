@@ -13,6 +13,8 @@ Move a project forward one step at a time from `ROADMAP.md`. The roadmap's check
 
 Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The current phase is the first one that still has unchecked items.
 
+If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
+
 ## plan
 
 Break the current phase into tasks. If the phase already has tasks, show them and ask whether to revise them or go to `build`. Use the format in [roadmap-format.md](roadmap-format.md).
