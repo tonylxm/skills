@@ -9,7 +9,7 @@ Prove a UI change works in a real browser before calling it done. Tests and type
 
 ## 1. Open the app
 
-- Start it with the run skill, or `preview_start` from `.claude/launch.json`. Reuse a server that is already running.
+- Start it with the run skill, or `preview_start` from `.claude/launch.json`. Reuse a server that is already running. Serve a static HTML file over localhost (for example `python3 -m http.server`) rather than opening it as a file, so colour-scheme emulation works.
 - Use the built-in browser by default. Use Claude in Chrome only when the page needs the user's logged-in state, and only read in that session.
 - Go straight to the screen that changed.
 
@@ -19,8 +19,8 @@ Collect everything in a single round, using `browser_batch` where the steps are 
 
 | Check | How |
 |---|---|
-| Widths 375, 768, 1280 | `resize_window`, then a screenshot at each. No horizontal scroll, nothing clipped or overlapping |
-| Light and dark | `resize_window` with `colorScheme`, only if the app supports dark. Not reliable for local files or static HTML previews, which always render light |
+| Widths 375, 768, 1280 | `resize_window`, then a screenshot at each. Nothing clipped or overlapping, and no page scroll: `document.documentElement.scrollWidth` equals `clientWidth` (scrolling inside a deliberate container such as a table or timeline is fine). Wide viewports are scaled down to fit the pane, so `zoom` into regions to read detail |
+| Light and dark | `resize_window` with `colorScheme`, only if the app supports dark. Confirm with `matchMedia('(prefers-color-scheme: dark)').matches` before trusting the screenshot, since the first capture after a switch can still show the old theme |
 | Console and network | `read_console_messages` (errors only), `read_network_requests` for failed calls |
 | Accessibility tree | `read_page`: every control has a name, headings run in order, landmarks exist |
 | Keyboard | Tab through the changed area: logical order, visible focus, Escape closes overlays, Enter and Space activate |

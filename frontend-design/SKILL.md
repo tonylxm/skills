@@ -19,7 +19,7 @@ Either way, prefer lists, tables and plain sections spaced for hierarchy over ca
 
 **References:** if `docs/design/references/` exists, read those screenshots and take the pattern (layout, density, flow), never the brand. Otherwise follow `DESIGN.md` and platform norms (Apple HIG, Material 3). A reference MCP (Mobbin, Refero) or Figma MCP can be added later when design needs more weight.
 
-**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the "never by default" set in either mode: purple or indigo defaults, gradient text, decorative glass, card grids and nested cards, emoji icons, thick coloured side borders, modal-first flows. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and report `file:line` findings.
+**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the "never by default" set in either mode: purple or indigo defaults, gradient text, decorative glass, card grids and nested cards, emoji icons, thick coloured side borders, modal-first flows. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist.
 
 ## Ground your designs in the subject matter
 

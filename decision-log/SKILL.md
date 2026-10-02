@@ -1,6 +1,6 @@
 ---
 name: decision-log
-description: Use this skill when making or documenting significant architecture, product, security, or financial decisions in the codebase.
+description: Use when making or documenting significant architecture, product, security, or financial decisions, or when writing, editing or superseding an ADR in docs/decisions/.
 ---
 
 # Decision Log Instructions
