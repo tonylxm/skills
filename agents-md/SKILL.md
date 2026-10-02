@@ -12,13 +12,14 @@ Write and maintain `AGENTS.md`, the instructions every coding agent reads at the
 1. **Gather facts yourself.** Read the package manifests, lockfiles, CI config, lint and format config, the test setup, `README.md`, `MVP_PRD.md`, `DESIGN.md`, `GLOSSARY.md` and `docs/decisions/`. Run the build, test and lint commands to confirm they work. **Greenfield** (nothing scaffolded yet): write the planned commands with a `# planned` marker. The roadmap's Phase 0 makes them real, and `roadmap-next close` re-runs this skill to verify them and remove the markers.
 2. **Ask the user only for things the code can't tell you.** Non-negotiables, team conventions, and areas that are off-limits. Give a recommended answer with each question.
 3. **Write the file** from [template.md](template.md).
-4. **Wire up Claude Code.** If `CLAUDE.md` doesn't exist, run `ln -s AGENTS.md CLAUDE.md`. If it exists with its own content, merge that content into `AGENTS.md` first, then link.
+4. **Don't create `CLAUDE.md`.** Claude Code reads `AGENTS.md` natively.
 
 ## Update (the default when the file exists)
 
 - Re-verify the commands. Fix stale ones, and delete rules the code or a linter now enforces.
 - Add a rule only if it is **new**, **non-obvious**, and an agent got it wrong or would get it wrong. Phrase it as an instruction, with a reason when the reason isn't obvious.
 - Rewrite in place. Never append a "learnings" log.
+- Keep blocks that a tool generates, such as `<!-- BEGIN:nextjs-agent-rules -->` … `<!-- END:… -->`, word for word, at the top of the file. The tool adds them back, so removing one only leaves an uncommitted diff.
 
 ## What belongs where
 

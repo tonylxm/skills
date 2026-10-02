@@ -4,7 +4,7 @@ _Current: Phase 0 (walking skeleton). Work it with `/roadmap-next`. Format: see 
 
 ## Phase 0: Walking skeleton
 Goal: an empty app that builds, tests, lints and deploys through CI.
-- [ ] Scaffold the {framework} app with the chosen structure
+- [ ] Scaffold the {framework} app: `{scaffold command from tech-stack.md}`
   - AC: `{dev}` serves a page or endpoint locally
 - [ ] Add lint, format and typecheck
   - AC: `{lint}` passes, and runs in CI
