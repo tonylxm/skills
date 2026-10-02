@@ -98,7 +98,7 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
     "*.{json,md,css,yml}": "prettier --write"
   }
   ```
-  `.husky/pre-commit` contains just `pnpm exec lint-staged`. Use `git commit --no-verify` to skip it for a one-off.
+  `.husky/pre-commit` contains just `pnpm exec lint-staged`.
 
 ## Testing
 Write tests first, using the tdd skill. It covers how to write them. This section covers which tools to use and what to cover.

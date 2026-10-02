@@ -94,13 +94,7 @@ Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
 
 ### Step 6: Offer to Install
 
-If the user wants to proceed, you can install the skill for them:
-
-```bash
-npx skills add <owner/repo@skill> -g -y
-```
-
-The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts. To keep a skill in the user's personal skills repo, use the vendoring steps below instead of this command.
+If the user wants it, vendor it into their skills repo with the steps below. Don't run `npx skills add`.
 
 ## Adding a Skill to the Personal Skills Repo (Vendoring)
 
@@ -141,14 +135,4 @@ If no relevant skills exist:
 
 1. Acknowledge that no existing skill was found
 2. Offer to help with the task directly using your general capabilities
-3. Suggest the user could create their own skill with `npx skills init`
-
-Example:
-
-```
-I searched for skills related to "xyz" but didn't find any matches.
-I can still help you with this task directly! Would you like me to proceed?
-
-If this is something you do often, you could create your own skill:
-npx skills init my-xyz-skill
-```
+3. If it's a recurring task, offer to write a new skill with the refine-skill skill

@@ -70,13 +70,13 @@ description: Write or review TypeScript with strict types, clear control flow, d
 
 - const by default, let only when mutation is required. Never var.
 - Destructure parameters and objects
-- Named exports only — no default exports (except route files for Express)
+- Named exports only. Default exports only where a framework requires them (Next.js `page.tsx`, `layout.tsx`, `route.ts`, config files)
 - NEVER make bundles of utils. Sort them into their own relevant modules / move into relevant
   class / make a new class if needed.
 
 ## Comments
 
-- Don't write comments — improve the code instead
+- Comments only for a non-obvious *why* (constraints, workarounds). Improve the code instead of explaining it
 - If a condition is complex enough to need a comment, extract it into a named variable or function
 - If a value needs a comment to explain what it represents, make it a named constant or a type
 - Exceptions: performance hacks that would look wrong without context, links to algorithms or
