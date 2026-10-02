@@ -1,0 +1,3 @@
+interface:
+  display_name: "TypeScript Standards"
+  short_description: "Strict types, clear control flow, injected dependencies"

@@ -16,7 +16,7 @@ Read these first, if they exist: `MVP_PRD.md`, `docs/research/market.md` (compet
 
 ## Decisions, in order
 
-1. **Personality.** 3 adjectives, what it must *not* feel like, and one or two reference products.
+1. **Personality.** 3 adjectives, what it must *not* feel like, one or two reference products, and anti-references (products or looks to avoid, and why).
 2. **Colour.**
    - Roles: primary, accent, background, surface, text, muted, border, and success/warning/danger.
    - Hex values for light **and** dark mode.

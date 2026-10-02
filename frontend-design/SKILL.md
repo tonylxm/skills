@@ -1,6 +1,6 @@
 ---
 name: frontend-design
-description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
+description: Use when building or reshaping any UI (product screens, dashboards, settings, landing pages, components), when the result looks generic or AI-generated, or when asked to review UI code for design, accessibility or interface best practice.
 license: Complete terms in LICENSE.txt
 ---
 
@@ -9,6 +9,17 @@ license: Complete terms in LICENSE.txt
 > If the project has a `DESIGN.md`, it is the source of truth: use its tokens, type and components, and apply the guidance below only where it is silent. Propose changes to `DESIGN.md` rather than diverging from it.
 
 Approach this as the design lead at a design studio known for giving every client a distinct visual identity that is not mistaken for anyone else's. This client has already rejected proposals that felt cliché or templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take aesthetic risk if justified.
+
+## Pick the mode first
+
+- **Product UI** (app screens, dashboards, settings, admin, tools): the default for most work. Familiarity is the feature: a user fluent in the category should trust every control at once, and the interface should disappear into the task. The studio stance above does not apply; spend distinctiveness only in precise details. Read [references/product-ui.md](references/product-ui.md).
+- **Marketing** (landing, pricing, campaigns): the studio stance applies in full.
+
+Either way, prefer lists, tables and plain sections spaced for hierarchy over cards (cards only for things that really are discrete objects), a neutral base with one restrained accent for actions and state, every component state built (hover, focus, active, disabled, loading, error, empty), skeletons over spinners, and empty states that teach.
+
+**References:** if `docs/design/references/` exists, read those screenshots and take the pattern (layout, density, flow), never the brand. Otherwise follow `DESIGN.md` and platform norms (Apple HIG, Material 3). A reference MCP (Mobbin, Refero) or Figma MCP can be added later when design needs more weight.
+
+**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the "never by default" set in either mode: purple or indigo defaults, gradient text, decorative glass, card grids and nested cards, emoji icons, thick coloured side borders, modal-first flows. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and report `file:line` findings.
 
 ## Ground your designs in the subject matter
 
@@ -52,13 +63,13 @@ Work in two passes. First, brainstorm a short design plan based on the client's 
 - Layout: a layout concept, using one-sentence prose descriptions and ASCII wireframes to ideate and compare. Include alignment guidance; should the content be left aligned, center aligned, justified?
 - Principles: the high-level guidance for what makes this page unique.
 
-Then review that plan against the brief before building: if any part of it reads like the generic default you would produce for any similar page (work through a similar prompt to see if you arrive somewhere similar) rather than a choice made for this specific brief — revise that part, say what you changed and why. Only after you've confirmed the relative uniqueness of your design plan should you start to write the code, following the revised plan.
+Then review that plan against the brief and the craft-floor Refuse list before building: if any part of it reads like the generic default you would produce for any similar page (work through a similar prompt to see if you arrive somewhere similar) rather than a choice made for this specific brief — revise that part, say what you changed and why. Only after you've confirmed the relative uniqueness of your design plan should you start to write the code, following the revised plan.
 
 When writing the code, be careful of structuring your CSS selector specificities. It's easy to generate CSS classes that cancel each other out (especially with a type-based selector like .section and an element-based selector like .cta). This can happen often with padding/margin between sections.
 
 ## Restraint and self-critique
 
-Spend your boldness in one place. Let one element be the memorable thing, keep everything around it quiet and disciplined, and cut any decoration that does not serve the brief. Build to a quality floor without announcing it: responsive down to mobile, visible keyboard focus, reduced motion respected, visually accessible, harmonious color palettes. Critique your own work as you build, taking screenshots to review if your environment supports it — a picture is worth 1000 tokens. Consider Chanel's advice: before leaving the house, take a look in the mirror and remove one accessory. Human creatives have memory and always try to do something new, so if you have a space to quickly jot down notes about what you've tried, it can help you in future passes.
+Spend your boldness in one place. Let one element be the memorable thing, keep everything around it quiet and disciplined, and cut any decoration that does not serve the brief. Build to a quality floor without announcing it: responsive down to mobile, visible keyboard focus, reduced motion respected, visually accessible, harmonious color palettes. Critique your own work as you build, then check it in a real browser with the frontend-verify skill — a picture is worth 1000 tokens. Consider Chanel's advice: before leaving the house, take a look in the mirror and remove one accessory. Human creatives have memory and always try to do something new, so if you have a space to quickly jot down notes about what you've tried, it can help you in future passes.
 
 ## More on writing in design
 

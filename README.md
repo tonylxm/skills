@@ -20,8 +20,8 @@ Some skills call others (for example, project-starter uses grilling, domain-mode
 
 ```
 /project-starter "idea" ──► /roadmap-next plan ──► /roadmap-next build (repeat) ──► /roadmap-next close
-   idea-refine · grilling          tdd · systematic-debugging · frontend-design     /code-review · /security-review
-   domain-modeling · decision-log  decision-log                                      /simplify · agents-md
+   refine-idea · grilling          tdd · systematic-debugging · frontend-design     /code-review · /security-review
+   domain-modeling · decision-log  decision-log · frontend-verify                    /simplify · agents-md
    market-research · design-md
    agents-md                                                 overnight: /gnhf (roadmap preset)
 ```
@@ -38,7 +38,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | --- | --- | --- |
 | **Kickoff and planning** | | |
 | [project-starter](project-starter/SKILL.md) | Kick off a project: produces the PRD, roadmap, TODO, design and AGENTS.md, starting from your stack defaults in `tech-stack.md` | Original |
-| [idea-refine](idea-refine/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
+| [refine-idea](refine-idea/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
 | [market-research](market-research/SKILL.md) | Sourced market and competitor snapshot | Original, based on firecrawl-market-research and coreyhaines31 competitor-profiling |
 | [grilling](grilling/SKILL.md) | Round-based interview with recommended answers | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [grill-me](grill-me/SKILL.md) | Shortcut to start a grilling session | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
@@ -52,8 +52,10 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [tdd](tdd/SKILL.md) | Test-driven development, red-green-refactor | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [codebase-design](codebase-design/SKILL.md) | Deep-module vocabulary, used by tdd | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Debugging that finds the root cause first | Adapted from [obra/superpowers](https://github.com/obra/superpowers) |
-| [frontend-design](frontend-design/SKILL.md) | Distinctive UI design that follows `DESIGN.md` | Adapted from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0) |
+| [frontend-design](frontend-design/SKILL.md) | UI design that follows `DESIGN.md`: product vs marketing mode, rules against the generic AI look, and code-level interface guidelines | Adapted from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0), with rules from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) and [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) |
+| [frontend-verify](frontend-verify/SKILL.md) | Check a UI change in a real browser: widths, themes, console, keyboard, accessibility | Original |
 | [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf); needs `npm i -g gnhf` |
+| [typescript-standards](typescript-standards/SKILL.md) | TypeScript code standards: strict types, early returns, injected dependencies | Original |
 | [cli-tooling](cli-tooling/SKILL.md) | Fast, non-interactive shell tools: ast-grep, rg, fd, jq, yq, gh | Original |
 | [handoff](handoff/SKILL.md) | Compact a session into a handoff document for a fresh context | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **Meta** | | |

@@ -31,7 +31,7 @@ Implement the next unchecked task, or the one the user names.
 3. **Verify before ticking.** Ticking the task requires fresh evidence, run in this session:
    - The full test, lint and typecheck commands from `AGENTS.md` all pass. Show the summary line from each.
    - Each acceptance criterion is checked one by one.
-   - For user-facing changes, the app actually runs and the change is visible, via the run skill, a browser, or a curl.
+   - For user-facing changes, the app actually runs and the change is visible. For UI, use the frontend-verify skill; otherwise the run skill or a curl.
 
    If any check fails, say so and keep the task unchecked.
 4. **Update the docs:**

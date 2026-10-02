@@ -11,7 +11,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
 
 ## How every step runs
 
-- **Questions:** follow the grilling skill for every step that asks the user anything, and the domain-modeling skill whenever new domain terms come up. When a step delegates to another skill (idea-refine, market-research, design-md, agents-md), that skill's own questions replace grilling for that step. Ask in rounds, with a recommended answer for every question. The user either **provides** their own answer or **accepts the recommendation**. For bigger choices, show 2–3 options with one-line trade-offs, and recommend the option that best fits the step 2 constraints.
+- **Questions:** follow the grilling skill for every step that asks the user anything, and the domain-modeling skill whenever new domain terms come up. When a step delegates to another skill (refine-idea, market-research, design-md, agents-md), that skill's own questions replace grilling for that step. Ask in rounds, with a recommended answer for every question. The user either **provides** their own answer or **accepts the recommendation**. For bigger choices, show 2–3 options with one-line trade-offs, and recommend the option that best fits the step 2 constraints.
 - **Glossary:** domain-modeling keeps `GLOSSARY.md` up to date as terms come up.
 - **Decisions:** decisions that pass its three-part test go to `docs/decisions/` via the decision-log skill.
 - **Facts:** find facts yourself. Read the repo, search the web, and dispatch sub-agents. Only *decisions* go to the user.
@@ -20,7 +20,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
 
 ## Steps
 
-1. **Idea.** Restate the description as one line covering the problem, the user and the outcome. If it's vague, run the idea-refine skill first. Called from here, it saves its one-pager to `docs/ideas/` without asking.
+1. **Idea.** Restate the description as one line covering the problem, the user and the outcome. If it's vague, run the refine-idea skill first. Called from here, it saves its one-pager to `docs/ideas/` without asking.
 2. **Constraints.** Solo or team (this sets the workflow mode in [tech-stack.md → CI/CD](tech-stack.md#cicd)), timeline, budget and hosting cost ceiling, and existing skills or stack preferences. Also compliance: privacy law applies wherever personal data is stored, e.g. the NZ Privacy Act or GDPR.
 3. **Market** (optional, offered): run the market-research skill, using `quick` by default.
 4. **Tech stack.** Cover language, framework, data store, auth, hosting and key libraries. Start from [tech-stack.md](tech-stack.md) as the default recommendation, and deviate only when the step 2 constraints require it, saying why. Record an ADR for each choice that carries lock-in.

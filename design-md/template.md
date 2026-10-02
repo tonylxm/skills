@@ -5,6 +5,8 @@ _Summary: {one sentence: the feel, who it is for, and what it is not}_
 ## Personality
 - Feels: {adj}, {adj}, {adj}. Never: {anti-adj}.
 - References: {product} for {what}, {product} for {what}.
+- Anti-references: {product or look} because {why}.
+- Reference screens: `docs/design/references/` (optional screenshots).
 
 ## Tokens
 ```yaml
