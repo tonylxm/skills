@@ -29,6 +29,6 @@ The user's skills live in a git repo (`~/.agents/skills`, also linked from `~/.c
 3. **Resolve dependencies.** For each other skill it references (`Skill tool with "X"`, `X:Y`, `use the X skill`): reuse the repo's own skill if one fits and rewrite the reference to point at it; otherwise vendor that skill too (repeat these steps), or inline the needed part.
 4. **Audit.** Run the refine-skill skill on the new skill. This checks frontmatter, the description and paths. Delete any upstream `agents/openai.yaml`.
 5. **Credit the source:**
-   - Add a README row with the origin "Adapted from [owner/repo](url)".
+   - Add a README row with the origin `Adapted from [owner/repo](url)`.
    - Add a licence entry to `THIRD_PARTY_NOTICES.md` (copy the MIT text, or reference the Apache-2.0 text and note any modifications).
 6. **Show the result.** Show the diff summary and commit it only if the user asks.

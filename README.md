@@ -18,13 +18,16 @@ Some skills call others (for example, project-starter uses grilling, domain-mode
 
 ## Workflow
 
-```
-/project-starter "idea" ──► /roadmap-next plan ──► /roadmap-next build (repeat) ──► /roadmap-next close
-   refine-idea · grilling          tdd · systematic-debugging · frontend-design     /code-review · /security-review
-   domain-modeling · decision-log  decision-log · frontend-verify                    /simplify · agents-md
-   market-research · design-md
-   agents-md                                                 overnight: /gnhf (roadmap preset)
-```
+You run one command per step. It calls the other skills for you.
+
+| Step | Command | What it does | Skills it calls |
+| --- | --- | --- | --- |
+| 1. Kick off | `/project-starter "idea"` | Turns an idea into the PRD, roadmap, design and AGENTS.md | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
+| 2. Plan | `/roadmap-next plan` | Breaks the current roadmap phase into tasks | |
+| 3. Build | `/roadmap-next build` | Builds the next task. Repeat until the phase is done, or hand it to `/gnhf` overnight | tdd, systematic-debugging, frontend-design, frontend-verify, decision-log |
+| 4. Close | `/roadmap-next close` | Reviews and re-verifies the phase, then updates AGENTS.md | `/code-review`, `/security-review`, `/simplify`, agents-md |
+
+Then go back to step 2 for the next phase. Plain `/roadmap-next` picks the right step for you.
 
 Generated docs stay lean. Root `AGENTS.md` is an index, every fact lives in one file, and docs grow by splitting into linked files instead of getting longer.
 

@@ -16,6 +16,7 @@ Tony's personal agent skills (skills.sh format) for Claude Code, Codex and other
 - Skills call each other by name. Before renaming or removing one, `rg '<name>'` across the repo and update every reference.
 - Adding, renaming or removing a skill also updates its README table row.
 - New or vendored skills: use `find-skills` to vendor, then `refine-skill` to audit before committing.
+- Run `bash refine-skill/check.sh` before committing. CI runs it too.
 
 ## Workflow
 - Solo: commit to `main`. Conventional Commits, scope is the skill name (`feat(project-starter): ...`).

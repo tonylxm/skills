@@ -37,11 +37,6 @@
 - [ ] Vendored skills: the source and licence are recorded in `THIRD_PARTY_NOTICES.md`, and changes are noted for Apache-2.0 sources.
 - [ ] The skill is listed in the repo README with its origin.
 
-## Quick static check (run from the repo root)
-```bash
-for d in */; do d=${d%/}; f="$d/SKILL.md"; [ -f "$f" ] || continue
-  n=$(sed -n 's/^name: *//p' "$f" | head -1); [ "$n" = "$d" ] || echo "name mismatch: $d ($n)"
-  grep -oE 'Skill tool (with|twice, for) "[^"]+"( and "[^"]+")?' "$f" | grep -oE '"[^"]+"' | tr -d '"' |
-    while read -r r; do [ -d "$r" ] || echo "broken ref in $d: $r"; done
-done
-```
+## Static check
+
+Run `bash refine-skill/check.sh` from the repo root. It checks that names match folders, descriptions exist, `Skill tool with "X"` references resolve, and relative links resolve (code blocks and templates are skipped). This repo's CI runs it on every push.
