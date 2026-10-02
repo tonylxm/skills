@@ -125,14 +125,31 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
   - Solo → Team: turn on branch protection requiring CI, and update the `AGENTS.md` Workflow line.
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users or a second contributor.
 
-## Scaffolding
+## Templates
+When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI.
+
+| Stack | Template |
+|---|---|
+| Next.js + Supabase (simple web app) | [tonylxm/nextjs-supabase-starter](https://github.com/tonylxm/nextjs-supabase-starter) |
+| Next.js + ASP.NET Core + Postgres (serious SaaS) | [tonylxm/nextjs-dotnet-starter](https://github.com/tonylxm/nextjs-dotnet-starter) |
+| Vite + React (SPA, internal tool) | [tonylxm/vite-react-starter](https://github.com/tonylxm/vite-react-starter) |
+
+```bash
+gh repo create <app> --template tonylxm/<template> --private --clone
+```
+
+Then follow the template's README checklist (rename, env, secret scanning, host). For Team mode, the README says how to remove the hook. If the folder already has the project docs, clone into `<app>` and copy it up as described under [Scaffolding](#scaffolding-fallback-when-no-template-fits) (if the folder is already a git repo, add `--exclude .git` and set the remote yourself).
+
+**Keeping templates current:** [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. When they change, update the template repos too. Merge each template's Dependabot PRs when CI is green, but check major bumps (TypeScript, ESLint, `@types/node`) against what the framework supports first.
+
+## Scaffolding (fallback when no template fits)
 Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
 
 | Stack | Scaffold | Then |
 |---|---|---|
-| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init` |
-| Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init` |
-| ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet add <App>.Tests package Microsoft.AspNetCore.Mvc.Testing Testcontainers.PostgreSql` · `dotnet sln add **/*.csproj` |
+| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit`, since route types such as `LayoutProps` live in the gitignored `.next/` and a fresh CI clone fails without them |
+| Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init -d -t vite`. The scaffolder now sets up oxlint instead of ESLint. Keep it (no `eslint-config-prettier` needed), and use `oxlint --fix` in lint-staged and `tsc -b` for `typecheck` |
+| ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet add <App>.Tests package Microsoft.AspNetCore.Mvc.Testing Testcontainers.PostgreSql` · `dotnet sln add **/*.csproj`. On the .NET 10 SDK, xUnit v3 needs `"test": { "runner": "Microsoft.Testing.Platform" }` in `global.json`, and the CI command becomes `dotnet test --solution <App>.slnx` |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
 | JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` to `eslint.config.mjs`, then add the scripts above |
 | Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | Replace `.husky/pre-commit` with `pnpm exec lint-staged`, then add the `lint-staged` config above |

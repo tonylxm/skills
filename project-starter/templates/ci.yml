@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4 # reads "packageManager" from package.json
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6 # reads "packageManager" from package.json
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
           cache: pnpm
@@ -30,10 +30,10 @@ jobs:
 
 # --- .NET variant (replace steps after checkout) ---
 #     - uses: actions/setup-dotnet@v5
-#       with: { dotnet-version: 9.x }
+#       with: { global-json-file: global.json } # .NET 10, with "test": { "runner": "Microsoft.Testing.Platform" }
 #     - run: dotnet format --verify-no-changes
 #     - run: dotnet build --configuration Release
-#     - run: dotnet test --no-build --configuration Release
+#     - run: dotnet test --solution <App>.slnx --no-build --configuration Release
 
 # --- Python + uv variant (replace steps after checkout) ---
 #     - uses: astral-sh/setup-uv@v6

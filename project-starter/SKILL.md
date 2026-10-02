@@ -38,7 +38,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
 8. **Project specifics.** Ask which areas need depth, such as pricing and plans, a key feature's behaviour, onboarding, or integrations. Then grill only those.
 9. **Write the docs**, using `templates/`:
    - `MVP_PRD.md`: scope, non-goals, features with acceptance criteria, success metrics, risks and open questions.
-   - `ROADMAP.md`. **Phase 0 is always a walking skeleton:** the repo scaffold, lint and format, test runner, CI, `.env.example`, and a deploy of "hello world" to the chosen host. Later phases deliver vertical slices of the MVP. Break only Phase 0 into tasks. Its scaffold task uses the exact command from [tech-stack.md](tech-stack.md).
+   - `ROADMAP.md`. **Phase 0 is always a walking skeleton:** the repo scaffold, lint and format, test runner, CI, `.env.example`, and a deploy of "hello world" to the chosen host. Later phases deliver vertical slices of the MVP. Break only Phase 0 into tasks. If the stack matches a template in [tech-stack.md → Templates](tech-stack.md#templates), use the template variant of Phase 0. Otherwise use the scaffold variant, whose scaffold task uses the exact command from [tech-stack.md](tech-stack.md).
    - `TODO.md`: everything deferred past the MVP, including the CI/CD deferred list.
    - Then run the agents-md skill to produce `AGENTS.md`.
 10. **Hand off.** List the files created, the 3 riskiest open questions, and the next command: `/roadmap-next build` (Phase 0 is already planned).
