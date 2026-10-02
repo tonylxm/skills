@@ -19,6 +19,8 @@ Default recommendations for step 4 and the Phase 0 scaffold. Deviate only when t
 - `useState`/`useReducer` for local state
 - URL/search params for shareable navigation and filter state
 
+**Responsive by default:** mobile-first layouts with Tailwind breakpoints, from ~360px phone width up to desktop. Skip only when the project says otherwise (e.g. a desktop-only internal tool), and say so.
+
 **Use Vite + React instead** for simple SPAs and internal tools, where Next.js SSR, routing or full-stack features add little value.
 
 ## Backend
@@ -73,6 +75,13 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 - In an existing repo, use whatever its lockfile says (`package-lock.json` → npm, `yarn.lock` → Yarn). Never mix lockfiles.
 - pnpm blocks dependency install scripts by default. If a package needs one (e.g. `supabase`, `esbuild`, `sharp`), allow it explicitly with `pnpm approve-builds` rather than turning the protection off.
 
+## Lint & format
+- **JS/TS:** ESLint as the scaffolder sets it up (flat config, `eslint.config.mjs`), plus Prettier. Put `eslint-config-prettier` last in the ESLint config so the two never conflict, and add `prettier-plugin-tailwindcss` for class sorting. Keep `.prettierrc` to just that plugin and accept Prettier's defaults. Add a `.prettierignore`.
+- Scripts: `lint`, `format` (`prettier --write .`), `format:check` (`prettier --check .`) and `typecheck` (`tsc --noEmit`). CI runs `lint`, `format:check` and `typecheck`.
+- **.NET:** `dotnet new editorconfig`, and `dotnet format --verify-no-changes` in CI.
+- **Python:** Ruff for both lint and format. CI runs `ruff check` and `ruff format --check`.
+- An `.editorconfig` at the repo root. No pre-commit hooks by default, since CI is the gate. Add Husky + lint-staged only if the team asks.
+
 ## Testing
 - Vitest, Playwright, xUnit for .NET
 - Integration tests for important API and database behaviour
@@ -86,7 +95,8 @@ Use the official scaffolder with flags so it doesn't prompt and you don't hand-w
 | Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init` |
 | Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init` |
 | ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet sln add **/*.csproj` |
-| FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest` |
+| FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
+| JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` to `eslint.config.mjs`, then add the scripts above |
 | JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | |
 | Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm supabase start` for local Postgres, Auth and Storage |
 

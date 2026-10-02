@@ -24,7 +24,7 @@ Read these first, if they exist: `MVP_PRD.md`, `docs/research/market.md` (compet
 3. **Typography.**
    - Font families: display, body and mono. They must be free for the project's use.
    - A type scale, and when each weight is used.
-4. **Shape and depth.** Radius scale, spacing scale, and shadow/elevation style.
+4. **Shape and depth.** Radius scale, spacing scale, shadow/elevation style, and breakpoints with how layouts adapt (mobile-first unless specified otherwise).
 5. **Logo direction.** Concept, mark type (wordmark, symbol, or combination), how it uses the palette, and minimum sizes. Describe it; don't generate image files unless asked.
 6. **Components.** Buttons, inputs, cards, navigation, feedback (toast, empty state, error) and data display. Each gets one line of rules.
 7. **Motion and accessibility.** Motion durations and easing, `prefers-reduced-motion`, focus style, and touch-target size.

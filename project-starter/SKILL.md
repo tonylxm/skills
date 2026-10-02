@@ -34,7 +34,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
    - Testing: levels, tools, and what must be covered.
    - Security: auth model, secrets handling, OWASP top risks for this stack, dependency scanning.
    - Deployment: environments, CI/CD, rollbacks.
-   - Non-functional requirements: performance targets, scale assumptions, observability (logs, errors, uptime).
+   - Non-functional requirements: performance targets, scale assumptions, observability (logs, errors, uptime), and a responsive layout (mobile-first, phone to desktop) for UI projects unless specified otherwise.
 8. **Project specifics.** Ask which areas need depth, such as pricing and plans, a key feature's behaviour, onboarding, or integrations. Then grill only those.
 9. **Write the docs**, using `templates/`:
    - `MVP_PRD.md`: scope, non-goals, features with acceptance criteria, success metrics, risks and open questions.
