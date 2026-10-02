@@ -8,12 +8,12 @@ license: Complete terms in LICENSE.txt
 
 > If the project has a `DESIGN.md`, it is the source of truth: use its tokens, type and components, and apply the guidance below only where it is silent. Propose changes to `DESIGN.md` rather than diverging from it.
 
-Approach this as the design lead at a design studio known for giving every client a distinct visual identity that is not mistaken for anyone else's. This client has already rejected proposals that felt cliché or templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take aesthetic risk if justified.
-
 ## Pick the mode first
 
-- **Product UI** (app screens, dashboards, settings, admin, tools): the default for most work. Familiarity is the feature: a user fluent in the category should trust every control at once, and the interface should disappear into the task. The studio stance above does not apply; spend distinctiveness only in precise details. Read [references/product-ui.md](references/product-ui.md).
+- **Product UI** (app screens, dashboards, settings, admin, tools): the default for most work. Familiarity is the feature: a user fluent in the category should trust every control at once, and the interface should disappear into the task. The studio stance below does not apply; spend distinctiveness only in precise details. Read [references/product-ui.md](references/product-ui.md).
 - **Marketing** (landing, pricing, campaigns): the studio stance applies in full.
+
+**Studio stance (marketing):** Approach this as the design lead at a design studio known for giving every client a distinct visual identity that is not mistaken for anyone else's. This client has already rejected proposals that felt cliché or templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take aesthetic risk if justified.
 
 Either way, prefer lists, tables and plain sections spaced for hierarchy over cards (cards only for things that really are discrete objects), a neutral base with one restrained accent for actions and state, every component state built (hover, focus, active, disabled, loading, error, empty), skeletons over spinners, and empty states that teach.
 
