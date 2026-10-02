@@ -24,7 +24,7 @@ You run one command per step. It calls the other skills for you.
 | --- | --- | --- | --- |
 | 1. Kick off | `/project-starter "idea"` | Turns an idea into the PRD, roadmap, TODO, design and AGENTS.md. Phase 0 (walking skeleton) comes pre-planned, so go straight to step 3 | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
 | 2. Plan | `/roadmap-next plan` | Breaks the current phase into tasks with acceptance criteria from the PRD, and waits for your OK | |
-| 3. Build | `/roadmap-next build` | Builds and verifies the next task, then ticks it. Repeat until the phase is done, or hand the phase to `/gnhf` overnight | tdd, systematic-debugging, frontend-design, frontend-verify, decision-log |
+| 3. Build | `/roadmap-next build` | Builds and verifies the next task, then ticks it. Repeat until the phase is done, or hand the phase to `/gnhf` overnight | tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, frontend-verify, decision-log |
 | 4. Close | `/roadmap-next close` | Reviews and re-verifies the phase, updates the docs, archives the phase and drafts the PR | `/code-review`, `/security-review`, `/simplify`, agents-md |
 
 Then go back to step 2 for the next phase. Plain `/roadmap-next` picks the right step for you.

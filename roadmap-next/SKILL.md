@@ -27,7 +27,7 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 Implement the next unchecked task, or the one the user names.
 
 1. **Restate the goal.** Give the task and its acceptance criteria in two lines, and name the files you expect to touch.
-2. **Implement it with the tdd skill.** For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
+2. **Implement it with the tdd skill**, following the stack's standards skill (typescript-standards or dotnet-standards) if one applies. For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
 3. **Verify before ticking.** Ticking the task requires fresh evidence, run in this session:
    - The full test, lint and typecheck commands from `AGENTS.md` all pass. Show the summary line from each.
    - Each acceptance criterion is checked one by one.
