@@ -118,6 +118,11 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 - **CI:** one workflow, copied from [templates/ci.yml](templates/ci.yml). It runs a frozen install, the Lint & format checks, tests, then a build. Add a Postgres service once integration tests exist, and the Playwright smoke run once the first user journey exists (Phase 1).
 - **Deploy:** Vercel's Git integration, with no workflow file. For .NET or FastAPI hosts, add a `deploy.yml` on `push: main` that needs CI to pass and runs migrations as an explicit step. If a deploy is bad, roll back to the previous one in the host.
 - **Dependencies and secrets:** Dependabot weekly with minor and patch updates grouped ([templates/dependabot.yml](templates/dependabot.yml)). Turn on GitHub secret scanning and push protection.
+- **Git conventions (both modes):**
+  - Commits: Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), small and green.
+  - Branches (Team, and Solo agent runs): `feat|fix|chore/<slug>`, one ROADMAP task each, deleted after merge.
+  - PRs: the squash title is the Conventional Commit; link the ROADMAP task; CI green.
+  - Solo → Team: turn on branch protection requiring CI, and update the `AGENTS.md` Workflow line.
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users or a second contributor.
 
 ## Scaffolding
