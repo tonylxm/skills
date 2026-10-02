@@ -21,7 +21,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
 ## Steps
 
 1. **Idea.** Restate the description as one line covering the problem, the user and the outcome. If it's vague, run the idea-refine skill first. Called from here, it saves its one-pager to `docs/ideas/` without asking.
-2. **Constraints.** Solo or team, timeline, budget and hosting cost ceiling, and existing skills or stack preferences. Also compliance: privacy law applies wherever personal data is stored, e.g. the NZ Privacy Act or GDPR.
+2. **Constraints.** Solo or team (this sets the workflow mode in [tech-stack.md → CI/CD](tech-stack.md#cicd)), timeline, budget and hosting cost ceiling, and existing skills or stack preferences. Also compliance: privacy law applies wherever personal data is stored, e.g. the NZ Privacy Act or GDPR.
 3. **Market** (optional, offered): run the market-research skill, using `quick` by default.
 4. **Tech stack.** Cover language, framework, data store, auth, hosting and key libraries. Start from [tech-stack.md](tech-stack.md) as the default recommendation, and deviate only when the step 2 constraints require it, saying why. Record an ADR for each choice that carries lock-in.
 5. **Architecture.**
@@ -33,20 +33,20 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
 7. **Quality baseline.**
    - Testing: start from the Testing section of [tech-stack.md](tech-stack.md). Confirm this project's must-cover flows, and deviate only when the constraints require it.
    - Security: auth model, secrets handling, OWASP top risks for this stack, dependency scanning.
-   - Deployment: environments, CI/CD, rollbacks.
+   - Deployment: the workflow mode, environments, CI/CD and rollbacks. Start from [tech-stack.md → CI/CD](tech-stack.md#cicd).
    - Non-functional requirements: performance targets, scale assumptions, observability (logs, errors, uptime), and a responsive layout (mobile-first, phone to desktop) for UI projects unless specified otherwise.
 8. **Project specifics.** Ask which areas need depth, such as pricing and plans, a key feature's behaviour, onboarding, or integrations. Then grill only those.
 9. **Write the docs**, using `templates/`:
    - `MVP_PRD.md`: scope, non-goals, features with acceptance criteria, success metrics, risks and open questions.
    - `ROADMAP.md`. **Phase 0 is always a walking skeleton:** the repo scaffold, lint and format, test runner, CI, `.env.example`, and a deploy of "hello world" to the chosen host. Later phases deliver vertical slices of the MVP. Break only Phase 0 into tasks. Its scaffold task uses the exact command from [tech-stack.md](tech-stack.md).
-   - `TODO.md`: everything deferred past the MVP.
+   - `TODO.md`: everything deferred past the MVP, including the CI/CD deferred list.
    - Then run the agents-md skill to produce `AGENTS.md`.
 10. **Hand off.** List the files created, the 3 riskiest open questions, and the next command: `/roadmap-next build` (Phase 0 is already planned).
 
 ## --adopt (existing repo)
 
 Run the same steps, but take the answers from the code first:
-- The stack comes from the manifests, which override [tech-stack.md](tech-stack.md). The architecture comes from the directory layout and entry points.
+- The stack comes from the manifests, which override [tech-stack.md](tech-stack.md). An existing `.husky/`, `lefthook.yml` or `.github/workflows/` also wins. The architecture comes from the directory layout and entry points.
 - Commands come from the scripts and CI. The design comes from the theme files.
 
 Present what you inferred as settled, and only grill the gaps (the product intent, non-goals, and what's next). Never overwrite existing docs without the "keep, update, or redo?" check.

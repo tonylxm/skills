@@ -63,7 +63,7 @@ Infrastructure/
 - Supabase when managed Postgres, Auth or Storage materially helps
 - Vercel for Next.js where appropriate
 - Docker when useful
-- GitHub Actions for CI/CD
+- GitHub Actions for CI, Vercel's Git integration for deploys (see [CI/CD](#cicd))
 - Stripe for payments, Resend for email
 - Sentry for error monitoring, PostHog for product analytics
 - Managed background jobs where appropriate
@@ -80,7 +80,15 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 - Scripts: `lint`, `format` (`prettier --write .`), `format:check` (`prettier --check .`) and `typecheck` (`tsc --noEmit`). CI runs `lint`, `format:check` and `typecheck`.
 - **.NET:** `dotnet new editorconfig`, and `dotnet format --verify-no-changes` in CI.
 - **Python:** Ruff for both lint and format. CI runs `ruff check` and `ruff format --check`.
-- An `.editorconfig` at the repo root. No pre-commit hooks by default, since CI is the gate. Add Husky + lint-staged only if the team asks.
+- An `.editorconfig` at the repo root.
+- **Git hooks** depend on the workflow mode (see [CI/CD](#cicd)): Solo gets Husky + lint-staged, Team gets none. The hook only auto-fixes staged files. Never put tests or typecheck in it. In `package.json`:
+  ```json
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,css,yml}": "prettier --write"
+  }
+  ```
+  `.husky/pre-commit` contains just `pnpm exec lint-staged`. Use `git commit --no-verify` to skip it for a one-off.
 
 ## Testing
 Write tests first, using the tdd skill. It covers how to write them. This section covers which tools to use and what to cover.
@@ -97,6 +105,21 @@ Write tests first, using the tdd skill. It covers how to write them. This sectio
 - **Skip:** coverage % targets, snapshot-heavy UI tests, and tests of framework or library code.
 - **CI:** every PR runs unit and integration tests, plus a Playwright smoke run of the critical journeys.
 
+## CI/CD
+Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Quality baseline and in `AGENTS.md`.
+
+| | Solo (default) | Team |
+|---|---|---|
+| Commits | Straight to `main`. Agents on long or unattended runs use a branch and a PR | Branch and PR only |
+| Pre-commit | Husky + lint-staged (see Lint & format), about 1–3s | None, since CI is the gate |
+| CI | Runs on every push and PR, and **reports** | Runs on PRs, and **blocks the merge**: `main` requires CI, squash merge only |
+| Deploy | Production on push to `main`, with previews on agent PRs | Preview on each PR, production on merge |
+
+- **CI:** one workflow, copied from [templates/ci.yml](templates/ci.yml). It runs a frozen install, the Lint & format checks, tests, then a build. Add a Postgres service once integration tests exist, and the Playwright smoke run once the first user journey exists (Phase 1).
+- **Deploy:** Vercel's Git integration, with no workflow file. For .NET or FastAPI hosts, add a `deploy.yml` on `push: main` that needs CI to pass and runs migrations as an explicit step. If a deploy is bad, roll back to the previous one in the host.
+- **Dependencies and secrets:** Dependabot weekly with minor and patch updates grouped ([templates/dependabot.yml](templates/dependabot.yml)). Turn on GitHub secret scanning and push protection.
+- **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users or a second contributor.
+
 ## Scaffolding
 Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
 
@@ -107,6 +130,7 @@ Use the official scaffolder with flags so it doesn't prompt and you don't hand-w
 | ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet add <App>.Tests package Microsoft.AspNetCore.Mvc.Testing Testcontainers.PostgreSql` · `dotnet sln add **/*.csproj` |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
 | JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` to `eslint.config.mjs`, then add the scripts above |
+| Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | Replace `.husky/pre-commit` with `pnpm exec lint-staged`, then add the `lint-staged` config above |
 | JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | For React components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
 | Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm supabase start` for local Postgres, Auth and Storage |
 

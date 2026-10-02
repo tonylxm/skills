@@ -25,5 +25,5 @@
 - {Only conventions that tooling doesn't enforce and agents get wrong}
 
 ## Workflow
-- Branch `{prefix}/{slug}`; commits in {style}; PRs need {checks}.
+- {Solo: commit to `main`; a pre-commit hook auto-formats; use a branch + PR for long unattended runs | Team: branch `{prefix}/{slug}`; PRs need {checks}}. Commits in {style}.
 - Work from `ROADMAP.md` with `roadmap-next`. Ideas go in `TODO.md`, not in scope.

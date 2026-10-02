@@ -38,7 +38,7 @@ flowchart LR
 ## Quality baseline
 - **Testing:** {levels, tools, must-cover flows}
 - **Security:** {auth model, secrets, top risks and mitigations, dependency scanning}
-- **Deploy:** {envs, pipeline, rollback}
+- **Deploy:** {workflow mode (Solo/Team), envs, pipeline, rollback}
 - **NFRs:** {p95 latency, expected scale, observability}
 
 ## Project specifics
