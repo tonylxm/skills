@@ -1,0 +1,109 @@
+# Preferred Tech Stack
+
+Default recommendations for step 4 and the Phase 0 scaffold. Deviate only when the project's constraints require it, and say why. In `--adopt`, the existing manifests win.
+
+## Principles
+- Prefer simple, modern, maintainable solutions.
+- Start with a modular monolith. Avoid premature microservices and infrastructure.
+- Choose technology based on product requirements, not trends.
+- Avoid unnecessary abstractions and boilerplate.
+
+## Frontend
+**Default:** Next.js + TypeScript
+- Next.js App Router
+- Tailwind CSS
+- shadcn/ui + Lucide
+- Zod
+- React Hook Form for complex forms
+- TanStack Query for client-side server state, when caching, refetching, mutations or pagination are useful
+- `useState`/`useReducer` for local state
+- URL/search params for shareable navigation and filter state
+
+**Use Vite + React instead** for simple SPAs and internal tools, where Next.js SSR, routing or full-stack features add little value.
+
+## Backend
+Choose based on complexity.
+
+### Next.js full-stack
+For small and medium SaaS, CRUD apps, dashboards and straightforward business logic.
+- Server Components, Server Actions, Route Handlers
+- Zod
+- PostgreSQL
+
+### ASP.NET Core + C#
+For substantial SaaS, marketplaces, financial systems, complex business logic, public APIs, or multiple clients.
+- REST + OpenAPI
+- EF Core, with Dapper where direct SQL is useful
+- PostgreSQL
+
+### Python + FastAPI
+Only where Python gives a genuine advantage, such as AI/ML, data processing, or Python-specific libraries.
+
+## Backend architecture
+For complex applications, prefer a **feature-oriented / vertical slice** layout:
+
+```text
+Features/
+  Projects/
+  Quotes/
+  Payments/
+  Users/
+Domain/
+Infrastructure/
+```
+
+- Keep each feature's endpoint, validation, application logic and data access close together.
+- Use the traditional Controller → Service → Repository layout for simple CRUD or conventional applications.
+- Don't add these by default: generic repositories, generic services, MediatR, CQRS, factories, microservices. Add an abstraction only when it solves an actual problem.
+
+## Database & infrastructure
+- PostgreSQL by default
+- Supabase when managed Postgres, Auth or Storage materially helps
+- Vercel for Next.js where appropriate
+- Docker when useful
+- GitHub Actions for CI/CD
+- Stripe for payments, Resend for email
+- Sentry for error monitoring, PostHog for product analytics
+- Managed background jobs where appropriate
+
+Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
+
+## Package manager
+- pnpm for new JS/TS projects. Pin it with a `"packageManager": "pnpm@<version>"` field in `package.json`.
+- In an existing repo, use whatever its lockfile says (`package-lock.json` → npm, `yarn.lock` → Yarn). Never mix lockfiles.
+- pnpm blocks dependency install scripts by default. If a package needs one (e.g. `supabase`, `esbuild`, `sharp`), allow it explicitly with `pnpm approve-builds` rather than turning the protection off.
+
+## Testing
+- Vitest, Playwright, xUnit for .NET
+- Integration tests for important API and database behaviour
+- Prioritise business logic and critical user journeys
+
+## Scaffolding
+Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
+
+| Stack | Scaffold | Then |
+|---|---|---|
+| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init` |
+| Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init` |
+| ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet sln add **/*.csproj` |
+| FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest` |
+| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | |
+| Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm supabase start` for local Postgres, Auth and Storage |
+
+**Scaffolding into a repo that already has docs:** scaffolders refuse to run in a folder that isn't empty. `create-next-app` stops on `AGENTS.md`, `CLAUDE.md` or `ROADMAP.md`, and Vite cancels. So generate the app in a subfolder named after it, copy it up without overwriting anything, then delete the subfolder:
+
+```bash
+<scaffold command with <app> as the directory>
+rsync -a --ignore-existing --exclude CLAUDE.md <app>/ ./ && rm -rf <app>
+```
+
+Your own docs win. `create-next-app` also writes a `<!-- BEGIN:nextjs-agent-rules -->` block into `AGENTS.md`, and `next dev` adds it back. Keep that block (see agents-md).
+
+## Default stacks
+| Use case | Stack |
+|---|---|
+| Simple web app | Next.js + TypeScript + Tailwind + shadcn/ui + Zod + PostgreSQL/Supabase + Vercel |
+| Serious SaaS / marketplace | Next.js + TypeScript → ASP.NET Core + C# → PostgreSQL |
+| AI/ML-heavy | Next.js → ASP.NET Core → Python/FastAPI where genuinely required → PostgreSQL |
+
+Rule of thumb: use the simplest stack that comfortably supports the product's foreseeable requirements.
