@@ -7,10 +7,10 @@ description: Use this skill when making or documenting significant architecture,
 
 When this skill is activated, follow these instructions:
 
-1. Create ADRs only for significant, difficult-to-reverse, architectural, product, security, or financial decisions.
+1. Create ADRs only when a decision is all three: **hard to reverse**, **surprising without context**, and **the result of a real trade-off**. Typical cases: architectural shape, tech with lock-in (database, auth, hosting), boundary/scope decisions, deliberate deviations from the obvious path, constraints not visible in code (compliance, partner SLAs).
 2. Check `docs/decisions/` before creating an ADR to avoid duplicates.
 3. Use sequential filenames such as `0001-short-name.md`.
-4. Keep ADRs concise and factual. Never invent rationale or alternatives.
+4. Keep ADRs concise and factual. Never invent rationale or alternatives. Options and trade-offs that the user discussed or explicitly accepted (e.g. accepting a recommendation) count as real, so record them as discussed.
 5. Use this structure:
 
 ```md
@@ -29,15 +29,18 @@ What was chosen?
 
 ## Alternatives
 
-What meaningful alternatives were considered?
+(Optional) Only rejected options worth remembering.
 
 ## Consequences
 
-What are the main benefits and trade-offs?
+(Optional) Only non-obvious downstream effects.
 ```
 
+Context and Decision can be one sentence each. Omit optional sections rather than padding them.
+
 6. When an accepted decision changes materially, mark the old ADR as `Superseded` and create a new ADR.
-7. Update `ARCHITECTURE.md`, `DESIGN.md`, or `PRODUCT.md` separately when the current documentation changes.
+7. ADRs record *why*; current-state docs (`MVP_PRD.md`, `DESIGN.md`, `AGENTS.md`) record *what*. Update those separately and link to the ADR rather than restating it.
+8. Use the project's vocabulary from `GLOSSARY.md` if it exists.
 
 ## Examples
 

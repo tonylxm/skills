@@ -1,0 +1,5 @@
+interface:
+  display_name: "Project Starter"
+  short_description: "Kick off a project with PRD and roadmap"
+policy:
+  allow_implicit_invocation: false
