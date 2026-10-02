@@ -4,7 +4,7 @@ Tony's personal agent skills (skills.sh format) for Claude Code, Codex and other
 
 ## Non-negotiables
 - Edit skills here, never through `~/.claude/skills` paths or with `npx skills add` (it installs copies outside this repo).
-- Every skill folder has a `SKILL.md`. Don't add `agents/openai.yaml` files. The 4 existing ones (project-starter, handoff, grill-me, grill-with-docs) stay only to block implicit invocation in Codex.
+- Every skill folder has a `SKILL.md`. Don't add `agents/openai.yaml` files. The 3 existing ones (project-starter, handoff, grill-with-docs) stay only to block implicit invocation in Codex.
 - Vendored or adapted skills keep their credit: an Origin cell in the README table and the license text in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Map

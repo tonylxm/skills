@@ -41,7 +41,6 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [refine-idea](refine-idea/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
 | [market-research](market-research/SKILL.md) | Sourced market and competitor snapshot | Original, based on firecrawl-market-research and coreyhaines31 competitor-profiling |
 | [grilling](grilling/SKILL.md) | Round-based interview with recommended answers | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
-| [grill-me](grill-me/SKILL.md) | Shortcut to start a grilling session | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [grill-with-docs](grill-with-docs/SKILL.md) | Grilling that also writes the glossary and ADRs | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [domain-modeling](domain-modeling/SKILL.md) | Build `GLOSSARY.md` and sharpen domain terms | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [decision-log](decision-log/SKILL.md) | Record significant decisions as ADRs in `docs/decisions/` | Original |

@@ -4,7 +4,7 @@ Some skills in this repository are adapted from the projects below, which are di
 
 ## mattpocock/skills
 
-Source: https://github.com/mattpocock/skills. Used for: `grill-me`, `grill-with-docs`, `grilling`, `domain-modeling`, `codebase-design`, `tdd`, `handoff`
+Source: https://github.com/mattpocock/skills. Used for: `grill-with-docs`, `grilling`, `domain-modeling`, `codebase-design`, `tdd`, `handoff`
 
 ```
 MIT License
