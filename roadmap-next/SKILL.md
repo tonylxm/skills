@@ -15,7 +15,7 @@ Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of
 
 If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
 
-On `main`, also sync work merged from worktrees: run `git log -50 --format=%B --grep='^Roadmap-Task:'`, tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Commit the result as `docs(roadmap): sync merged tasks`.
+On `main`, also sync work merged from worktrees: run `git log -50 --format=%B --grep='^Roadmap-Task:'`, tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Report any trailer that matches no task line (the task was probably reworded) and ask which task it belongs to. Never skip one silently. Commit the result as `docs(roadmap): sync merged tasks`.
 
 ## plan
 
@@ -43,7 +43,7 @@ Implement the next unchecked task, or the one the user names.
    - Tick the task.
    - Record any significant choice made along the way with the decision-log skill.
    - Add any out-of-scope ideas or follow-ups to `TODO.md`, one line each. Don't widen the current task.
-   - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task line text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead. The sync above applies them once the branch merges to `main`.
+   - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task line text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead, and repeat them at the end of the PR body so a squash merge keeps them. The sync above applies them once the branch merges to `main`.
 5. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
 
 ## close
