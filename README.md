@@ -54,6 +54,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [systematic-debugging](systematic-debugging/SKILL.md) | Debugging that finds the root cause first | Adapted from [obra/superpowers](https://github.com/obra/superpowers) |
 | [frontend-design](frontend-design/SKILL.md) | Distinctive UI design that follows `DESIGN.md` | Adapted from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0) |
 | [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf); needs `npm i -g gnhf` |
+| [cli-tooling](cli-tooling/SKILL.md) | Fast, non-interactive shell tools: ast-grep, rg, fd, jq, yq, gh | Original |
 | [handoff](handoff/SKILL.md) | Compact a session into a handoff document for a fresh context | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **Meta** | | |
 | [refine-skill](refine-skill/SKILL.md) | Audit and improve an agent skill | Original, based on anthropics skill-creator and obra/superpowers writing-skills |

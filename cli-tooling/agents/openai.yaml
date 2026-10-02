@@ -1,0 +1,3 @@
+interface:
+  display_name: "CLI Tooling"
+  short_description: "Fast, non-interactive shell tools for code and config"
