@@ -31,7 +31,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
    - Record an ADR for its shape.
 6. **Design.** Run the design-md skill. Skip this step for backend-only, CLI or library projects.
 7. **Quality baseline.**
-   - Testing: levels, tools, and what must be covered.
+   - Testing: start from the Testing section of [tech-stack.md](tech-stack.md). Confirm this project's must-cover flows, and deviate only when the constraints require it.
    - Security: auth model, secrets handling, OWASP top risks for this stack, dependency scanning.
    - Deployment: environments, CI/CD, rollbacks.
    - Non-functional requirements: performance targets, scale assumptions, observability (logs, errors, uptime), and a responsive layout (mobile-first, phone to desktop) for UI projects unless specified otherwise.

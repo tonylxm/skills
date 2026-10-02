@@ -83,9 +83,19 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 - An `.editorconfig` at the repo root. No pre-commit hooks by default, since CI is the gate. Add Husky + lint-staged only if the team asks.
 
 ## Testing
-- Vitest, Playwright, xUnit for .NET
-- Integration tests for important API and database behaviour
-- Prioritise business logic and critical user journeys
+Write tests first, using the tdd skill. It covers how to write them. This section covers which tools to use and what to cover.
+
+| Level | TypeScript | .NET | Python |
+|---|---|---|---|
+| Unit / component | Vitest, plus React Testing Library for components | xUnit | pytest |
+| Integration (API + DB) | Vitest against a real Postgres | xUnit + `WebApplicationFactory` + Testcontainers | pytest + FastAPI `TestClient` |
+| End-to-end | Playwright | Playwright | Playwright |
+
+- **Database:** run integration tests against real Postgres, using Testcontainers or `supabase start`. Don't use SQLite or in-memory fakes, since they hide constraint and query bugs.
+- **Mocks:** mock only at system boundaries such as Stripe, Resend and third-party APIs. See the tdd skill's `mocking.md`.
+- **Must cover:** business rules, authorisation (who can see or do what), money and data-integrity paths, and 1–3 critical user journeys in Playwright.
+- **Skip:** coverage % targets, snapshot-heavy UI tests, and tests of framework or library code.
+- **CI:** every PR runs unit and integration tests, plus a Playwright smoke run of the critical journeys.
 
 ## Scaffolding
 Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
@@ -94,10 +104,10 @@ Use the official scaffolder with flags so it doesn't prompt and you don't hand-w
 |---|---|---|
 | Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init` |
 | Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init` |
-| ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet sln add **/*.csproj` |
+| ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet add <App>.Tests package Microsoft.AspNetCore.Mvc.Testing Testcontainers.PostgreSql` · `dotnet sln add **/*.csproj` |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
 | JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` to `eslint.config.mjs`, then add the scripts above |
-| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | |
+| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | For React components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
 | Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm supabase start` for local Postgres, Auth and Storage |
 
 **Scaffolding into a repo that already has docs:** scaffolders refuse to run in a folder that isn't empty. `create-next-app` stops on `AGENTS.md`, `CLAUDE.md` or `ROADMAP.md`, and Vite cancels. So generate the app in a subfolder named after it, copy it up without overwriting anything, then delete the subfolder:
