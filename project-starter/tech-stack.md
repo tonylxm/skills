@@ -85,6 +85,11 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 - Scripts: `lint`, `format` (`prettier --write .`), `format:check` (`prettier --check .`) and `typecheck` (`tsc --noEmit`). CI runs `lint`, `format:check` and `typecheck`.
 - **.NET:** `dotnet new editorconfig`, and `dotnet format --verify-no-changes` in CI.
 - **Python:** Ruff for both lint and format. CI runs `ruff check` and `ruff format --check`.
+- **Deprecated APIs fail the build**, so agents writing from stale memory get caught by tooling rather than review:
+  - ESLint: `"@typescript-eslint/no-deprecated": "error"`. It needs typed linting (`parserOptions.projectService: true`), which makes `lint` noticeably slower.
+  - oxlint: `"typescript/no-deprecated": "error"` with `"options": { "typeAware": true }` (oxlint 1.26+).
+  - .NET: `<WarningsAsErrors>CS0612;CS0618</WarningsAsErrors>` in `Directory.Build.props`.
+  - Python: Ruff's `UP` (pyupgrade) rules, and `filterwarnings = ["error::DeprecationWarning"]` under `[tool.pytest.ini_options]`.
 - An `.editorconfig` at the repo root.
 - **Git hooks** depend on the workflow mode (see [CI/CD](#cicd)): Solo gets Husky + lint-staged, Team gets none. The hook only auto-fixes staged files. Never put tests or typecheck in it. In `package.json`:
   ```json

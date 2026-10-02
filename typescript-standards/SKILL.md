@@ -10,6 +10,7 @@ description: Write or review TypeScript with strict types, clear control flow, d
 - NEVER use any — use unknown, proper interfaces, or generics instead
 - NEVER use enums - use plain `as const` objects with a type helper into a union type
 - Strict mode always — no @ts-ignore, no @ts-expect-error
+- Never call a `@deprecated` symbol. Use the replacement its JSDoc names
 - Prefer interface over type for object shapes
 - All function parameters and return types must be explicitly typed
 - Define interfaces for external dependencies (databases, APIs, file systems, third-party

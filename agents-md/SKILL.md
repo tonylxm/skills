@@ -18,6 +18,11 @@ Write and maintain `AGENTS.md`, the instructions every coding agent reads at the
 
 - Re-verify the commands. Fix stale ones, and delete rules the code or a linter now enforces.
 - Add a rule only if it is **new**, **non-obvious**, and an agent got it wrong or would get it wrong. Phrase it as an instruction, with a reason when the reason isn't obvious.
+- **Outdated APIs.** When an agent used a deprecated or outdated API or convention:
+  - Prefer a lint or compiler rule that catches it (e.g. `no-deprecated`). Enable it and name the tool instead of writing a rule.
+  - Otherwise add one version-stamped line under Conventions, or in `docs/<topic>.md` if there are several, e.g. ``Next 16+: `middleware.ts` is now `proxy.ts`.`` The stamp lets a later update delete the line once it no longer matters.
+  - If it applies to every project on that stack, record it in the shared skill (`project-starter/tech-stack.md`, `typescript-standards`) instead of each repo.
+  - On update, delete stamped lines the installed versions have made irrelevant.
 - Rewrite in place. Never append a "learnings" log.
 - Keep blocks that a tool generates, such as `<!-- BEGIN:nextjs-agent-rules -->` … `<!-- END:… -->`, word for word, at the top of the file. The tool adds them back, so removing one only leaves an uncommitted diff.
 
@@ -29,6 +34,7 @@ Write and maintain `AGENTS.md`, the instructions every coding agent reads at the
 | Rules for one package or app | `<dir>/AGENTS.md` (nested; the nearest file wins) |
 | Rules for one concern, such as testing, API style or migrations | `docs/<topic>.md`, linked from the root file |
 | Why a decision was made | `docs/decisions/` (decision-log) |
+| Library version gotchas | `AGENTS.md` Conventions, version-stamped, or a shared skill if stack-wide |
 | Domain terms | `GLOSSARY.md` |
 | Look and feel | `DESIGN.md` |
 | Personal preferences for every repo | `~/.claude/CLAUDE.md`, not `AGENTS.md` |
