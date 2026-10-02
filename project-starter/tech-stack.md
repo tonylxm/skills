@@ -140,7 +140,7 @@ gh repo create <app> --template tonylxm/<template> --private --clone
 
 Then follow the template's README checklist (rename, env, secret scanning, host). For Team mode, the README says how to remove the hook. If the folder already has the project docs, clone into `<app>` and copy it up as described under [Scaffolding](#scaffolding-fallback-when-no-template-fits) (if the folder is already a git repo, add `--exclude .git` and set the remote yourself).
 
-**Keeping templates current:** [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. When they change, update the template repos too. Merge each template's Dependabot PRs when CI is green, but check major bumps (TypeScript, ESLint, `@types/node`) against what the framework supports first.
+**Keeping templates current:** [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. When they change, update the template repos too. Merge each template's Dependabot PRs when CI is green. Majors of TypeScript, ESLint and `@types/node` are ignored in `dependabot.yml`, so upgrade those by hand once the framework supports them.
 
 ## Scaffolding (fallback when no template fits)
 Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
