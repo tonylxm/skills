@@ -109,7 +109,7 @@ The user's skills live in a git repo (`~/.agents/skills`, also linked from `~/.c
 1. **Locate the skill upstream.** Run `gh api "repos/<owner>/<repo>/git/trees/HEAD?recursive=1" --jq '.tree[].path' | grep '/<skill>/'`. Check the repo licence with `gh api repos/<owner>/<repo> --jq .license.spdx_id`. If the licence is missing or isn't permissive, stop and tell the user.
 2. **Copy the files.** Copy the skill's directory into `./<skill>/` with `gh api repos/<owner>/<repo>/contents/<path> -H "Accept: application/vnd.github.raw"`, one call per file. Read every file before keeping it. Don't run anything you fetched.
 3. **Resolve dependencies.** For each other skill it references (`Skill tool with "X"`, `X:Y`, `use the X skill`): reuse the repo's own skill if one fits and rewrite the reference to point at it; otherwise vendor that skill too (repeat these steps), or inline the needed part.
-4. **Audit.** Run the refine-skill skill on the new skill. This checks frontmatter, the description, paths, and that `agents/openai.yaml` exists.
+4. **Audit.** Run the refine-skill skill on the new skill. This checks frontmatter, the description and paths. Delete any upstream `agents/openai.yaml`.
 5. **Credit the source:**
    - Add a README row with the origin "Adapted from [owner/repo](url)".
    - Add a licence entry to `THIRD_PARTY_NOTICES.md` (copy the MIT text, or reference the Apache-2.0 text and note any modifications).

@@ -1,3 +1,0 @@
-interface:
-  display_name: "Frontend Verify"
-  short_description: "Check a UI change in a real browser"

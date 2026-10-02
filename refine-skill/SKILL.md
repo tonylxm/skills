@@ -9,7 +9,7 @@ Audit a skill against the checklist, propose fixes, apply them once the user agr
 
 ## Process
 
-1. **Locate.** Read the whole skill directory: `SKILL.md`, every linked file, scripts, and `agents/openai.yaml`. If the target is a repo of skills, audit each one and add the cross-skill checks below.
+1. **Locate.** Read the whole skill directory: `SKILL.md`, every linked file, and scripts. If the target is a repo of skills, audit each one and add the cross-skill checks below.
 2. **Audit** against [checklist.md](checklist.md). Record each finding as `severity · file:line · problem · fix`. Severities are **broken** (won't load or will misbehave), **weak** (under-triggers, wastes context, ambiguous), and **polish**.
 3. **Report** the findings as a table, broken first, and say which ones you recommend fixing. Fix only after the user agrees.
 4. **Apply** the fixes. Keep upstream wording in vendored skills unless it is wrong; record the deviation in the repo's notices.

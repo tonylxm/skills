@@ -1,6 +1,6 @@
 # skills
 
-My personal agent skills for Claude Code, Codex, and other agents that support the [skills](https://skills.sh) format. Every skill ships an `agents/openai.yaml` for Codex.
+My personal agent skills for Claude Code, Codex, and other agents that support the [skills](https://skills.sh) format.
 
 ## Install
 

@@ -9,7 +9,7 @@
 - [ ] The description names the concrete situations, symptoms and phrases a user would type.
 - [ ] The description does **not** summarise the workflow.
 - [ ] It doesn't overlap another skill's description in this repo; if it does, sharpen one of them or merge the skills.
-- [ ] Explicit-only skills set `disable-model-invocation: true` **and** `policy.allow_implicit_invocation: false` in `agents/openai.yaml`.
+- [ ] Explicit-only skills set `disable-model-invocation: true`.
 
 ## Body
 - [ ] The first lines say what the skill produces and when it is done.
@@ -32,7 +32,7 @@
 - [ ] Re-runs update the file in place and are idempotent. They never blindly append.
 
 ## Packaging
-- [ ] `agents/openai.yaml` exists with `interface.display_name` and `short_description` (≤ ~60 chars).
+- [ ] No new `agents/openai.yaml` files (this repo doesn't ship Codex metadata).
 - [ ] Scripts are executable, print usage with `--help`, and fail loudly.
 - [ ] Vendored skills: the source and licence are recorded in `THIRD_PARTY_NOTICES.md`, and changes are noted for Apache-2.0 sources.
 - [ ] The skill is listed in the repo README with its origin.
@@ -41,7 +41,6 @@
 ```bash
 for d in */; do d=${d%/}; f="$d/SKILL.md"; [ -f "$f" ] || continue
   n=$(sed -n 's/^name: *//p' "$f" | head -1); [ "$n" = "$d" ] || echo "name mismatch: $d ($n)"
-  [ -f "$d/agents/openai.yaml" ] || echo "no openai.yaml: $d"
   grep -oE 'Skill tool (with|twice, for) "[^"]+"( and "[^"]+")?' "$f" | grep -oE '"[^"]+"' | tr -d '"' |
     while read -r r; do [ -d "$r" ] || echo "broken ref in $d: $r"; done
 done
