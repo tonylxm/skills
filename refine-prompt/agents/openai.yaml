@@ -1,0 +1,3 @@
+interface:
+  display_name: "Refine Prompt"
+  short_description: "Sharpen a rough prompt for an AI model"

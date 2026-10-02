@@ -1,6 +1,6 @@
 # skills
 
-My personal agent skills for Claude Code, Codex, Cursor, and other agents that support the [skills](https://skills.sh) format.
+My personal agent skills for Claude Code, Codex, and other agents that support the [skills](https://skills.sh) format. Every skill ships an `agents/openai.yaml` for Codex.
 
 ## Install
 
@@ -11,20 +11,58 @@ npx skills add tonylxm/skills
 To install a single skill:
 
 ```bash
-npx skills add tonylxm/skills --skill decision-log
+npx skills add tonylxm/skills --skill project-starter
 ```
+
+Some skills call others (for example, project-starter uses grilling, domain-modeling, design-md and agents-md), so install the whole set unless you know a skill's dependencies.
+
+## Workflow
+
+```
+/project-starter "idea" ──► /roadmap-next plan ──► /roadmap-next build (repeat) ──► /roadmap-next close
+   idea-refine · grilling          tdd · systematic-debugging · frontend-design     /code-review · /security-review
+   domain-modeling · decision-log  decision-log                                      /simplify · agents-md
+   market-research · design-md
+   agents-md                                                 overnight: /gnhf (roadmap preset)
+```
+
+Generated docs stay lean. Root `AGENTS.md` is an index, every fact lives in one file, and docs grow by splitting into linked files instead of getting longer.
+
+## Adding a skill from skills.sh
+
+Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` `<skill>` to my skills". The find-skills skill then vendors it: copies the files, resolves its dependencies, runs refine-skill, and credits the source.
 
 ## Skills
 
 | Skill | Description | Origin |
 | --- | --- | --- |
-| [decision-log](decision-log/SKILL.md) | Record significant decisions as ADRs | Original |
-| [grill-me](grill-me/SKILL.md) | A relentless interview to sharpen a plan or design | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
-| [grill-with-docs](grill-with-docs/SKILL.md) | Grill-me that also writes ADRs and a glossary | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **Kickoff and planning** | | |
+| [project-starter](project-starter/SKILL.md) | Kick off a project: produces the PRD, roadmap, TODO, design and AGENTS.md | Original |
+| [idea-refine](idea-refine/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
+| [market-research](market-research/SKILL.md) | Sourced market and competitor snapshot | Original, based on firecrawl-market-research and coreyhaines31 competitor-profiling |
+| [grilling](grilling/SKILL.md) | Round-based interview with recommended answers | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| [grill-me](grill-me/SKILL.md) | Shortcut to start a grilling session | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| [grill-with-docs](grill-with-docs/SKILL.md) | Grilling that also writes the glossary and ADRs | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| [domain-modeling](domain-modeling/SKILL.md) | Build `GLOSSARY.md` and sharpen domain terms | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| [decision-log](decision-log/SKILL.md) | Record significant decisions as ADRs in `docs/decisions/` | Original |
+| [design-md](design-md/SKILL.md) | Define the visual design system in `DESIGN.md` | Original, based on google-labs-code stitch design-md |
+| [agents-md](agents-md/SKILL.md) | Write and maintain a lean `AGENTS.md`, with `CLAUDE.md` linked to it | Original, based on the agents.md standard and github/awesome-copilot create-agentsmd |
+| **Building** | | |
+| [roadmap-next](roadmap-next/SKILL.md) | Plan, build and close roadmap phases, with optional GitHub issues | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |
 | [tdd](tdd/SKILL.md) | Test-driven development, red-green-refactor | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
-| [find-skills](find-skills/SKILL.md) | Discover and install agent skills | Adapted from [vercel-labs/skills](https://github.com/vercel-labs/skills) |
+| [codebase-design](codebase-design/SKILL.md) | Deep-module vocabulary, used by tdd | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| [systematic-debugging](systematic-debugging/SKILL.md) | Debugging that finds the root cause first | Adapted from [obra/superpowers](https://github.com/obra/superpowers) |
+| [frontend-design](frontend-design/SKILL.md) | Distinctive UI design that follows `DESIGN.md` | Adapted from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0) |
+| [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf); needs `npm i -g gnhf` |
+| [handoff](handoff/SKILL.md) | Compact a session into a handoff document for a fresh context | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **Meta** | | |
+| [refine-skill](refine-skill/SKILL.md) | Audit and improve an agent skill | Original, based on anthropics skill-creator and obra/superpowers writing-skills |
+| [refine-prompt](refine-prompt/SKILL.md) | Sharpen a rough prompt for an AI model | Original, based on Anthropic prompt guidance and stitch enhance-prompt |
+| [find-skills](find-skills/SKILL.md) | Discover agent skills and vendor them into this repo | Adapted from [vercel-labs/skills](https://github.com/vercel-labs/skills) |
 
-The adapted skills may be personalised, so they can differ from upstream. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for their licenses.
+The adapted skills are personalised, so they can differ from upstream. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for their licenses.
+
+Built-ins are used rather than duplicated: `/code-review`, `/security-review`, `/simplify` and skill-creator.
 
 ## License
 

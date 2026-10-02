@@ -1,6 +1,6 @@
 ---
 name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
+description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill, or wants to add/vendor a skill into their personal skills repo.
 ---
 
 # Find Skills
@@ -100,7 +100,20 @@ If the user wants to proceed, you can install the skill for them:
 npx skills add <owner/repo@skill> -g -y
 ```
 
-The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts. To keep a skill in the user's personal skills repo, use the vendoring steps below instead of this command.
+
+## Adding a Skill to the Personal Skills Repo (Vendoring)
+
+The user's skills live in a git repo (`~/.agents/skills`, also linked from `~/.claude/skills`). Skills are **vendored** into that repo rather than installed with `npx skills add`. The CLI doesn't update the README, the licence notices or the Codex metadata, and `npx skills update` would overwrite local adaptations. When the user wants to add a skill they found, run these steps from the repo root:
+
+1. **Locate the skill upstream.** Run `gh api "repos/<owner>/<repo>/git/trees/HEAD?recursive=1" --jq '.tree[].path' | grep '/<skill>/'`. Check the repo licence with `gh api repos/<owner>/<repo> --jq .license.spdx_id`. If the licence is missing or isn't permissive, stop and tell the user.
+2. **Copy the files.** Copy the skill's directory into `./<skill>/` with `gh api repos/<owner>/<repo>/contents/<path> -H "Accept: application/vnd.github.raw"`, one call per file. Read every file before keeping it. Don't run anything you fetched.
+3. **Resolve dependencies.** For each other skill it references (`Skill tool with "X"`, `X:Y`, `use the X skill`): reuse the repo's own skill if one fits and rewrite the reference to point at it; otherwise vendor that skill too (repeat these steps), or inline the needed part.
+4. **Audit.** Run the refine-skill skill on the new skill. This checks frontmatter, the description, paths, and that `agents/openai.yaml` exists.
+5. **Credit the source:**
+   - Add a README row with the origin "Adapted from [owner/repo](url)".
+   - Add a licence entry to `THIRD_PARTY_NOTICES.md` (copy the MIT text, or reference the Apache-2.0 text and note any modifications).
+6. **Show the result.** Show the diff summary and commit it only if the user asks.
 
 ## Common Skill Categories
 

@@ -1,0 +1,53 @@
+---
+name: roadmap-next
+description: Use when continuing work on a project that has a ROADMAP.md, e.g. "what's next", "plan the next phase", "build the next task", "work through the roadmap", or "close out this phase".
+argument-hint: "plan [--issues] | build [task] | close"
+---
+
+# Roadmap Next
+
+Move a project forward one step at a time from `ROADMAP.md`. The roadmap's checkboxes are the source of truth for what is done. With no mode given, pick one:
+- **plan** if the current phase has no tasks.
+- **build** if it has unchecked tasks.
+- **close** if every task is checked.
+
+Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The current phase is the first one that still has unchecked items.
+
+## plan
+
+Break the current phase into tasks. If the phase already has tasks, show them and ask whether to revise them or go to `build`. Use the format in [roadmap-format.md](roadmap-format.md).
+- **Size each task** at roughly 1–4 hours: a vertical slice that can be tested and shipped on its own. List them in dependency order.
+- **Acceptance criteria:** each task gets 1–3, taken from the PRD. Never invent requirements.
+- **Choices:** if a task needs a product or design choice the docs don't cover, ask the user (giving your recommended answer) before writing the task.
+- **`--issues`:** if `gh auth status` succeeds, create one issue per task. Use `gh issue create --title "<task>" --body "<criteria + link to ROADMAP.md>" --label "phase-<n>"`, creating the label if it's missing. Add `(#<num>)` to the task line. If `gh` isn't available, say so and continue with markdown only.
+- **Confirm:** show the task list and wait for the user to confirm it before building.
+
+## build
+
+Implement the next unchecked task, or the one the user names.
+
+1. **Restate the goal.** Give the task and its acceptance criteria in two lines, and name the files you expect to touch.
+2. **Implement it with the tdd skill.** For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
+3. **Verify before ticking.** Ticking the task requires fresh evidence, run in this session:
+   - The full test, lint and typecheck commands from `AGENTS.md` all pass. Show the summary line from each.
+   - Each acceptance criterion is checked one by one.
+   - For user-facing changes, the app actually runs and the change is visible, via the run skill, a browser, or a curl.
+
+   If any check fails, say so and keep the task unchecked.
+4. **Update the docs:**
+   - Tick the task.
+   - Record any significant choice made along the way with the decision-log skill.
+   - Add any out-of-scope ideas or follow-ups to `TODO.md`, one line each. Don't widen the current task.
+5. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
+
+## close
+
+Run this when every task in the phase is checked.
+
+1. **Review the phase's diff.** Run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents) on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
+2. **Re-verify.** Re-run the full verification from build step 3.
+3. **Update the docs:**
+   - Run the agents-md skill in update mode, to capture conventions the phase taught.
+   - Update `MVP_PRD.md` or `DESIGN.md` if the shipped reality differs from them.
+   - Move the completed phase to `docs/roadmap-archive.md` (create the file on first use, and add the archive link to the `ROADMAP.md` header at the same time) as a summary line plus the task list, and leave a one-line "Done" entry in `ROADMAP.md`.
+4. **Draft the PR.** Write the PR title and body (what shipped, how it was verified, and `Closes #…` for each issue). Open it only if the user asks.

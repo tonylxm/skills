@@ -1,0 +1,3 @@
+interface:
+  display_name: "Decision Log"
+  short_description: "Record significant decisions as ADRs"
