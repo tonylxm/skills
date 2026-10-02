@@ -55,7 +55,7 @@ Infrastructure/
 ```
 
 - Keep each feature's endpoint, validation, application logic and data access close together.
-- Use the traditional Controller → Service → Repository layout for simple CRUD or conventional applications.
+- For simple CRUD, a flat endpoint → service layout is enough. In .NET, `DbContext` is the data access layer, so there's no repository layer (see dotnet-standards). Use controllers (`--use-controllers`) only when the team prefers them.
 - Don't add these by default: generic repositories, generic services, MediatR, CQRS, factories, microservices. Add an abstraction only when it solves an actual problem.
 
 ## Database & infrastructure

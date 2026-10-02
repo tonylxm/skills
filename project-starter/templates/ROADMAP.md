@@ -14,6 +14,8 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: the first push shows green checks. Solo: committing a badly formatted file auto-fixes it. Team: `main` requires the checks
 - [ ] Turn on secret scanning and push protection (templates don't copy repo settings)
   - AC: a test push containing a fake secret is blocked
+- [ ] Create the Supabase project for Auth (region near users). If Supabase is also the database, link it with `pnpm supabase link`
+  - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
 - [ ] Set real env values from `.env.example` locally and on {host}
   - AC: the app fails fast with a clear message when a required var is missing
 - [ ] Deploy "hello world" to {host}
@@ -30,6 +32,8 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: a push shows green checks. Team: `main` requires them
 - [ ] Enable Dependabot (`templates/dependabot.yml`), secret scanning and push protection
   - AC: `.github/dependabot.yml` is committed, and a test push containing a fake secret is blocked
+- [ ] Create the Supabase project for Auth (region near users). If Supabase is also the database, link it with `pnpm supabase link`
+  - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
 - [ ] Add `.env.example` and config loading
   - AC: the app fails fast with a clear message when a required var is missing
 - [ ] Deploy "hello world" to {host}
