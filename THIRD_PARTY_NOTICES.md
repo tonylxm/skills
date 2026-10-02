@@ -146,7 +146,7 @@ SOFTWARE.
 
 Source: https://github.com/anthropics/skills. Used for: `frontend-design`, under the Apache License 2.0. The full text is in [frontend-design/LICENSE.txt](frontend-design/LICENSE.txt).
 
-Modifications: added a note at the top of `SKILL.md` making the project's `DESIGN.md` the source of truth; added a product vs marketing mode, a "never by default" list, a references note, and links to the reference files below.
+Modifications: added a note at the top of `SKILL.md` making the project's `DESIGN.md` the source of truth; added a product vs marketing mode, a "never by default" list, a references note, links to the reference files below, and an exception to confirming the subject with the client when the brief says not to ask.
 
 ## pbakaus/impeccable
 
