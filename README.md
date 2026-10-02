@@ -56,7 +56,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [systematic-debugging](systematic-debugging/SKILL.md) | Debugging that finds the root cause first | Adapted from [obra/superpowers](https://github.com/obra/superpowers) |
 | [frontend-design](frontend-design/SKILL.md) | UI design that follows `DESIGN.md`: product vs marketing mode, rules against the generic AI look, and code-level interface guidelines | Adapted from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0), with rules from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) and [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) |
 | [frontend-verify](frontend-verify/SKILL.md) | Check a UI change in a real browser: widths, themes, console, keyboard, accessibility | Original |
-| [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf); needs `npm i -g gnhf` |
+| [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf) |
 | [typescript-standards](typescript-standards/SKILL.md) | TypeScript code standards: strict types, early returns, injected dependencies | Original |
 | [dotnet-standards](dotnet-standards/SKILL.md) | C# and ASP.NET Core standards: nullable types, async all the way, minimal API endpoints, EF Core | Original |
 | [cli-tooling](cli-tooling/SKILL.md) | Fast, non-interactive shell tools: ast-grep, rg, fd, jq, yq, gh | Original |
