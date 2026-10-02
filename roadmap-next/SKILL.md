@@ -15,6 +15,8 @@ Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of
 
 If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
 
+On `main`, also sync work merged from worktrees: run `git log -50 --format=%B --grep='^Roadmap-Task:'`, tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Commit the result as `docs(roadmap): sync merged tasks`.
+
 ## plan
 
 Break the current phase into tasks. If the phase already has tasks, show them and ask whether to revise them or go to `build`. Use the format in [roadmap-format.md](roadmap-format.md).
@@ -22,6 +24,7 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 - **Acceptance criteria:** each task gets 1–3, taken from the PRD. Never invent requirements.
 - **Choices:** if a task needs a product or design choice the docs don't cover, ask the user (giving your recommended answer) before writing the task.
 - **`--issues`:** if `gh auth status` succeeds, create one issue per task. Use `gh issue create --title "<task>" --body "<criteria + link to ROADMAP.md>" --label "phase-<n>"`, creating the label if it's missing. Add `(#<num>)` to the task line. If `gh` isn't available, say so and continue with markdown only.
+- **Parallel tasks:** add `(parallel)` to a task line when it depends on no unfinished task and touches different files from the other `(parallel)` tasks. Only these go to separate worktrees.
 - **Confirm:** show the task list and wait for the user to confirm it before building.
 
 ## build
@@ -40,6 +43,7 @@ Implement the next unchecked task, or the one the user names.
    - Tick the task.
    - Record any significant choice made along the way with the decision-log skill.
    - Add any out-of-scope ideas or follow-ups to `TODO.md`, one line each. Don't widen the current task.
+   - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task line text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead. The sync above applies them once the branch merges to `main`.
 5. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
 
 ## close
