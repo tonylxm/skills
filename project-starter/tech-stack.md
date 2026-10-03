@@ -153,7 +153,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users or a second contributor.
 
 ## Templates
-When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. The two Next.js templates also ship Supabase Auth, deny by default (the .NET API checks Supabase sign-in tokens).
+When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).
 
 | Stack | Template |
 |---|---|
