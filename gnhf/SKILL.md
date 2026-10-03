@@ -1,6 +1,6 @@
 ---
 name: gnhf
-description: Use when the user asks to run GNHF, says they are going to sleep or leaving and wants an agent-managed coding run, asks to supervise, steer, or review an active GNHF run, or gives feedback on GNHF results.
+description: Use when the user asks to run GNHF, says they are going to sleep or leaving (or away for a set time, e.g. "back in 3 hours") and wants an agent-managed coding run, asks to supervise, steer, or review an active GNHF run, or gives feedback on GNHF results.
 ---
 
 # GNHF
@@ -72,6 +72,8 @@ gnhf \
 
 **Default caps:** always pass `--max-iterations 20 --max-tokens 5000000`. gnhf treats both as unlimited when they're omitted, and they can't be set in its config file. Use different values only when the user states them for this run. Tell the user which caps are in effect before launching.
 
+**Away time:** a rough, soft estimate of how long the user is gone. Ask for it or infer it ("back in 2 hours"); default to overnight (8h). Run `date`, compute an absolute deadline (clock time and timezone), and tell the user the deadline with the caps before launching. gnhf has no wall-clock cap, so the deadline lives in the worker prompt and stop condition: the worker finishes and commits the task in flight, then stops. Never wrap gnhf in `timeout`. Also pass `--max-rate-limit-wait <away time>` (it defaults to 24h) so usage-limit waits can't run far past the return. A task may run slightly past the deadline while finishing, and the iteration and token caps still bound that.
+
 **Branch:** keep gnhf's default `gnhf/` branch mode. Don't use `--current-branch` or `--push` unless the user asks for them in this conversation.
 
 Use `--model <model>` to select a model for a run. For config defaults and agent-specific restrictions, follow the README [Configuration](https://github.com/kunchenguid/gnhf#configuration).
@@ -95,7 +97,9 @@ Before coding, inspect the current repo, relevant docs, and recent commits. Pres
 
 After each meaningful slice, run relevant verification. If blocked, commit no fake success; leave notes with the blocker and evidence.
 
-Stop only when: <observable completion condition>.
+Deadline: <absolute time + timezone> (soft). Run `date` before starting each task. Do not start a new task after the deadline. Finish and verify the task in flight, commit it, then stop.
+
+Stop only when: <observable completion condition>, or the deadline has passed and the task in flight is committed.
 ```
 
 ## Roadmap preset
@@ -112,7 +116,9 @@ Each iteration: follow the roadmap-next skill in `build` mode on the next unchec
 
 If a task is blocked after two attempts, leave it unchecked, add an indented "- BLOCKED: <reason + evidence>" line under it, and move to the next task.
 
-Stop only when: every task in Phase <n> is checked or marked BLOCKED, and the test suite passes.
+Deadline: <absolute time + timezone> (soft). Run `date` before starting each task. Do not start a new task after the deadline. Finish the task in flight (tick it or mark it BLOCKED), then stop.
+
+Stop only when: every task in Phase <n> is checked or marked BLOCKED and the test suite passes, or the deadline has passed and the task in flight is ticked or marked BLOCKED with the suite passing.
 ```
 
 3. **Morning Review.** Follow the morning review steps below. Once the user approves the branch, merge it into `main` (Solo) or push it and open a PR (Team), per the AGENTS.md Workflow line. Then suggest `/roadmap-next close`.
@@ -180,7 +186,7 @@ pgrep -fl 'gnhf|claude|codex|copilot|cursor-agent|opencode|rovodev' || true
 
 Inspect likely GNHF branches, notes, logs, terminal sessions, and changed files. If a GNHF process is still running, report that first.
 
-Report mode, agent, branch, status, changes, verification, stop-condition result, quality assessment, and recommended next action. Never summarize an overnight run from memory.
+Report mode, agent, branch, status, changes, verification, why it stopped (stop condition, deadline, or a cap; confirm the deadline from commit timestamps), quality assessment, and recommended next action. Never summarize an overnight run from memory.
 
 ## Agent
 
