@@ -60,8 +60,8 @@ Infrastructure/
 
 ## Database & infrastructure
 - PostgreSQL by default
-- Supabase when managed Postgres, Auth or Storage materially helps
-- Neon when Supabase's free cap of 2 active projects per org is the constraint (many small apps with separate users). Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. No template yet, so scaffold per [Scaffolding](#scaffolding-fallback-when-no-template-fits) and add Drizzle
+- **Personal and hobby projects: Neon Free**, one project per app. Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. No template yet, so scaffold per [Scaffolding](#scaffolding-fallback-when-no-template-fits) and add Drizzle
+- **Startup ideas: Supabase Free** when the idea needs realtime or fast auth and storage. The free plan caps active projects at 2 per org, so spend those slots on startup ideas, never on hobby projects. Move an idea to Pro once it has real users
 - Vercel for Next.js where appropriate
 - Docker when useful (see [Containers](#containers))
 - GitHub Actions for CI, Vercel's Git integration for deploys (see [CI/CD](#cicd))
@@ -77,9 +77,8 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 - **Architecture:** prefer multi-arch images that run natively on ARM64 locally. Pin `platform: linux/amd64` only when an image has no ARM64 build or production needs it.
 
 ## Auth
-- **Default: Supabase Auth** for every stack. Next.js uses `@supabase/ssr` (cookie sessions). An ASP.NET Core API validates Supabase's JWTs with `AddAuthentication().AddJwtBearer()` and authorises with policies.
-- **Neon Auth when the database is Neon** (managed Better Auth, users in the project's own `neon_auth` schema, 60k MAU free). Next.js uses `@neondatabase/auth` with `createNeonAuth()`, a `[...path]` route handler and `proxy.ts` for protected routes. AWS regions only, and incompatible with IP Allow and Private Networking. It deviates from the Supabase default, so record it as an ADR in the project.
-- **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
+- **Default: Supabase Auth** for startup ideas on Supabase. Next.js uses `@supabase/ssr` (cookie sessions). An ASP.NET Core API validates Supabase's JWTs with `AddAuthentication().AddJwtBearer()` and authorises with policies.
+- **Neon Auth for personal projects on Neon** (managed Better Auth, users in the project's own `neon_auth` schema, 60k MAU free). Next.js uses `@neondatabase/auth` with `createNeonAuth()`, a `[...path]` route handler and `proxy.ts` for protected routes. AWS regions only, and incompatible with IP Allow and Private Networking.- **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
 - Never store passwords yourself. Authorise on the server for every request and deny by default; hiding UI is not authorisation.
 - Supabase tables reachable from the client have Row Level Security on, with policies covered by tests.
 
