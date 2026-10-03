@@ -34,7 +34,7 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
 1. **Restate the goal.** Give the task and its acceptance criteria in two lines, and name the files you expect to touch.
 2. **Implement it with the tdd skill**, following the stack's standards skill (typescript-standards or dotnet-standards) if one applies. For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
 3. **Verify before ticking.** Ticking the task requires fresh evidence, run in this session:
-   - The full test, lint and typecheck commands from `AGENTS.md` all pass. Show the summary line from each.
+   - Lint and typecheck from `AGENTS.md` pass, and so do the tests that cover the changed code (the whole suite if it runs in under a minute or you can't tell which tests are affected). Show the summary line from each. `close` runs the full suite.
    - Each acceptance criterion is checked one by one.
    - For user-facing changes, the app actually runs and the change is visible. For UI, use the frontend-verify skill; otherwise the run skill or a curl.
 
@@ -50,8 +50,8 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
 
 Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to `TODO.md`.
 
-1. **Review the phase's diff.** Run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents) on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
-2. **Re-verify.** Re-run the full verification from build step 3.
+1. **Review the phase's diff.** Run `/code-review` and `/simplify` (or the agent's equivalents) on everything the phase changed, each in a subagent so the diff doesn't fill this context. Add `/security-review` only if the phase touched auth, user input, secrets, permissions or dependencies. Fix the findings, or list them for the user if they're not worth fixing now.
+2. **Re-verify.** Re-run the full test suite, lint and typecheck, and the other build step 3 checks.
 3. **Update the docs:**
    - Run the agents-md skill in update mode, to capture conventions the phase taught.
    - Update `MVP_PRD.md` or `DESIGN.md` if the shipped reality differs from them.
