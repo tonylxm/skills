@@ -61,6 +61,7 @@ Infrastructure/
 ## Database & infrastructure
 - PostgreSQL by default
 - Supabase when managed Postgres, Auth or Storage materially helps
+- Neon when Supabase's free cap of 2 active projects per org is the constraint (many small apps with separate users). Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. No template yet, so scaffold per [Scaffolding](#scaffolding-fallback-when-no-template-fits) and add Drizzle
 - Vercel for Next.js where appropriate
 - Docker when useful (see [Containers](#containers))
 - GitHub Actions for CI, Vercel's Git integration for deploys (see [CI/CD](#cicd))
@@ -77,6 +78,7 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 
 ## Auth
 - **Default: Supabase Auth** for every stack. Next.js uses `@supabase/ssr` (cookie sessions). An ASP.NET Core API validates Supabase's JWTs with `AddAuthentication().AddJwtBearer()` and authorises with policies.
+- **Neon Auth when the database is Neon** (managed Better Auth, users in the project's own `neon_auth` schema, 60k MAU free). Next.js uses `@neondatabase/auth` with `createNeonAuth()`, a `[...path]` route handler and `proxy.ts` for protected routes. AWS regions only, and incompatible with IP Allow and Private Networking. It deviates from the Supabase default, so record it as an ADR in the project.
 - **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
 - Never store passwords yourself. Authorise on the server for every request and deny by default; hiding UI is not authorisation.
 - Supabase tables reachable from the client have Row Level Security on, with policies covered by tests.
@@ -87,6 +89,7 @@ Schema changes go only through committed migrations, never by hand on a shared d
 | Stack | Create | Apply in deploy |
 |---|---|---|
 | Supabase | `pnpm supabase migration new <name>`, SQL in `supabase/migrations/`. Replay locally with `pnpm supabase db reset` | `pnpm supabase db push --db-url "$DATABASE_URL"` as an explicit step before the app deploys |
+| Neon (Drizzle) | Edit the schema, then `pnpm drizzle-kit generate --name=<name>`. SQL lands in the `out` folder of `drizzle.config.ts`. Never use `drizzle-kit push` on a shared database | `pnpm drizzle-kit migrate` as an explicit step before the app deploys, with `DATABASE_URL` pointing at the target |
 | EF Core | `dotnet ef migrations add <Name>`. Review the SQL with `dotnet ef migrations script --idempotent` | A migration bundle (`dotnet ef migrations bundle`) run as its own step. Never `Database.Migrate()` at startup |
 
 - **Breaking changes use expand and contract:** add the new column or table, backfill, switch the code, then drop the old one in a later deploy. Migrations ship before the code that needs them.
