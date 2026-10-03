@@ -115,7 +115,7 @@ Schema changes go only through committed migrations, never by hand on a shared d
     "*.{json,md,css,yml}": "prettier --write"
   }
   ```
-  `.husky/pre-commit` contains just `pnpm exec lint-staged`.
+  `.husky/pre-commit` contains just `pnpm exec lint-staged`, plus the gitleaks lines when the repo is private (see [CI/CD](#cicd)).
 
 ## Testing
 Write tests first, using the tdd skill. It covers how to write them. This section covers which tools to use and what to cover.
@@ -144,7 +144,13 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 
 - **CI:** one workflow, copied from [templates/ci.yml](templates/ci.yml). It runs a frozen install, the Lint & format checks, tests, then a build. Add a Postgres service once integration tests exist, and the Playwright smoke run once the first user journey exists (Phase 1).
 - **Deploy:** Vercel's Git integration, with no workflow file. For .NET or FastAPI hosts, add a `deploy.yml` on `push: main` that needs CI to pass and runs migrations as an explicit step (see [Migrations](#migrations)). If a deploy is bad, roll back to the previous one in the host.
-- **Dependencies and secrets:** Dependabot weekly with minor and patch updates grouped ([templates/dependabot.yml](templates/dependabot.yml)). Turn on GitHub secret scanning and push protection.
+- **Dependencies and secrets:** Dependabot weekly with minor and patch updates grouped ([templates/dependabot.yml](templates/dependabot.yml)). Turn on Dependabot alerts. Secret scanning depends on the repo:
+  - **Public repo, or an org with GitHub Secret Protection:** turn on GitHub secret scanning and push protection.
+  - **Private repo on a personal account** (GitHub's scanning needs a paid add-on there): use [gitleaks](https://github.com/gitleaks/gitleaks) instead. Add the `secrets` job from [templates/ci.yml](templates/ci.yml) (no license needed for personal accounts; orgs need a free `GITLEAKS_LICENSE`). Solo also starts `.husky/pre-commit` with:
+    ```sh
+    command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
+    gitleaks git --pre-commit --staged --redact --no-banner
+    ```
 - **Git conventions (both modes):**
   - Commits: Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), small and green.
   - Branches (Team, and Solo agent runs): `feat|fix|chore/<slug>`, one ROADMAP task each, deleted after merge.
