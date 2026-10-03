@@ -107,7 +107,7 @@ Stop only when: <observable completion condition>, or the deadline has passed an
 When the repo has a `ROADMAP.md`, use this as the Hands-Off default unless the user gives a different objective.
 
 1. **Check the roadmap first.** If the current phase has no tasks, run the roadmap-next skill in `plan` mode with the user *before* launching. The worker must not invent tasks.
-2. **Launch** with this worker prompt and stop condition:
+2. **Launch** with this worker prompt and stop condition. Don't pass `--worktree`: in a worktree, `build` records ticks as commit trailers instead of editing `ROADMAP.md`, which this prompt doesn't expect.
 
 ```text
 Objective: complete Phase <n> of ROADMAP.md, one task per iteration.
