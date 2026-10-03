@@ -110,12 +110,12 @@ Objective: complete Phase <n> of ROADMAP.md, one task per iteration.
 
 Each iteration: follow the roadmap-next skill in `build` mode on the next unchecked task (read its SKILL.md if the Skill tool is unavailable). Follow AGENTS.md. Tick the task only with fresh passing test/lint/typecheck evidence. Put out-of-scope ideas in TODO.md. Never edit tasks in later phases.
 
-If a task is blocked after two attempts, leave it unchecked, add "BLOCKED: <reason + evidence>" under it, and move to the next task.
+If a task is blocked after two attempts, leave it unchecked, add an indented "- BLOCKED: <reason + evidence>" line under it, and move to the next task.
 
 Stop only when: every task in Phase <n> is checked or marked BLOCKED, and the test suite passes.
 ```
 
-3. **Morning Review.** Follow the morning review steps below, then suggest running `/roadmap-next close` if the phase is complete.
+3. **Morning Review.** Follow the morning review steps below. Once the user approves the branch, merge it into `main` (Solo) or push it and open a PR (Team), per the AGENTS.md Workflow line. Then suggest `/roadmap-next close`.
 
 ## Steer
 

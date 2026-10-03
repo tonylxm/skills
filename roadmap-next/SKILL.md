@@ -8,8 +8,8 @@ argument-hint: "plan [--issues] | build [task] | close"
 
 Move a project forward one step at a time from `ROADMAP.md`. The roadmap's checkboxes are the source of truth for what is done. With no mode given, pick one:
 - **plan** if the current phase has no tasks.
-- **build** if it has unchecked tasks.
-- **close** if every task is checked.
+- **build** if it has unchecked tasks that aren't `BLOCKED`.
+- **close** if every task is checked or `BLOCKED`.
 
 Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The Workflow line in `AGENTS.md` sets the mode: **Solo** (commit to `main`, the default when it's missing) or **Team** (branch and PR). The current phase is the first one that still has unchecked items.
 
@@ -29,7 +29,7 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 
 ## build
 
-Implement the next unchecked task, or the one the user names.
+Implement the next unchecked task that isn't `BLOCKED`, or the one the user names. For a named `BLOCKED` task, read its reason first and delete the line once it's fixed.
 
 1. **Restate the goal.** Give the task and its acceptance criteria in two lines, and name the files you expect to touch.
 2. **Implement it with the tdd skill**, following the stack's standards skill (typescript-standards or dotnet-standards) if one applies. For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
@@ -48,7 +48,7 @@ Implement the next unchecked task, or the one the user names.
 
 ## close
 
-Run this when every task in the phase is checked.
+Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to `TODO.md`.
 
 1. **Review the phase's diff.** Run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents) on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
 2. **Re-verify.** Re-run the full verification from build step 3.

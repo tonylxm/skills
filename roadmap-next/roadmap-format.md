@@ -25,4 +25,5 @@ Rules:
 - Each task fits on one line. Acceptance criteria are indented beneath it, and they are observable results, not implementation steps.
 - When a phase closes, collapse it to its `✅` heading line and move its task list to `docs/roadmap-archive.md`.
 - `(parallel)` marks a task with no unfinished dependencies whose files don't overlap other `(parallel)` tasks, so it can be built in its own worktree.
+- A stuck task stays unchecked with an indented `- BLOCKED: {reason and evidence}` line beneath it. Delete that line once it's unblocked.
 - Future ideas go in `TODO.md`, not in an unplanned phase.
