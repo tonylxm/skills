@@ -153,7 +153,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users or a second contributor.
 
 ## Templates
-When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI.
+When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. The two Next.js templates also ship Supabase Auth, deny by default (the .NET API checks Supabase sign-in tokens).
 
 | Stack | Template |
 |---|---|
@@ -174,7 +174,7 @@ Use the official scaffolder with flags so it doesn't prompt and you don't hand-w
 
 | Stack | Scaffold | Then |
 |---|---|---|
-| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit`, since route types such as `LayoutProps` live in the gitignored `.next/` and a fresh CI clone fails without them |
+| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Check that `globals.css` sets `--font-sans: var(--font-geist-sans)`, since shadcn init can write a self-reference that drops pages to a serif fallback. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit`, since route types such as `LayoutProps` live in the gitignored `.next/` and a fresh CI clone fails without them |
 | Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init -d -t vite`. The scaffolder now sets up oxlint instead of ESLint. Keep it (no `eslint-config-prettier` needed), and use `oxlint --fix` in lint-staged and `tsc -b` for `typecheck` |
 | ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet add <App>.Tests package Microsoft.AspNetCore.Mvc.Testing Testcontainers.PostgreSql` · `dotnet sln add **/*.csproj`. On the .NET 10 SDK, xUnit v3 needs `"test": { "runner": "Microsoft.Testing.Platform" }` in `global.json`, and the CI command becomes `dotnet test --solution <App>.slnx` |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
