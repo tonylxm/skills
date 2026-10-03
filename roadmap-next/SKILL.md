@@ -51,12 +51,16 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
 
 Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to `TODO.md`.
 
-1. **Review the phase's diff.** Run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents) on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
+1. **Review the phase's diff.** What runs depends on the Workflow line:
+   - **Solo:** ask the user whether to run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents), or a subset. Recommend yes when the phase touched auth, user input, secrets, dependencies or the data layer, or `main` auto-deploys, and skip for docs-only or tiny phases. Then, if the app is deployed to real users or someone else contributes, propose switching to Team and ask the user to confirm. On confirm: set the Workflow line to Team, turn on branch protection, copy [claude-review.yml](../project-starter/templates/claude-review.yml) to `.github/workflows/`, and tell the user to add the `ANTHROPIC_API_KEY` secret and install the Claude GitHub App (or run `/install-github-app`). If they decline, ask again at the next close.
+   - **Team:** the PR bot runs the code and security reviews, so run only `/simplify` here (it edits code).
+
+   Fix the findings, or list them for the user if they're not worth fixing now.
 2. **Re-verify.** Re-run the full verification from build step 3.
 3. **Update the docs:**
    - Run the agents-md skill in update mode, to capture conventions the phase taught.
    - Update `MVP_PRD.md` or `DESIGN.md` if the shipped reality differs from them.
    - Move the completed phase to `docs/roadmap-archive.md` (create the file on first use, and add the archive link to the `ROADMAP.md` header at the same time) as a summary line plus the task list, and leave a one-line "Done" entry in `ROADMAP.md`.
-4. **Summarise the phase:** what shipped, how it was verified, and `Closes #…` for each open issue.
+4. **Summarise the phase:** what shipped, how it was verified (including which reviews ran or were skipped), and `Closes #…` for each open issue.
    - Solo: the tasks are already on `main`. Put the summary in the close commit and the report.
    - Team: use it as the PR title and body. Open the PR only if the user asks.

@@ -149,7 +149,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
   - Commits: Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), small and green.
   - Branches (Team, and Solo agent runs): `feat|fix|chore/<slug>`, one ROADMAP task each, deleted after merge.
   - PRs: the squash title is the Conventional Commit; link the ROADMAP task; CI green.
-  - Solo → Team: turn on branch protection requiring CI, and update the `AGENTS.md` Workflow line. roadmap-next reads that line, so its sync and close steps switch with it.
+  - Solo → Team: turn on branch protection requiring CI, copy [templates/claude-review.yml](templates/claude-review.yml) for automatic PR code and security review (needs the `ANTHROPIC_API_KEY` secret and the Claude GitHub App), and update the `AGENTS.md` Workflow line. roadmap-next reads that line, so its sync and close steps switch with it, and proposes this switch at close once the app has real users or a second contributor.
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users, a second contributor, or the codebase is big enough that every change deserves a reviewed PR.
 
 ## Templates
@@ -167,7 +167,7 @@ gh repo create <app> --template tonylxm/<template> --private --clone
 
 Then follow the template's README checklist (rename, env, secret scanning, host). For Team mode, the README says how to remove the hook. If the folder already has the project docs, clone into `<app>` and copy it up as described under [Scaffolding](#scaffolding-fallback-when-no-template-fits) (if the folder is already a git repo, add `--exclude .git` and set the remote yourself).
 
-**Keeping templates current:** [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. When they change, update the template repos too. Merge each template's Dependabot PRs when CI is green. Majors of TypeScript, ESLint and `@types/node` are ignored in `dependabot.yml`, so upgrade those by hand once the framework supports them.
+**Keeping templates current:** [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml), [templates/claude-review.yml](templates/claude-review.yml) (Team only) and this page are the source. When they change, update the template repos too. Merge each template's Dependabot PRs when CI is green. Majors of TypeScript, ESLint and `@types/node` are ignored in `dependabot.yml`, so upgrade those by hand once the framework supports them.
 
 ## Scaffolding (fallback when no template fits)
 Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
