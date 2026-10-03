@@ -60,7 +60,7 @@ Infrastructure/
 
 ## Database & infrastructure
 - PostgreSQL by default
-- **Personal and hobby projects: Neon Free**, one project per app. Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Start from nextjs-neon-starter (see [Templates](#templates))
+- **Personal and hobby projects: Neon Free**, one project per app. Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Change the copied string's `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Start from nextjs-neon-starter (see [Templates](#templates))
 - **Startup ideas: Supabase Free** when the idea needs realtime or fast auth and storage. The free plan caps active projects at 2 per org, so spend those slots on startup ideas, never on hobby projects. Move an idea to Pro once it has real users
 - Vercel for Next.js where appropriate
 - Docker when useful (see [Containers](#containers))
@@ -162,7 +162,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users, a second contributor, or the codebase is big enough that every change deserves a reviewed PR.
 
 ## Templates
-When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page, and nextjs-neon-starter ships the same with Better Auth. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).
+When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page, and nextjs-neon-starter ships the same with Better Auth, plus the gitleaks hook and CI job for private personal repos. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).
 
 | Stack | Template |
 |---|---|

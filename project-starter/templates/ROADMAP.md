@@ -12,7 +12,7 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: `{dev}` serves the page locally without horizontal scroll at phone width, and `{lint}`, `{format:check}`, `{typecheck}` and `{test}` pass
 - [ ] Apply the workflow mode. Solo: keep the hook. Team: remove it per the README and make `main` require CI
   - AC: the first push shows green checks. Solo: committing a badly formatted file auto-fixes it. Team: `main` requires the checks
-- [ ] Turn on secret scanning (templates don't copy repo settings): GitHub secret scanning + push protection for public repos, gitleaks hook + CI job for private personal repos (see tech-stack.md → CI/CD). Turn on Dependabot alerts
+- [ ] Turn on secret scanning (templates don't copy repo settings): GitHub secret scanning + push protection for public repos, gitleaks hook + CI job for private personal repos (see tech-stack.md → CI/CD; nextjs-neon-starter already has both). Turn on Dependabot alerts
   - AC: a test commit or push containing a fake secret is blocked
 - [ ] If the stack uses Supabase Auth, create the Supabase project (region near users). If Supabase is also the database, link it with `pnpm supabase link`
   - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
