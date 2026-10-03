@@ -60,7 +60,7 @@ Infrastructure/
 
 ## Database & infrastructure
 - PostgreSQL by default
-- **Personal and hobby projects: Neon Free**, one project per app. Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. No template yet, so scaffold per [Scaffolding](#scaffolding-fallback-when-no-template-fits) and add Drizzle
+- **Personal and hobby projects: Neon Free**, one project per app. Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Start from nextjs-neon-starter (see [Templates](#templates))
 - **Startup ideas: Supabase Free** when the idea needs realtime or fast auth and storage. The free plan caps active projects at 2 per org, so spend those slots on startup ideas, never on hobby projects. Move an idea to Pro once it has real users
 - Vercel for Next.js where appropriate
 - Docker when useful (see [Containers](#containers))
@@ -78,7 +78,8 @@ Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
 
 ## Auth
 - **Default: Supabase Auth** for startup ideas on Supabase. Next.js uses `@supabase/ssr` (cookie sessions). An ASP.NET Core API validates Supabase's JWTs with `AddAuthentication().AddJwtBearer()` and authorises with policies.
-- **Neon Auth for personal projects on Neon** (managed Better Auth, users in the project's own `neon_auth` schema, 60k MAU free). Next.js uses `@neondatabase/auth` with `createNeonAuth()`, a `[...path]` route handler and `proxy.ts` for protected routes. AWS regions only, and incompatible with IP Allow and Private Networking.- **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
+- **Better Auth + Drizzle adapter for personal projects on Neon**, self-hosted in the app (`better-auth` and `@better-auth/drizzle-adapter`). Auth tables live in the app's own Drizzle schema and migrations, so it runs against any Postgres, including the local one tests use. Email verification and password reset need an email sender (Resend). Not Neon Auth: its SDK `@neondatabase/auth` is still 0.x beta, it runs an older Better Auth core, it has no MFA, and it needs a Neon branch even for local dev.
+- **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
 - Never store passwords yourself. Authorise on the server for every request and deny by default; hiding UI is not authorisation.
 - Supabase tables reachable from the client have Row Level Security on, with policies covered by tests.
 
@@ -88,7 +89,7 @@ Schema changes go only through committed migrations, never by hand on a shared d
 | Stack | Create | Apply in deploy |
 |---|---|---|
 | Supabase | `pnpm supabase migration new <name>`, SQL in `supabase/migrations/`. Replay locally with `pnpm supabase db reset` | `pnpm supabase db push --db-url "$DATABASE_URL"` as an explicit step before the app deploys |
-| Neon (Drizzle) | Edit the schema, then `pnpm drizzle-kit generate --name=<name>`. SQL lands in the `out` folder of `drizzle.config.ts`. Never use `drizzle-kit push` on a shared database | `pnpm drizzle-kit migrate` as an explicit step before the app deploys, with `DATABASE_URL` pointing at the target |
+| Neon (Drizzle) | Edit `src/db/schema.ts`, then `pnpm db:generate --name=<name>` (drizzle-kit). SQL lands in `drizzle/`. Never use `drizzle-kit push` on a shared database | `pnpm db:migrate` with the target `DATABASE_URL`, as an explicit step before the app deploys |
 | EF Core | `dotnet ef migrations add <Name>`. Review the SQL with `dotnet ef migrations script --idempotent` | A migration bundle (`dotnet ef migrations bundle`) run as its own step. Never `Database.Migrate()` at startup |
 
 - **Breaking changes use expand and contract:** add the new column or table, backfill, switch the code, then drop the old one in a later deploy. Migrations ship before the code that needs them.
@@ -161,12 +162,13 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 - **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users, a second contributor, or the codebase is big enough that every change deserves a reviewed PR.
 
 ## Templates
-When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).
+When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page, and nextjs-neon-starter ships the same with Better Auth. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).
 
 | Stack | Template |
 |---|---|
 | Next.js + Supabase (simple web app) | [tonylxm/nextjs-supabase-starter](https://github.com/tonylxm/nextjs-supabase-starter) |
 | Next.js + ASP.NET Core + Postgres (serious SaaS) | [tonylxm/nextjs-dotnet-starter](https://github.com/tonylxm/nextjs-dotnet-starter) |
+| Next.js + Neon (personal projects) | [tonylxm/nextjs-neon-starter](https://github.com/tonylxm/nextjs-neon-starter) |
 | Vite + React (SPA, internal tool) | [tonylxm/vite-react-starter](https://github.com/tonylxm/vite-react-starter) |
 
 ```bash
