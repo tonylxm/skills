@@ -16,7 +16,7 @@ Turn a quick description into a planned, agent-ready project. You orchestrate th
 - **Decisions:** decisions that pass its three-part test go to `docs/decisions/` via the decision-log skill.
 - **Facts:** find facts yourself. Read the repo, search the web, and dispatch sub-agents. Only *decisions* go to the user.
 - **Resume:** before each step, check whether its output already exists. If it does, summarise it and ask "keep, update, or redo?" This makes the skill resumable and lets you re-run a single step ("redo design").
-- **Progress:** show a one-line progress marker at the start of each step, e.g. `[4/10] Tech stack`.
+- **Progress:** show a one-line progress marker at the start of each step, e.g. `[4/10] Tech stack`. End each step with a one-line summary of what was decided and the next step, e.g. `Done: Next.js + Postgres on Vercel. Next: [5/10] Architecture`.
 
 ## Steps
 
