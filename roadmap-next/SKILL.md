@@ -11,7 +11,7 @@ Move a project forward one step at a time from `ROADMAP.md`. The roadmap's check
 - **build** if it has unchecked tasks that aren't `BLOCKED`.
 - **close** if every task is checked or `BLOCKED`.
 
-Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The Workflow line in `AGENTS.md` sets the mode: **Solo** (commit to `main`, the default when it's missing) or **Team** (branch and PR). The current phase is the first one that still has unchecked items.
+Before any mode, read `ROADMAP.md`, `GLOSSARY.md`, and only the parts of `MVP_PRD.md` the phase refers to. Also read `AGENTS.md` unless the agent already loaded it. The Workflow line in `AGENTS.md` sets the mode: **Solo** (commit to `main`, the default when it's missing) or **Team** (branch and PR). The current phase is the first one that still has unchecked items.
 
 If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
 
@@ -44,13 +44,14 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
    - Record any significant choice made along the way with the decision-log skill.
    - Add any out-of-scope ideas or follow-ups to `TODO.md`, one line each. Don't widen the current task.
    - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task line text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead, and repeat them at the end of the PR body so a squash merge keeps them. The sync above applies them once the branch merges to `main`.
-5. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
+5. **Keep context small across a phase.** When the user asks for the whole phase, build each task in a fresh sub-agent (or session) given only the task line, its criteria and the file paths. The roadmap holds all state, so the sub-agent reports back one short summary: result, verification lines and follow-ups. This stops file reads and test output from piling up and degrading later tasks. Skip it for a single task.
+6. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
 
 ## close
 
 Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to `TODO.md`.
 
-1. **Review the phase's diff.** Run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents) on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
+1. **Review the phase's diff.** Run `/code-review` and `/simplify`, plus `/security-review` when the phase touched auth, user input, secrets, dependencies or the data layer (or the agent's equivalents), on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
 2. **Re-verify.** Re-run the full verification from build step 3.
 3. **Update the docs:**
    - Run the agents-md skill in update mode, to capture conventions the phase taught.

@@ -1,6 +1,6 @@
 ---
 name: cli-tooling
-description: Use when working in a codebase through the shell and a task needs structural code search or rewrite (all call sites, rename a function, change a pattern across files), reading or editing JSON or YAML config, GitHub work (PRs, issues, CI runs), or fast file and text search outside an agent's built-in search tools.
+description: Use for shell-based structural code search or rewrite (ast-grep), JSON or YAML editing (jq, yq), GitHub work (gh), or fast text and file search (rg, fd) outside built-in search tools.
 ---
 
 # CLI tooling

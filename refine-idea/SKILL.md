@@ -1,35 +1,11 @@
 ---
 name: refine-idea
-description: Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on "ideate", "refine this idea", or "stress-test my plan".
+description: Refines a vague idea into an actionable one-pager through divergent and convergent thinking. Use to stress-test assumptions or expand options before planning. Triggers on "ideate", "refine this idea", "stress-test my plan".
 ---
 
 # Idea Refine
 
-Refines raw ideas into sharp, actionable concepts worth building through structured divergent and convergent thinking.
-
-## How It Works
-
-1.  **Understand & Expand (Divergent):** Restate the idea, ask sharpening questions, and generate variations.
-2.  **Evaluate & Converge:** Cluster ideas, stress-test them, and surface hidden assumptions.
-3.  **Sharpen & Ship:** Produce a concrete markdown one-pager moving work forward.
-
-## Usage
-
-This skill is primarily an interactive dialogue. Invoke it with an idea, and the agent will guide you through the process.
-
-**Trigger Phrases:**
-- "Help me refine this idea"
-- "Ideate on [concept]"
-- "Stress-test my plan"
-
-## Output
-
-The final output is a markdown one-pager saved to `docs/ideas/[idea-name].md` (after user confirmation), containing:
-- Problem Statement
-- Recommended Direction
-- Key Assumptions
-- MVP Scope
-- Not Doing list
+Refines a raw idea through structured divergent then convergent thinking into a one-pager saved to `docs/ideas/[idea-name].md` after confirmation.
 
 ## Detailed Instructions
 
@@ -76,7 +52,7 @@ When the user invokes this skill with an idea (`$ARGUMENTS`), guide them through
 
 **If running inside a codebase:** Use `Glob`, `Grep`, and `Read` to scan for relevant context — existing architecture, patterns, constraints, prior art. Ground your variations in what actually exists. Reference specific files and patterns when relevant.
 
-Read `frameworks.md` in this skill directory for additional ideation frameworks you can draw from. Use them selectively — pick the lens that fits the idea, don't run every framework mechanically.
+Read `frameworks.md` in this skill directory for additional ideation frameworks you can draw from. Use one lens that fits the idea, not every framework.
 
 #### Phase 2: Evaluate & Converge
 
@@ -148,26 +124,4 @@ Ask the user if they'd like to save this to `docs/ideas/[idea-name].md` (or a lo
 
 Direct, thoughtful, slightly provocative. You're a sharp thinking partner, not a facilitator reading from a script. Channel the energy of "that's interesting, but what if..." -- always pushing one step further without being exhausting.
 
-Read `examples.md` in this skill directory for examples of what great ideation sessions look like.
-
-## Red Flags
-
-- Generating 20+ shallow variations instead of 5-8 considered ones
-- Skipping the "who is this for" question
-- No assumptions surfaced before committing to a direction
-- Yes-machining weak ideas instead of pushing back with specificity
-- Producing a plan without a "Not Doing" list
-- Ignoring existing codebase constraints when ideating inside a project
-- Jumping straight to Phase 3 output without running Phases 1 and 2
-
-## Verification
-
-After completing an ideation session:
-
-- [ ] A clear "How Might We" problem statement exists
-- [ ] The target user and success criteria are defined
-- [ ] Multiple directions were explored, not just the first idea
-- [ ] Hidden assumptions are explicitly listed with validation strategies
-- [ ] A "Not Doing" list makes trade-offs explicit
-- [ ] The output is a concrete artifact (markdown one-pager), not just conversation
-- [ ] The user confirmed the final direction before any implementation work
+Read `examples.md` only if unsure what a good session or one-pager looks like.
