@@ -16,11 +16,14 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: a test commit or push containing a fake secret is blocked
 - [ ] If the stack uses Supabase Auth, create the Supabase project (region near users). If Supabase is also the database, link it with `pnpm supabase link`
   - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
+- [ ] If the database is Neon, create a Neon project (one per app, region near users)
+  - AC: its pooled connection string is `DATABASE_URL` on {host}, and `pnpm db:migrate` against it applies every migration
 - [ ] Set real env values from `.env.example` locally and on {host}
   - AC: the app fails fast with a clear message when a required var is missing
 - [ ] Deploy "hello world" to {host}
   - AC: a public URL responds, production deploys from `main`, and PRs get preview URLs
   - AC (nextjs-supabase-starter): a sign-up on the deployed URL gets a confirmation email whose link lands on `/account`
+  - AC (nextjs-neon-starter): a sign-up on the deployed URL lands on `/account`, and signing out and back in works
 
 ### Scaffold variant
 - [ ] Scaffold the {framework} app: `{scaffold command from tech-stack.md}`
@@ -35,6 +38,8 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: `.github/dependabot.yml` is committed, and a test commit or push containing a fake secret is blocked
 - [ ] If the stack uses Supabase Auth, create the Supabase project (region near users). If Supabase is also the database, link it with `pnpm supabase link`
   - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
+- [ ] If the database is Neon, create a Neon project (one per app, region near users)
+  - AC: its pooled connection string is `DATABASE_URL` on {host}, and `pnpm db:migrate` against it applies every migration
 - [ ] Add `.env.example` and config loading
   - AC: the app fails fast with a clear message when a required var is missing
 - [ ] Deploy "hello world" to {host}
