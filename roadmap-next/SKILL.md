@@ -23,9 +23,9 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 - **Size each task** at roughly 1–4 hours: a vertical slice that can be tested and shipped on its own. List them in dependency order.
 - **Acceptance criteria:** each task gets 1–3, taken from the PRD. Never invent requirements.
 - **Choices:** if a task needs a product or design choice the docs don't cover, ask the user (giving your recommended answer) before writing the task.
-- **`--issues`:** if `gh auth status` succeeds, create one issue per task. Use `gh issue create --title "<task>" --body "<criteria + link to ROADMAP.md>" --label "phase-<n>"`, creating the label if it's missing. Add `(#<num>)` to the task line. If `gh` isn't available, say so and continue with markdown only.
+- **`--issues`:** only with this flag, never otherwise. If `gh auth status` succeeds, create one issue per task, after the user confirms the list. Use `gh issue create --title "<task>" --body "<criteria + link to ROADMAP.md>" --label "phase-<n>"`, creating the label if it's missing. Add `(#<num>)` to the task line. If `gh` isn't available, say so and continue with markdown only.
 - **Parallel tasks:** add `(parallel)` to a task line when it depends on no unfinished task and touches different files from the other `(parallel)` tasks. Only these go to separate worktrees.
-- **Confirm:** show the task list and wait for the user to confirm it before building.
+- **Confirm:** show the task list and wait for the user to confirm it before building. With `--issues`, also state the repo and label the issues will be created in.
 
 ## build
 
