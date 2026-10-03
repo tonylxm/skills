@@ -51,7 +51,7 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
 
 Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to `TODO.md`.
 
-1. **Review the phase's diff.** Run `/code-review` and `/simplify`, plus `/security-review` when the phase touched auth, user input, secrets, dependencies or the data layer (or the agent's equivalents), on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
+1. **Review the phase's diff.** Run `/code-review`, `/security-review` and `/simplify` (or the agent's equivalents) on everything the phase changed. Fix the findings, or list them for the user if they're not worth fixing now.
 2. **Re-verify.** Re-run the full verification from build step 3.
 3. **Update the docs:**
    - Run the agents-md skill in update mode, to capture conventions the phase taught.
