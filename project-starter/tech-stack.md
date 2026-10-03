@@ -192,6 +192,7 @@ Use the official scaffolder with flags so it doesn't prompt and you don't hand-w
 | Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | Replace `.husky/pre-commit` with `pnpm exec lint-staged`, then add the `lint-staged` config above |
 | JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | For React components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
 | Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm supabase start` for local Postgres, Auth and Storage |
+| Neon (Drizzle + Better Auth) | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | Add `db:generate` (`drizzle-kit generate`) and `db:migrate` (`drizzle-kit migrate`) scripts and a `drizzle.config.ts`. Generate the auth schema with `pnpm dlx auth@latest generate --config src/lib/auth.ts --output src/db/auth-schema.ts`. Local Postgres via Docker Compose or Testcontainers, `DATABASE_URL` with `sslmode=verify-full` |
 
 **Scaffolding into a repo that already has docs:** scaffolders refuse to run in a folder that isn't empty. `create-next-app` stops on `AGENTS.md`, `CLAUDE.md` or `ROADMAP.md`, and Vite cancels. So generate the app in a subfolder named after it, copy it up without overwriting anything, then delete the subfolder:
 
@@ -205,7 +206,7 @@ Your own docs win. `create-next-app` also writes a `<!-- BEGIN:nextjs-agent-rule
 ## Default stacks
 | Use case | Stack |
 |---|---|
-| Simple web app | Next.js + TypeScript + Tailwind + shadcn/ui + Zod + PostgreSQL/Supabase + Vercel |
+| Simple web app | Next.js + TypeScript + Tailwind + shadcn/ui + Zod + PostgreSQL (Neon personal, Supabase startup) + Vercel |
 | Serious SaaS / marketplace | Next.js + TypeScript → ASP.NET Core + C# → PostgreSQL |
 | AI/ML-heavy | Next.js → ASP.NET Core → Python/FastAPI where genuinely required → PostgreSQL |
 
