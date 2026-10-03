@@ -137,7 +137,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
 
 | | Solo (default) | Team |
 |---|---|---|
-| Commits | Straight to `main`. Agents on long or unattended runs use a branch and a PR | Branch and PR only |
+| Commits | Straight to `main`. Agents on long or unattended runs, and `(parallel)` roadmap tasks built in worktrees, use a branch and a PR | Branch and PR only |
 | Pre-commit | Husky + lint-staged (see Lint & format), about 1–3s | None, since CI is the gate |
 | CI | Runs on every push and PR, and **reports** | Runs on PRs, and **blocks the merge**: `main` requires CI, squash merge only |
 | Deploy | Production on push to `main`, with previews on agent PRs | Preview on each PR, production on merge |
@@ -149,8 +149,8 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Qu
   - Commits: Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), small and green.
   - Branches (Team, and Solo agent runs): `feat|fix|chore/<slug>`, one ROADMAP task each, deleted after merge.
   - PRs: the squash title is the Conventional Commit; link the ROADMAP task; CI green.
-  - Solo → Team: turn on branch protection requiring CI, and update the `AGENTS.md` Workflow line.
-- **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users or a second contributor.
+  - Solo → Team: turn on branch protection requiring CI, and update the `AGENTS.md` Workflow line. roadmap-next reads that line, so its sync and close steps switch with it.
+- **Deferred → `TODO.md`:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users, a second contributor, or the codebase is big enough that every change deserves a reviewed PR.
 
 ## Templates
 When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).

@@ -25,5 +25,5 @@
 - {Only conventions that tooling doesn't enforce and agents get wrong}
 
 ## Workflow
-- {Solo: commit to `main`; a pre-commit hook auto-formats; use a branch + PR for long unattended runs | Team: branch `feat|fix|chore/{slug}`; squash-merge PRs once CI is green}. Conventional Commits.
+- {Solo: commit to `main`; a pre-commit hook auto-formats; use a branch + PR for long unattended runs and `(parallel)` worktree tasks | Team: branch `feat|fix|chore/{slug}`; squash-merge PRs once CI is green}. Conventional Commits.
 - Work from `ROADMAP.md` with `roadmap-next`. Ideas go in `TODO.md`, not in scope.

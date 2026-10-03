@@ -11,11 +11,11 @@ Move a project forward one step at a time from `ROADMAP.md`. The roadmap's check
 - **build** if it has unchecked tasks.
 - **close** if every task is checked.
 
-Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The current phase is the first one that still has unchecked items.
+Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The Workflow line in `AGENTS.md` sets the mode: **Solo** (commit to `main`, the default when it's missing) or **Team** (branch and PR). The current phase is the first one that still has unchecked items.
 
 If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
 
-On `main`, also sync work merged from worktrees: run `git log -50 --format=%B --grep='^Roadmap-Task:'`, tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Report any trailer that matches no task line (the task was probably reworded) and ask which task it belongs to. Never skip one silently. Commit the result as `docs(roadmap): sync merged tasks`.
+On `main`, also sync work merged from worktrees: run `git log -50 --format=%B --grep='^Roadmap-Task:'`, tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Report any trailer that matches no task line (the task was probably reworded) and ask which task it belongs to. Never skip one silently. Solo: commit the result to `main` as `docs(roadmap): sync merged tasks`. Team: `main` only changes through PRs, so include it in the next task's branch.
 
 ## plan
 
@@ -56,4 +56,6 @@ Run this when every task in the phase is checked.
    - Run the agents-md skill in update mode, to capture conventions the phase taught.
    - Update `MVP_PRD.md` or `DESIGN.md` if the shipped reality differs from them.
    - Move the completed phase to `docs/roadmap-archive.md` (create the file on first use, and add the archive link to the `ROADMAP.md` header at the same time) as a summary line plus the task list, and leave a one-line "Done" entry in `ROADMAP.md`.
-4. **Draft the PR.** Write the PR title and body (what shipped, how it was verified, and `Closes #…` for each issue). Open it only if the user asks.
+4. **Summarise the phase:** what shipped, how it was verified, and `Closes #…` for each open issue.
+   - Solo: the tasks are already on `main`. Put the summary in the close commit and the report.
+   - Team: use it as the PR title and body. Open the PR only if the user asks.

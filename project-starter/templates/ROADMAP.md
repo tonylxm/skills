@@ -20,6 +20,7 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: the app fails fast with a clear message when a required var is missing
 - [ ] Deploy "hello world" to {host}
   - AC: a public URL responds, production deploys from `main`, and PRs get preview URLs
+  - AC (nextjs-supabase-starter): a sign-up on the deployed URL gets a confirmation email whose link lands on `/account`
 
 ### Scaffold variant
 - [ ] Scaffold the {framework} app: `{scaffold command from tech-stack.md}`
