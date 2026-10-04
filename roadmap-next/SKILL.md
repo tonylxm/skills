@@ -1,12 +1,12 @@
 ---
 name: roadmap-next
-description: Use when continuing work on a project that has a ROADMAP.md, e.g. "what's next", "plan the next phase", "build the next task", "work through the roadmap", or "close out this phase".
-argument-hint: "plan [--issues] | build [task] | close"
+description: Use when continuing work on a project, e.g. "what's next", "where am I", "plan the next phase", "build the next task", "work through the roadmap", or "close out this phase". Reports status and runs plan, build or close from ROADMAP.md.
+argument-hint: "status | plan [--issues] | build [task] | close"
 ---
 
 # Roadmap Next
 
-Move a project forward one step at a time from `ROADMAP.md`. The roadmap's checkboxes are the source of truth for what is done. With no mode given, pick one:
+Move a project forward one step at a time from `ROADMAP.md`. The roadmap's checkboxes are the source of truth for what is done. `status` only reports and changes nothing. With no mode given, pick one:
 - **plan** if the current phase has no tasks.
 - **build** if it has unchecked tasks that aren't `BLOCKED`.
 - **close** if every task is checked or `BLOCKED`.
@@ -16,6 +16,33 @@ Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of
 If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
 
 On `main`, also sync work merged from worktrees. Find the last sync with `git log -1 --grep='^Roadmap-Synced:' --format=%B` (its `Roadmap-Synced: <hash>` line; none means scan all history), then run `git log <hash>..HEAD --format=%B --grep='^Roadmap-Task:'`. Tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Report any trailer that matches no task line (the task was probably reworded) and ask which task it belongs to. Never skip one silently. If anything changed, put a `Roadmap-Synced: <current HEAD hash>` trailer in the commit that records it, so the next sync starts after it. Solo: commit the result to `main` as `docs(roadmap): sync merged tasks`. Team: `main` only changes through PRs, so include it in the next task's branch, and repeat the trailer in the PR body so a squash keeps it.
+
+## status
+
+Print where the project is, then stop. Do not plan, build or edit anything. Format:
+
+```
+Phase 1/3: {name} | task 1.3/4: {task text}
+BLOCKED 1.4: {reason}
+Next: /roadmap-next build 1.3
+```
+
+- **Phase numbers** come from the headings, not position. `1/3` is the current phase's number over the highest phase number in `ROADMAP.md`, so Phase 0 is never counted.
+- **Task numbers:** `1.3` is the ID of the next unchecked, non-`BLOCKED` task. `/4` is the highest task number in the phase, ticked and `BLOCKED` tasks included.
+- Leave out the `BLOCKED` lines when there are none.
+- Run the two syncs first so the counts are current. Skip the one that doesn't apply (no issue numbers, no commits) without comment.
+
+`Next:` is one command for the state:
+
+| State | Next |
+| --- | --- |
+| No `ROADMAP.md` | `/project-starter "idea"` (`--adopt` for an existing repo) |
+| Phase has no tasks | `/roadmap-next plan` |
+| Unchecked tasks | `/roadmap-next build <ID>` |
+| All tasks checked or `BLOCKED` | `/roadmap-next close` |
+| Every phase done | Say the MVP is complete and point to `TODO.md` for what to plan next |
+
+Skills that `build` and `close` call (tdd, frontend-design, `/code-review`) run on their own, so never list them as a next step.
 
 ## plan
 
@@ -29,7 +56,7 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 
 ## build
 
-Implement the next unchecked task that isn't `BLOCKED`, or the one the user names. For a named `BLOCKED` task, read its reason first and delete the line once it's fixed.
+Implement the next unchecked task that isn't `BLOCKED`, or the one the user names (by ID, e.g. `1.3`, or by text). For a named `BLOCKED` task, read its reason first and delete the line once it's fixed.
 
 1. **Restate the goal.** Give the task and its acceptance criteria in two lines, and name the files you expect to touch.
 2. **Implement it with the tdd skill**, following the stack's standards skill (typescript-standards or dotnet-standards) if one applies. For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
@@ -43,7 +70,7 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
    - Tick the task.
    - Record any significant choice made along the way with the decision-log skill.
    - Add any out-of-scope ideas or follow-ups to `TODO.md`, one line each. Don't widen the current task.
-   - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task line text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead, and repeat them at the end of the PR body so a squash merge keeps them. The sync above applies them once the branch merges to `main`.
+   - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task ID and text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead, and repeat them at the end of the PR body so a squash merge keeps them. The sync above applies them once the branch merges to `main`.
 5. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
 
 ## close

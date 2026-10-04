@@ -9,18 +9,19 @@ _Current: Phase 1: {name}. Done phases: [archive](docs/roadmap-archive.md) (link
 
 ## Phase 1: {name}
 Goal: {one line, the user-visible outcome}. PRD: F1, F2 (feature IDs from the MVP_PRD.md scope table)
-- [ ] {Task, verb-first} (#12)
+- [ ] 1.1 {Task, verb-first} (#12)
   - AC: {observable criterion}
   - AC: {observable criterion}
-- [ ] {Independent task} (parallel)
+- [ ] 1.2 {Independent task} (parallel)
   - AC: {observable criterion}
-- [x] {Done task}
+- [x] 1.3 {Done task}
 
 ## Phase 2: {name}
 Goal: {one line}. _Tasks added when the phase starts._
 ```
 
 Rules:
+- Each task starts with an ID `<phase>.<n>`. IDs are permanent: never renumber. A task added later takes the next free number, even if it runs earlier. `build 1.3` and the `Roadmap-Task:` trailer can use the ID.
 - Only the current phase is broken into tasks. Later phases stay one line until `plan` reaches them.
 - Each task fits on one line. Acceptance criteria are indented beneath it, and they are observable results, not implementation steps.
 - When a phase closes, collapse it to its `✅` heading line and move its task list to `docs/roadmap-archive.md`.
