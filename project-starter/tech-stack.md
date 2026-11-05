@@ -6,7 +6,7 @@ Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a b
 - Use the simplest stack that fits. Most freelance jobs are public websites with no database or backend.
 - One repo per project. Split the backend into its own repo only when the API serves several products (web plus mobile), different teams own each side, the backend has its own release cycle or security boundary, or the API is sold to customers.
 - Keep Postgres portable: app-owned migrations and server-side data access for business logic. No generic database adapter without a real need.
-- The client owns the domain, Stripe and any database with personal data. Hosting and email for content-only sites can sit on your accounts (see [Ownership and handover](#ownership-and-handover)). Free plans are for experiments and demos.
+- The client owns the domain, Stripe and any database with personal data. Hosting and email for content-only sites can sit on your accounts (see [Ownership and handover](#ownership-and-handover)). Free plans are for experiments and demos, including [prototypes](#prototypes).
 
 ## Pick a base stack
 | Project | Stack | Backend logic | Template |
@@ -22,6 +22,15 @@ Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a b
 - **Everywhere:** responsive from ~360px phone width up, unless the project says desktop only. Vercel hosting. Stripe for payments, Resend for email. Files in Supabase Storage, or Cloudflare R2 on Neon.
 - **Backend logic** means Stripe webhooks, private API keys, transactional email, scheduled jobs (Vercel Cron), integrations or real business logic. Next.js apps use Next.js for it, never Hono inside Next.js. Vite apps add Hono in `api/` (Vercel Functions; run locally with `vercel dev`).
 - **FastAPI** only where Python genuinely helps (AI/ML, data processing), as Vercel Python Functions in the same repo unless the work is long-running.
+
+## Prototypes
+A prototype gets client sign-off on flows and look during requirements. It is throwaway, and the quote says so.
+
+- **Stack:** the intended project's UI framework (Astro for content sites, otherwise React + Tailwind + shadcn/ui), or Vite + React if that isn't decided yet. Use the plain scaffolder from [Scaffolding](#scaffolding-when-no-template-fits), not a template.
+- **Data:** frontend only. Typed mock fixtures shaped like the domain, `localStorage` when a flow needs to persist, and a role switcher instead of a real login.
+- **Skip:** database, real auth, tests, CI, Husky, Dependabot and SEO.
+- **Accounts:** your Vercel (free plan is fine), shared by preview URL. Never real client or personal data.
+- **After approval:** create a new repo from the matching template rather than building on the prototype. Copy presentational components, layouts and design tokens (or `DESIGN.md`), turn screens and flows into the PRD and roadmap, and discard the mock data and state wiring.
 
 ## Data and auth
 - **Supabase:** RLS on for every table reachable from the client, with policies covered by tests. Server code using the service-role key bypasses RLS, so it checks authorization itself. Next.js uses `@supabase/ssr` (cookie sessions); Hono verifies the Supabase JWT.
