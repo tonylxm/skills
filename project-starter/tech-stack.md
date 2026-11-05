@@ -1,87 +1,34 @@
 # Preferred Tech Stack
 
-Default recommendations for step 3 and the Phase 0 scaffold. Deviate only when the project's constraints require it, and say why. In an existing repo, its manifests win.
+Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a base stack from the project, then add only what it needs. Deviate when the project requires it, and say why. In an existing repo, its manifests win.
 
 ## Principles
-- Prefer simple, modern, maintainable solutions.
-- Start with a modular monolith. Avoid premature microservices and infrastructure.
-- Choose technology based on product requirements, not trends.
-- Avoid unnecessary abstractions and boilerplate.
+- Use the simplest stack that fits. Most freelance jobs are public websites with no database or backend.
+- One repo per project. Split the backend into its own repo only when the API serves several products (web plus mobile), different teams own each side, the backend has its own release cycle or security boundary, or the API is sold to customers.
+- Keep Postgres portable: app-owned migrations and server-side data access for business logic. No generic database adapter without a real need.
+- The client owns production accounts and billing. Free plans are for experiments and demos.
 
-## Frontend
-**Default:** Next.js + TypeScript
-- Next.js App Router
-- Tailwind CSS
-- shadcn/ui + Lucide
-- Zod
-- React Hook Form for complex forms
-- TanStack Query for client-side server state, when caching, refetching, mutations or pagination are useful
-- `useState`/`useReducer` for local state
-- URL/search params for shareable navigation and filter state
+## Pick a base stack
+| Project | Stack | Backend logic | Template |
+|---|---|---|---|
+| Mostly content (business site, portfolio, services, blog), a few interactive widgets | Astro + Tailwind, React islands for widgets | Astro actions (contact form + Resend) | astro-site-starter (planned) |
+| Public site with many connected interactive features, or public site + logged-in app | Next.js + Supabase (no Supabase if there's no data) | Next.js route handlers and server actions | nextjs-supabase-starter |
+| Private or SEO-unimportant interactive app (dashboard, client portal, internal tool) | Vite + React + Supabase | Hono in `api/`, when needed | vite-supabase-starter (planned) |
+| App that owns all data and auth (custom API, several clients) | Next.js + Neon + Drizzle + Better Auth | Next.js route handlers | nextjs-neon-starter |
 
-**Responsive by default:** mobile-first layouts with Tailwind breakpoints, from ~360px phone width up to desktop. Skip only when the project says otherwise (e.g. a desktop-only internal tool), and say so.
+**Shared defaults**
+- **Astro:** `.astro` components + Tailwind, zero JS by default. Add `@astrojs/react` only for an interactive island (calculator, booking widget), which also lets you reuse shadcn/ui pieces. If islands need to share state or cover most of the page, use Next.js instead.
+- **React apps:** TypeScript, Tailwind, shadcn/ui + Lucide, Zod, React Hook Form for complex forms, TanStack Query when caching, refetching or mutations help. `useState`/`useReducer` for local state, URL params for shareable filters.
+- **Everywhere:** responsive from ~360px phone width up, unless the project says desktop only. Vercel hosting. Stripe for payments, Resend for email. Files in Supabase Storage, or Cloudflare R2 on Neon.
+- **Backend logic** means Stripe webhooks, private API keys, transactional email, scheduled jobs (Vercel Cron), integrations or real business logic. Next.js apps use Next.js for it, never Hono inside Next.js. Vite apps add Hono in `api/` (Vercel Functions; run locally with `vercel dev`).
+- **FastAPI** only where Python genuinely helps (AI/ML, data processing), as Vercel Python Functions in the same repo unless the work is long-running.
 
-**Use Vite + React instead** for simple SPAs and internal tools, where Next.js SSR, routing or full-stack features add little value.
-
-## Backend
-Choose based on complexity.
-
-### Next.js full-stack
-For small and medium SaaS, CRUD apps, dashboards and straightforward business logic.
-- Server Components, Server Actions, Route Handlers
-- Zod
-- PostgreSQL
-
-### ASP.NET Core + C#
-For substantial SaaS, marketplaces, financial systems, complex business logic, public APIs, or multiple clients.
-- REST + OpenAPI
-- EF Core, with Dapper where direct SQL is useful
-- PostgreSQL
-
-### Python + FastAPI
-Only where Python gives a genuine advantage, such as AI/ML, data processing, or Python-specific libraries.
-
-## Backend architecture
-For complex applications, prefer a **feature-oriented / vertical slice** layout:
-
-```text
-Features/
-  Projects/
-  Quotes/
-  Payments/
-  Users/
-Domain/
-Infrastructure/
-```
-
-- Keep each feature's endpoint, validation, application logic and data access close together.
-- For simple CRUD, a flat endpoint → service layout is enough. In .NET, `DbContext` is the data access layer, so there's no repository layer (see dotnet-standards). Use controllers (`--use-controllers`) only when the team prefers them.
-- Don't add these by default: generic repositories, generic services, MediatR, CQRS, factories, microservices. Add an abstraction only when it solves an actual problem.
-
-## Database & infrastructure
-- PostgreSQL by default
-- **Personal and hobby projects: Neon Free**, one project per app. Free plan: 100 projects, 1 GB each, scale to zero after 5 min idle. Recheck [neon.com/pricing](https://neon.com/pricing) before relying on the numbers. Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Change the copied string's `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Start from nextjs-neon-starter (see [Templates](#templates))
-- **Startup ideas: Supabase Free** when the idea needs realtime or fast auth and storage. The free plan caps active projects at 2 per org, so spend those slots on startup ideas, never on hobby projects. Move an idea to Pro once it has real users
-- Vercel for Next.js where appropriate
-- Docker when useful (see [Containers](#containers))
-- GitHub Actions for CI, Vercel's Git integration for deploys (see [CI/CD](#cicd))
-- Stripe for payments, Resend for email
-- Sentry for error monitoring, PostHog for product analytics
-- Managed background jobs where appropriate
-
-Avoid Kubernetes, Kafka, Redis and similar until there is a concrete need.
-
-### Containers
-- **Local runtime:** OrbStack on macOS/Apple Silicon. It's light, starts fast, is fully Docker/Compose compatible and runs ARM64 natively. Use Docker Desktop instead when ecosystem compatibility or team standardisation matters.
-- **Stay runtime-agnostic:** use standard `Dockerfile`s and `docker compose` only, with nothing OrbStack-specific, so teammates and CI can use Docker Desktop or Linux unchanged.
-- **Architecture:** prefer multi-arch images that run natively on ARM64 locally. Pin `platform: linux/amd64` only when an image has no ARM64 build or production needs it.
-
-## Auth
-- **Default: Supabase Auth** for startup ideas on Supabase. Next.js uses `@supabase/ssr` (cookie sessions). An ASP.NET Core API validates Supabase's JWTs with `AddAuthentication().AddJwtBearer()` and authorises with policies.
-- **Better Auth + Drizzle adapter for personal projects on Neon**, self-hosted in the app (`better-auth` and `@better-auth/drizzle-adapter`). Auth tables live in the app's own Drizzle schema and migrations, so it runs against any Postgres, including the local one tests use. Email verification and password reset need an email sender (Resend). Not Neon Auth: its SDK `@neondatabase/auth` is still 0.x beta, it runs an older Better Auth core, it has no MFA, and it needs a Neon branch even for local dev.
-- **Use Entra ID or Auth0 instead** when customers need enterprise SSO (SAML/OIDC per tenant). Record it as an ADR.
-- Never store passwords yourself. Authorise on the server for every request and deny by default; hiding UI is not authorisation.
-- Supabase tables reachable from the client have Row Level Security on, with policies covered by tests.
+## Data and auth
+- **Supabase:** RLS on for every table reachable from the client, with policies covered by tests. Server code using the service-role key bypasses RLS, so it checks authorization itself. Next.js uses `@supabase/ssr` (cookie sessions); Hono verifies the Supabase JWT.
+- **Neon:** Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Change `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Auth is Better Auth with the Drizzle adapter (`better-auth`, `@better-auth/drizzle-adapter`), its tables in the app's own schema. Not Neon Auth (beta SDK, no MFA). Email verification and password reset need Resend.
+- **Keys:** only publishable keys go in `VITE_`/`NEXT_PUBLIC_` vars. Service-role, Stripe and Resend keys stay server-side.
+- Never store passwords yourself. Authorize on the server for every request and deny by default; hiding UI is not authorization.
+- Portability is partial on Supabase: schema and migrations move to any Postgres, but `supabase-js` calls and Supabase Auth don't. Choose Neon at the start if the app must own its data access and auth.
 
 ## Migrations
 Schema changes go only through committed migrations, never by hand on a shared database.
@@ -89,125 +36,103 @@ Schema changes go only through committed migrations, never by hand on a shared d
 | Stack | Create | Apply in deploy |
 |---|---|---|
 | Supabase | `pnpm supabase migration new <name>`, SQL in `supabase/migrations/`. Replay locally with `pnpm supabase db reset` | `pnpm supabase db push --db-url "$DATABASE_URL"` as an explicit step before the app deploys |
-| Neon (Drizzle) | Edit `src/db/schema.ts`, then `pnpm db:generate --name=<name>` (drizzle-kit). SQL lands in `drizzle/`. Never use `drizzle-kit push` on a shared database | `pnpm db:migrate` with the target `DATABASE_URL`, as an explicit step before the app deploys |
-| EF Core | `dotnet ef migrations add <Name>`. Review the SQL with `dotnet ef migrations script --idempotent` | A migration bundle (`dotnet ef migrations bundle`) run as its own step. Never `Database.Migrate()` at startup |
+| Neon (Drizzle) | Edit `src/db/schema.ts`, then `pnpm db:generate --name=<name>`. SQL lands in `drizzle/`. Never `drizzle-kit push` on a shared database | `pnpm db:migrate` with the target `DATABASE_URL`, before the app deploys |
 
-- **Breaking changes use expand and contract:** add the new column or table, backfill, switch the code, then drop the old one in a later deploy. Migrations ship before the code that needs them.
-- Integration tests run against the migrated schema, so a broken migration fails CI.
+Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy.
 
-## Package manager
-- pnpm for new JS/TS projects. Pin it with a `"packageManager": "pnpm@<version>"` field in `package.json`.
-- In an existing repo, use whatever its lockfile says (`package-lock.json` → npm, `yarn.lock` → Yarn). Never mix lockfiles.
-- pnpm blocks dependency install scripts by default. If a package needs one (e.g. `supabase`, `esbuild`, `sharp`), allow it explicitly with `pnpm approve-builds` rather than turning the protection off.
+## Ownership and handover
+- The client creates and pays for the domain, GitHub org or repo, Vercel (Pro: Hobby is non-commercial), Supabase or Neon, Stripe, Resend and R2. You join as a member. Secrets live in their accounts.
+- Pick the database region for the client's users and privacy law.
+- Handover: repo transferred to the client, Resend domain DNS (SPF, DKIM) set, backups on (a paid database plan), and agreed in writing who handles dependency updates afterwards. Public sites also follow the seo skill's handover.
 
-## Lint & format
-- **JS/TS:** ESLint as the scaffolder sets it up (flat config, `eslint.config.mjs`), plus Prettier. Put `eslint-config-prettier` last in the ESLint config so the two never conflict, and add `prettier-plugin-tailwindcss` for class sorting. Keep `.prettierrc` to just that plugin and accept Prettier's defaults. Add a `.prettierignore`.
-- Scripts: `lint`, `format` (`prettier --write .`), `format:check` (`prettier --check .`) and `typecheck` (`tsc --noEmit`). CI runs `lint`, `format:check` and `typecheck`.
-- **.NET:** `dotnet new editorconfig`, and `dotnet format --verify-no-changes` in CI.
-- **Python:** Ruff for both lint and format. CI runs `ruff check` and `ruff format --check`.
-- **Deprecated APIs fail the build**, so agents writing from stale memory get caught by tooling rather than review:
-  - ESLint: `"@typescript-eslint/no-deprecated": "error"`. It needs typed linting (`parserOptions.projectService: true`), which makes `lint` noticeably slower.
-  - oxlint: `"typescript/no-deprecated": "error"` with `"options": { "typeAware": true }` (oxlint 1.26+).
-  - .NET: `<WarningsAsErrors>CS0612;CS0618</WarningsAsErrors>` in `Directory.Build.props`.
-  - Python: Ruff's `UP` (pyupgrade) rules, and `filterwarnings = ["error::DeprecationWarning"]` under `[tool.pytest.ini_options]`.
-- An `.editorconfig` at the repo root.
-- **Git hooks** depend on the workflow mode (see [CI/CD](#cicd)): Solo gets Husky + lint-staged, Team gets none. The hook only auto-fixes staged files. Never put tests or typecheck in it. In `package.json`:
+## Quality baseline
+**Package manager:** pnpm, pinned with `"packageManager": "pnpm@<version>"`. In an existing repo, use its lockfile's manager and never mix lockfiles. Allow needed install scripts with `pnpm approve-builds`.
+
+**Lint & format**
+- ESLint as the scaffolder sets it up (flat config), plus Prettier with `eslint-config-prettier` last and `prettier-plugin-tailwindcss` (plus `prettier-plugin-astro` on Astro). Vite's scaffolder uses oxlint instead: keep it.
+- Scripts: `lint`, `format`, `format:check`, `typecheck` (`tsc --noEmit`, `astro check` on Astro). CI runs `lint`, `format:check` and `typecheck`.
+- Deprecated APIs fail the build: ESLint `"@typescript-eslint/no-deprecated": "error"` (needs `parserOptions.projectService: true`), or oxlint `"typescript/no-deprecated": "error"` with `"typeAware": true`. Python: Ruff's `UP` rules and `filterwarnings = ["error::DeprecationWarning"]`.
+- `.editorconfig` at the root. Solo mode adds Husky + lint-staged, auto-fixing staged files only (never tests or typecheck):
   ```json
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,mjs}": ["eslint --fix", "prettier --write"],
+    "*.{ts,tsx,js,jsx,mjs,astro}": ["eslint --fix", "prettier --write"],
     "*.{json,md,css,yml}": "prettier --write"
   }
   ```
-  `.husky/pre-commit` contains just `pnpm exec lint-staged`, plus the gitleaks lines when the repo is private (see [CI/CD](#cicd)).
 
-## Testing
-Write tests first, using the tdd skill. It covers how to write them. This section covers which tools to use and what to cover.
+**Testing** (test-first with the tdd skill)
+| Stack | Tests |
+|---|---|
+| Astro site | Build, a phone-width Playwright smoke test, and the seo skill's launch checks |
+| React apps | Vitest + React Testing Library, integration tests against real Postgres (`supabase start` or Testcontainers, never SQLite), 1–3 critical journeys in Playwright |
+| FastAPI | pytest + `TestClient`, Ruff |
 
-| Level | TypeScript | .NET | Python |
-|---|---|---|---|
-| Unit / component | Vitest, plus React Testing Library for components | xUnit | pytest |
-| Integration (API + DB) | Vitest against a real Postgres | xUnit + `WebApplicationFactory` + Testcontainers | pytest + FastAPI `TestClient` |
-| End-to-end | Playwright | Playwright | Playwright |
-
-- **Database:** run integration tests against real Postgres, using Testcontainers or `supabase start`. Don't use SQLite or in-memory fakes, since they hide constraint and query bugs.
-- **Mocks:** mock only at system boundaries such as Stripe, Resend and third-party APIs. See the tdd skill's `mocking.md`.
-- **Must cover:** business rules, authorisation (who can see or do what), money and data-integrity paths, and 1–3 critical user journeys in Playwright.
-- **Skip:** coverage % targets, snapshot-heavy UI tests, and tests of framework or library code.
-- **CI:** every PR runs unit and integration tests, plus a Playwright smoke run of the critical journeys.
+Must cover business rules, authorization (RLS policies included) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
 
 ## CI/CD
-Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD's Quality baseline and in `AGENTS.md`.
+Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and `AGENTS.md`.
 
 | | Solo (default) | Team |
 |---|---|---|
-| Commits | Straight to `main`. Agents on long or unattended runs, and `(parallel)` roadmap tasks built in worktrees, use a branch and a PR | Branch and PR only |
-| Pre-commit | Husky + lint-staged (see Lint & format), about 1–3s | None, since CI is the gate |
-| CI | Runs on every push and PR, and **reports** | Runs on PRs, and **blocks the merge**: `main` requires CI, squash merge only |
-| Deploy | Production on push to `main`, with previews on agent PRs | Preview on each PR, production on merge |
+| Commits | Straight to `main`; agent runs and `(parallel)` tasks use a branch and PR | Branch and PR only, squash merge |
+| Pre-commit | Husky + lint-staged | None, CI is the gate |
+| CI | Runs on every push and PR, reports | Runs on PRs, blocks the merge |
+| Deploy | Production on push to `main` | Preview per PR, production on merge |
 
-- **CI:** one workflow, copied from [templates/ci.yml](templates/ci.yml). It runs a frozen install, the Lint & format checks, tests, then a build. Add a Postgres service once integration tests exist, and the Playwright smoke run once the first user journey exists (Phase 1).
-- **Deploy:** Vercel's Git integration, with no workflow file. For .NET or FastAPI hosts, add a `deploy.yml` on `push: main` that needs CI to pass and runs migrations as an explicit step (see [Migrations](#migrations)). If a deploy is bad, roll back to the previous one in the host.
-- **Dependencies and secrets:** Dependabot weekly with minor and patch updates grouped ([templates/dependabot.yml](templates/dependabot.yml)). Turn on Dependabot alerts. Secret scanning depends on the repo:
-  - **Public repo, or an org with GitHub Secret Protection:** turn on GitHub secret scanning and push protection.
-  - **Private repo on a personal account** (GitHub's scanning needs a paid add-on there): use [gitleaks](https://github.com/gitleaks/gitleaks) instead. Add the `secrets` job from [templates/ci.yml](templates/ci.yml) (no license needed for personal accounts; orgs need a free `GITLEAKS_LICENSE`). Solo also starts `.husky/pre-commit` with:
-    ```sh
-    command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
-    gitleaks git --pre-commit --staged --redact --no-banner
-    ```
-- **Git conventions (both modes):**
-  - Commits: Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), small and green.
-  - Branches (Team, and Solo agent runs): `feat|fix|chore/<slug>`, one ROADMAP task each, deleted after merge.
-  - PRs: the squash title is the Conventional Commit; link the ROADMAP task; CI green.
-  - Solo → Team: turn on branch protection requiring CI, and update the `AGENTS.md` Workflow line. roadmap-next reads that line, so its sync and close steps switch with it.
-- **Deferred → the roadmap's Later section:** CodeQL, a staging environment, release automation, E2E beyond the smoke run, and switching Solo → Team once there are real users, a second contributor, or the codebase is big enough that every change deserves a reviewed PR.
+- **CI:** copy [templates/ci.yml](templates/ci.yml): frozen install, lint and format checks, tests, build. Add a Postgres service once integration tests exist.
+- **Deploy:** Vercel's Git integration, no workflow file. Migrations run as an explicit step before deploy. Roll back a bad deploy in Vercel.
+- **Dependencies and secrets:** Dependabot weekly, minor and patch grouped ([templates/dependabot.yml](templates/dependabot.yml)), alerts on. Public repos or orgs with GitHub Secret Protection: turn on secret scanning and push protection. Private personal repos: the `secrets` job in `ci.yml` runs gitleaks (orgs need a free `GITLEAKS_LICENSE`), and Solo's `.husky/pre-commit` starts with:
+  ```sh
+  command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
+  gitleaks git --pre-commit --staged --redact --no-banner
+  ```
+- **Git:** Conventional Commits, small and green. Branches `feat|fix|chore/<slug>`, one ROADMAP task each. Solo → Team once there are real users or a second contributor: turn on branch protection requiring CI and update the `AGENTS.md` Workflow line (roadmap-next reads it).
+- **Deferred to the roadmap's Later section:** CodeQL, a staging environment, release automation, E2E beyond the smoke run.
 
 ## Templates
-When the chosen stack matches one of these, Phase 0 starts from the template instead of the scaffolders. Each one already has the Lint & format, Testing (unit, component, phone-width Playwright smoke test), Solo-mode hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, and is green in CI. Auth, deny by default: nextjs-supabase-starter ships Supabase sign-in, sign-out and a protected page, and nextjs-neon-starter ships the same with Better Auth, plus the gitleaks hook and CI job for private personal repos. nextjs-dotnet-starter's API rejects requests without a Supabase token, but its web app doesn't sign in yet (a Phase 1 task).
+A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, green in CI, with auth deny-by-default where the stack has auth.
 
 | Stack | Template |
 |---|---|
-| Next.js + Supabase (simple web app) | [tonylxm/nextjs-supabase-starter](https://github.com/tonylxm/nextjs-supabase-starter) |
-| Next.js + ASP.NET Core + Postgres (serious SaaS) | [tonylxm/nextjs-dotnet-starter](https://github.com/tonylxm/nextjs-dotnet-starter) |
-| Next.js + Neon (personal projects) | [tonylxm/nextjs-neon-starter](https://github.com/tonylxm/nextjs-neon-starter) |
-| Vite + React (SPA, internal tool) | [tonylxm/vite-react-starter](https://github.com/tonylxm/vite-react-starter) |
+| Astro site | tonylxm/astro-site-starter (planned: scaffold until it exists) |
+| Next.js + Supabase | [tonylxm/nextjs-supabase-starter](https://github.com/tonylxm/nextjs-supabase-starter) |
+| Vite + React + Supabase | tonylxm/vite-supabase-starter (planned: start from [tonylxm/vite-react-starter](https://github.com/tonylxm/vite-react-starter) and add Supabase) |
+| Next.js + Neon | [tonylxm/nextjs-neon-starter](https://github.com/tonylxm/nextjs-neon-starter) |
 
 ```bash
 gh repo create <app> --template tonylxm/<template> --private --clone
 ```
 
-Then follow the template's README checklist (rename, env, secret scanning, host). For Team mode, the README says how to remove the hook. If the folder already has the project docs, clone into `<app>` and copy it up as described under [Scaffolding](#scaffolding-fallback-when-no-template-fits) (if the folder is already a git repo, add `--exclude .git` and set the remote yourself).
+Then follow the template's README checklist. If the folder already has the project docs, clone into `<app>` and copy it up as described below. Keep templates current: [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. Merge template Dependabot PRs when CI is green.
 
-**Keeping templates current:** [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. When they change, update the template repos too. Merge each template's Dependabot PRs when CI is green. Majors of TypeScript, ESLint and `@types/node` are ignored in `dependabot.yml`, so upgrade those by hand once the framework supports them.
-
-## Scaffolding (fallback when no template fits)
-Use the official scaffolder with flags so it doesn't prompt and you don't hand-write boilerplate. Inspect what it generates, then add only the project-specific dependencies and config. CLIs change their flags, so if one is rejected, check `--help`.
+## Scaffolding (when no template fits)
+Use the official scaffolder with flags so it doesn't prompt. CLIs change their flags; if one is rejected, check `--help`.
 
 | Stack | Scaffold | Then |
 |---|---|---|
-| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Check that `globals.css` sets `--font-sans: var(--font-geist-sans)`, since shadcn init can write a self-reference that drops pages to a serif fallback. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit`, since route types such as `LayoutProps` live in the gitignored `.next/` and a fresh CI clone fails without them |
-| Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to the `vite.config.ts` plugins and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` path alias to `tsconfig.json`, `tsconfig.app.json` and `vite.config.ts`, then run `pnpm dlx shadcn@latest init -d -t vite`. The scaffolder now sets up oxlint instead of ESLint. Keep it (no `eslint-config-prettier` needed), and use `oxlint --fix` in lint-staged and `tsc -b` for `typecheck` |
-| ASP.NET Core | `dotnet new sln -n <App>` · `dotnet new webapi -n <App>.Api` (add `--use-controllers` for the Controller → Service style) | `dotnet new xunit -n <App>.Tests` · `dotnet add <App>.Tests package Microsoft.AspNetCore.Mvc.Testing Testcontainers.PostgreSql` · `dotnet sln add **/*.csproj`. On the .NET 10 SDK, xUnit v3 needs `"test": { "runner": "Microsoft.Testing.Platform" }` in `global.json`, and the CI command becomes `dotnet test --solution <App>.slnx` |
+| Astro | `pnpm create astro@latest <app> --template minimal --yes` | `pnpm astro add tailwind vercel` (Vercel adapter for actions), `pnpm astro add react` only for islands |
+| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Check `globals.css` sets `--font-sans: var(--font-geist-sans)`. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit` |
+| Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to `vite.config.ts` and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` alias to both tsconfigs and `vite.config.ts`, then `pnpm dlx shadcn@latest init -d -t vite`. `typecheck` is `tsc -b` |
+| Hono in `api/` | `pnpm add hono` | Follow Hono's Vercel guide for the entry file; `vercel dev` runs the SPA and API together |
+| Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm add @supabase/supabase-js` (plus `@supabase/ssr` on Next.js). `pnpm supabase start` for local Postgres, Auth and Storage |
+| Neon | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | `db:generate` and `db:migrate` scripts, `drizzle.config.ts`. Auth schema: `pnpm dlx auth@latest generate --config src/lib/auth.ts --output src/db/auth-schema.ts`. Local Postgres via Docker Compose or Testcontainers |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
-| JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` to `eslint.config.mjs`, then add the scripts above |
-| Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | Replace `.husky/pre-commit` with `pnpm exec lint-staged`, then add the `lint-staged` config above |
-| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | For React components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
-| Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm supabase start` for local Postgres, Auth and Storage |
-| Neon (Drizzle + Better Auth) | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | Add `db:generate` (`drizzle-kit generate`) and `db:migrate` (`drizzle-kit migrate`) scripts and a `drizzle.config.ts`. Generate the auth schema with `pnpm dlx auth@latest generate --config src/lib/auth.ts --output src/db/auth-schema.ts`. Local Postgres via Docker Compose or Testcontainers, `DATABASE_URL` with `sslmode=verify-full` |
+| JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` last in `eslint.config.mjs`, then the scripts above |
+| Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | `.husky/pre-commit` is `pnpm exec lint-staged`, plus the `lint-staged` config above |
+| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | Components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
 
-**Scaffolding into a repo that already has docs:** scaffolders refuse to run in a folder that isn't empty. `create-next-app` stops on `AGENTS.md`, `CLAUDE.md` or `ROADMAP.md`, and Vite cancels. So generate the app in a subfolder named after it, copy it up without overwriting anything, then delete the subfolder:
+**Scaffolding into a folder that already has docs:** scaffolders refuse non-empty folders. Generate into a subfolder, copy it up without overwriting, delete the subfolder:
 
 ```bash
 <scaffold command with <app> as the directory>
 rsync -a --ignore-existing --exclude CLAUDE.md <app>/ ./ && rm -rf <app>
 ```
 
-Your own docs win. `create-next-app` also writes a `<!-- BEGIN:nextjs-agent-rules -->` block into `AGENTS.md`, and `next dev` adds it back. Keep that block (see agents-md).
+Your docs win. `create-next-app` writes a `<!-- BEGIN:nextjs-agent-rules -->` block into `AGENTS.md`; keep it (see agents-md).
 
-## Default stacks
-| Use case | Stack |
-|---|---|
-| Simple web app | Next.js + TypeScript + Tailwind + shadcn/ui + Zod + PostgreSQL (Neon personal, Supabase startup) + Vercel |
-| Serious SaaS / marketplace | Next.js + TypeScript → ASP.NET Core + C# → PostgreSQL |
-| AI/ML-heavy | Next.js → ASP.NET Core → Python/FastAPI where genuinely required → PostgreSQL |
-
-Rule of thumb: use the simplest stack that comfortably supports the product's foreseeable requirements.
+## Avoid by default
+- Next.js for a plain content site; a database or backend for a brochure site.
+- Hono inside Next.js; Neon while Supabase covers the need; separate frontend and backend repos without a split reason above.
+- ASP.NET Core, microservices, Kubernetes, Kafka, Redis, until there is a concrete need.
+- Generic repositories, generic services, database adapters, CQRS or MediatR-style layers.
+- Neon Auth, free plans in production, and production accounts billed to you instead of the client.

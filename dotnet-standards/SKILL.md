@@ -5,11 +5,17 @@ description: Write or review C# and ASP.NET Core code with nullable types, async
 
 # .NET code standards
 
-For C# on .NET 10 with ASP.NET Core minimal APIs and EF Core. Project layout and the abstractions to avoid (generic repositories, MediatR, CQRS) live in project-starter's `tech-stack.md`, under Backend architecture. The repo's `.editorconfig` and `dotnet format` own formatting.
+For C# on .NET 10 with ASP.NET Core minimal APIs and EF Core. The repo's `.editorconfig` (`dotnet new editorconfig`) and `dotnet format --verify-no-changes` in CI own formatting.
+
+## Layout
+
+- Feature-oriented (vertical slice) for complex apps: `Features/<Feature>/`, `Domain/`, `Infrastructure/`, with each feature's endpoint, validation, logic and data access together. Simple CRUD can stay flat (endpoint → service).
+- Don't add generic repositories, generic services, MediatR, CQRS or factories by default. Add an abstraction only when it solves an actual problem.
+- Deprecated APIs fail the build: `<WarningsAsErrors>nullable;CS0612;CS0618</WarningsAsErrors>` in `Directory.Build.props`.
 
 ## Types and nullability
 
-- Nullable reference types on, with nullable warnings as errors (`<WarningsAsErrors>nullable</WarningsAsErrors>` in `Directory.Build.props`).
+- Nullable reference types on, with nullable warnings as errors (see Layout).
 - No `!` null-forgiving operator unless the compiler can't see a guarantee, and then with a comment saying why.
 - `sealed record` for requests, responses, DTOs and value objects. Classes for entities and services, sealed by default.
 - `required` and `init` members over constructors with long parameter lists.
@@ -53,7 +59,8 @@ For C# on .NET 10 with ASP.NET Core minimal APIs and EF Core. Project layout and
 - No lazy loading. Load related data with projections or `Include`, and watch for N+1 queries.
 - Every list query is paginated.
 - Raw SQL only through parameterised `FromSql` or Dapper parameters, never string concatenation.
-- One `IEntityTypeConfiguration<T>` per entity. Migrations follow tech-stack.md, under Migrations.
+- One `IEntityTypeConfiguration<T>` per entity.
+- Migrations: `dotnet ef migrations add <Name>`, review the SQL with `dotnet ef migrations script --idempotent`. Deploy with a migration bundle (`dotnet ef migrations bundle`) as its own step, never `Database.Migrate()` at startup.
 
 ## Logging
 
@@ -70,6 +77,6 @@ For C# on .NET 10 with ASP.NET Core minimal APIs and EF Core. Project layout and
 
 ## Tests
 
-- Tools are in tech-stack.md, under Testing (xUnit, `WebApplicationFactory`, Testcontainers).
+- xUnit, with `WebApplicationFactory` and Testcontainers (`Microsoft.AspNetCore.Mvc.Testing`, `Testcontainers.PostgreSql`). On the .NET 10 SDK, xUnit v3 needs `"test": { "runner": "Microsoft.Testing.Platform" }` in `global.json`, and CI runs `dotnet test --solution <App>.slnx`.
 - Test through HTTP endpoints at the agreed seams (see the tdd skill), against real Postgres.
 - Control time with `FakeTimeProvider` from `Microsoft.Extensions.TimeProvider.Testing`.

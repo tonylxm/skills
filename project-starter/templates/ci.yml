@@ -1,4 +1,4 @@
-# Copy to .github/workflows/ci.yml. Next.js + pnpm by default; swap the job for the .NET or uv variant below.
+# Copy to .github/workflows/ci.yml. pnpm (Astro, Vite, Next.js) by default; swap the job for the .NET or uv variant below.
 name: CI
 
 on:
