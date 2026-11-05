@@ -49,7 +49,7 @@ You do the setup and the work either way. Ownership decides whose name and card 
 | Supabase or Neon with personal data, R2 | Always the client | They are responsible for the data under privacy law, and usage bills stay with them |
 | Vercel (Pro: Hobby is non-commercial), Resend, GitHub repo | Client by default. Content-only sites: yours, charged as a hosting fee | Fewer accounts for small clients, but you carry the billing and the move-out work |
 
-- On client-owned accounts, the client signs up and pays, and adds you as a member or admin. Secrets live in their accounts.
+- On client-owned accounts, the client signs up and pays, and adds you as a member or admin, following [client-setup.md](client-setup.md). Secrets live in their accounts.
 - Quote the build, a monthly care plan (updates, Dependabot PRs, fixes), and the running costs per service, paid by the client directly or in your hosting fee.
 - Pick the database region for the client's users and privacy law.
 - Handover: repo transferred to the client, Resend domain DNS (SPF, DKIM) set, backups on (a paid database plan), and agreed in writing who handles dependency updates afterwards. Public sites also follow the seo skill's handover.

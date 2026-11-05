@@ -27,6 +27,7 @@ Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate
 6. **Write and hand off.**
    - Fill the doc templates into the layout below, then run agents-md for `AGENTS.md`.
    - Phase 0 in `docs/ROADMAP.md` is always the walking skeleton, created from the template or scaffold that tech-stack.md names for the chosen stack. Later phases stay one line each.
+   - If the client owns any accounts, draft their setup message from [client-setup.md](client-setup.md), keeping only the sections this stack needs.
    - Report the files created, the 3 riskiest open questions, and the next command: `/roadmap-next build`.
 
 ## Output
