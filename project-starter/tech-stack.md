@@ -6,7 +6,7 @@ Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a b
 - Use the simplest stack that fits. Most freelance jobs are public websites with no database or backend.
 - One repo per project. Split the backend into its own repo only when the API serves several products (web plus mobile), different teams own each side, the backend has its own release cycle or security boundary, or the API is sold to customers.
 - Keep Postgres portable: app-owned migrations and server-side data access for business logic. No generic database adapter without a real need.
-- The client owns production accounts and billing. Free plans are for experiments and demos.
+- The client owns the domain, Stripe and any database with personal data. Hosting and email for content-only sites can sit on your accounts (see [Ownership and handover](#ownership-and-handover)). Free plans are for experiments and demos.
 
 ## Pick a base stack
 | Project | Stack | Backend logic | Template |
@@ -41,7 +41,16 @@ Schema changes go only through committed migrations, never by hand on a shared d
 Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy.
 
 ## Ownership and handover
-- The client creates and pays for the domain, GitHub org or repo, Vercel (Pro: Hobby is non-commercial), Supabase or Neon, Stripe, Resend and R2. You join as a member. Secrets live in their accounts.
+You do the setup and the work either way. Ownership decides whose name and card are on each account.
+
+| Account | Owner | Why |
+|---|---|---|
+| Domain, Stripe | Always the client | Payments, tax, identity checks and chargebacks are theirs |
+| Supabase or Neon with personal data, R2 | Always the client | They are responsible for the data under privacy law, and usage bills stay with them |
+| Vercel (Pro: Hobby is non-commercial), Resend, GitHub repo | Client by default. Content-only sites: yours, charged as a hosting fee | Fewer accounts for small clients, but you carry the billing and the move-out work |
+
+- On client-owned accounts, the client signs up and pays, and adds you as a member or admin. Secrets live in their accounts.
+- Quote the build, a monthly care plan (updates, Dependabot PRs, fixes), and the running costs per service, paid by the client directly or in your hosting fee.
 - Pick the database region for the client's users and privacy law.
 - Handover: repo transferred to the client, Resend domain DNS (SPF, DKIM) set, backups on (a paid database plan), and agreed in writing who handles dependency updates afterwards. Public sites also follow the seo skill's handover.
 
@@ -135,4 +144,4 @@ Your docs win. `create-next-app` writes a `<!-- BEGIN:nextjs-agent-rules -->` bl
 - Hono inside Next.js; Neon while Supabase covers the need; separate frontend and backend repos without a split reason above.
 - ASP.NET Core, microservices, Kubernetes, Kafka, Redis, until there is a concrete need.
 - Generic repositories, generic services, database adapters, CQRS or MediatR-style layers.
-- Neon Auth, free plans in production, and production accounts billed to you instead of the client.
+- Neon Auth, free plans in production, and Stripe, the domain or personal data on accounts billed to you instead of the client.
