@@ -17,7 +17,9 @@ license: Complete terms in LICENSE.txt
 
 Either way, prefer lists, tables and plain sections spaced for hierarchy over cards (cards only for things that really are discrete objects), a neutral base with one restrained accent for actions and state, every component state built (hover, focus, active, disabled, loading, error, empty), skeletons over spinners, and empty states that teach.
 
-**References:** if `docs/design/references/` exists, read those screenshots and take the pattern (layout, density, flow), never the brand. Otherwise follow `DESIGN.md` and platform norms (Apple HIG, Material 3). A reference MCP (Mobbin, Refero) or Figma MCP can be added later when design needs more weight.
+**References:** if `docs/design/references/` exists, read those screenshots and take the pattern (layout, density, flow), never the brand. Otherwise follow `DESIGN.md` and platform norms (Apple HIG, Material 3), and suggest the user add 3–5 screenshots there from free galleries (Godly, Land-book, Siteinspire). A paid reference MCP (Refero for sites, Mobbin for app flows) or Figma MCP can be added later when design needs more weight.
+
+**Components:** build on the project's primitives (shadcn/ui on Base UI or Radix by default) restyled through `DESIGN.md` tokens, never shipped with stock radius, colour and type. Animated effect libraries (Aceternity, Magic UI) only when the brief earns one specific effect.
 
 **Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the "never by default" set in either mode: purple or indigo defaults, gradient text, decorative glass, card grids and nested cards, emoji icons, thick coloured side borders, modal-first flows. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist.
 
