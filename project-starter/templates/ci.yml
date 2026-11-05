@@ -22,6 +22,8 @@ jobs:
           node-version: lts/*
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # If pnpm test runs Playwright: - run: pnpm exec playwright install --with-deps chromium
+      # The build's fail-fast env check needs placeholder values in CI: add them under a job-level `env:`.
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm typecheck
