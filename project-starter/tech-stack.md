@@ -6,7 +6,7 @@ Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a b
 - Use the simplest stack that fits. Most freelance jobs are public websites with no database or backend.
 - One repo per project. Split the backend into its own repo only when the API serves several products (web plus mobile), different teams own each side, the backend has its own release cycle or security boundary, or the API is sold to customers.
 - Keep Postgres portable: app-owned migrations and server-side data access for business logic. No generic database adapter without a real need.
-- The client owns the domain, Stripe and any database with personal data. Hosting and email for content-only sites can sit on your accounts (see [Ownership and handover](#ownership-and-handover)). Free plans are for experiments and demos, including [prototypes](#prototypes).
+- Accounts, billing, handover and contracts: [clients.md](clients.md). Free plans are for experiments and demos, including [prototypes](#prototypes).
 
 ## Pick a base stack
 | Project | Stack | Backend logic | Template |
@@ -37,6 +37,7 @@ A prototype gets client sign-off on flows and look during requirements. It is th
 - **Neon:** Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Change `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Auth is Better Auth with the Drizzle adapter (`better-auth`, `@better-auth/drizzle-adapter`), its tables in the app's own schema. Not Neon Auth (beta SDK, no MFA). Email verification and password reset need Resend.
 - **Keys:** only publishable keys go in `VITE_`/`NEXT_PUBLIC_` vars. Service-role, Stripe and Resend keys stay server-side.
 - Never store passwords yourself. Authorize on the server for every request and deny by default; hiding UI is not authorization.
+- Pick the database region for the client's users and privacy law.
 - Portability is partial on Supabase: schema and migrations move to any Postgres, but `supabase-js` calls and Supabase Auth don't. Choose Neon at the start if the app must own its data access and auth.
 
 ## Migrations
@@ -48,21 +49,6 @@ Schema changes go only through committed migrations, never by hand on a shared d
 | Neon (Drizzle) | Edit `src/db/schema.ts`, then `pnpm db:generate --name=<name>`. SQL lands in `drizzle/`. Never `drizzle-kit push` on a shared database | `pnpm db:migrate` with the target `DATABASE_URL`, before the app deploys |
 
 Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy.
-
-## Ownership and handover
-You do the setup and the work either way. Ownership decides whose name and card are on each account.
-
-| Account | Owner | Why |
-|---|---|---|
-| Stripe | Always the client | Payments, tax, identity checks and chargebacks are theirs |
-| Domain | Client is always the registrant. You may buy and renew it for them, transferred at handover | Whoever is registrant controls the site and email |
-| Supabase or Neon with personal data, R2 | Always the client | They are responsible for the data under privacy law, and usage bills stay with them |
-| Vercel (Pro: Hobby is non-commercial), Resend, GitHub repo | Client by default. Content-only sites: yours, charged as a hosting fee | Fewer accounts for small clients, but you carry the billing and the move-out work |
-
-- You run the client-owned sign-ups on one setup call ([client-setup.md](client-setup.md)): they enter their own email, card and ID, and invite you. Secrets live in their accounts.
-- Quote the build, a monthly care plan (updates, Dependabot PRs, fixes), and the running costs per service, paid by the client directly or in your hosting fee.
-- Pick the database region for the client's users and privacy law.
-- Handover: repo transferred to the client, Resend domain DNS (SPF, DKIM) set, backups on (a paid database plan), and agreed in writing who handles dependency updates afterwards. Public sites also follow the seo skill's handover.
 
 ## Quality baseline
 **Package manager:** pnpm, pinned with `"packageManager": "pnpm@<version>"`. In an existing repo, use its lockfile's manager and never mix lockfiles. Allow needed install scripts with `pnpm approve-builds`.
@@ -154,4 +140,4 @@ Your docs win. `create-next-app` writes a `<!-- BEGIN:nextjs-agent-rules -->` bl
 - Hono inside Next.js; Neon while Supabase covers the need; separate frontend and backend repos without a split reason above.
 - ASP.NET Core, microservices, Kubernetes, Kafka, Redis, until there is a concrete need.
 - Generic repositories, generic services, database adapters, CQRS or MediatR-style layers.
-- Neon Auth, free plans in production, Stripe or personal data on accounts billed to you, and a domain registered in your name.
+- Neon Auth, and free plans in production.
