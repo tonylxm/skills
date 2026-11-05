@@ -13,7 +13,7 @@ When exploring the codebase, read `GLOSSARY.md` (if it exists) so test names and
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: "user can checkout with valid cart" tells you exactly what capability exists, and it survives refactors because it doesn't care about internal structure.
 
-See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
+See [tests.md](tests.md) for examples, [mocking.md](mocking.md) for mocking guidelines and [testing.md](testing.md) for which level (unit, integration, E2E) to write.
 
 ## Seams: where tests go
 
@@ -36,5 +36,6 @@ When the shape of that interface is itself in question (how deep the module is, 
 ## Rules of the loop
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
+- **Bug fixes start red.** Reproduce the bug as a failing test, then fix it.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Refactor after green, outside the loop.** Once the slices pass, refactor in the review stage (`/simplify`), never mid-cycle.

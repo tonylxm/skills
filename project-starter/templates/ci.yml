@@ -28,6 +28,26 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  # Delete this job until the project has Playwright journeys. Needs a "test:e2e" script that serves the built app.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
   # Private repos on personal accounts: GitHub secret scanning is a paid add-on, so scan with gitleaks.
   # Public repos with GitHub secret scanning on can delete this job.
   secrets:

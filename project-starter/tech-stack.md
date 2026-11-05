@@ -67,7 +67,7 @@ Breaking changes use expand and contract: add the new column, backfill, switch t
 | React apps | Vitest + React Testing Library, integration tests against real Postgres (`supabase start` or Testcontainers, never SQLite), 1–3 critical journeys in Playwright |
 | FastAPI | pytest + `TestClient`, Ruff |
 
-Must cover business rules, authorization (RLS policies included) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
+Levels, journeys and Playwright conventions: [tdd/testing.md](../tdd/testing.md). Must cover business rules, authorization (RLS policies included) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
 
 ## CI/CD
 Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and `AGENTS.md`.
@@ -87,7 +87,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
   gitleaks git --pre-commit --staged --redact --no-banner
   ```
 - **Git:** Conventional Commits, small and green. Branches `feat|fix|chore/<slug>`, one ROADMAP task each. Solo → Team once there are real users or a second contributor: turn on branch protection requiring CI and update the `AGENTS.md` Workflow line (roadmap-next reads it).
-- **Deferred to the roadmap's Later section:** CodeQL, a staging environment, release automation, E2E beyond the smoke run.
+- **Deferred to the roadmap's Later section:** CodeQL, a staging environment, release automation, E2E beyond the 1-3 journeys.
 
 ## Templates
 A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, green in CI, with auth deny-by-default where the stack has auth.
