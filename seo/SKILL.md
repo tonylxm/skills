@@ -11,7 +11,9 @@ Most of a small site's SEO value comes from this checklist plus the Google accou
 
 ## Before writing code
 
-Check the installed framework version and read its bundled docs before using metadata APIs (Next.js: `node_modules/next/dist/docs/01-app/`). How each item is done in Next.js App Router: [references/nextjs.md](references/nextjs.md). For another stack, apply the same checklist with its equivalents.
+Check the installed framework version and read its bundled docs before using metadata APIs (Next.js: `node_modules/next/dist/docs/01-app/`). How each item is done: [references/nextjs.md](references/nextjs.md) (Next.js App Router), [references/astro.md](references/astro.md) (Astro). For another stack, apply the same checklist with its equivalents.
+
+A client-rendered SPA (Vite + React) is not suitable for a site that needs search traffic, because crawlers get an empty `<div>`. Build those sites in Astro or Next.js instead. Internal tools on Vite only need `<meta name="robots" content="noindex">` in `index.html` and a `Disallow: /` robots file.
 
 Ask the client (or check the brief) for: production domain, business name, address and phone if local, and the old site's URL if this is a rebuild.
 
