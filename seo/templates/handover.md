@@ -1,6 +1,13 @@
 # {Business name}: website and Google setup
 
-Launched {date} at {domain}.
+Launch: {date, or "pending domain"} at {domain}.
+
+## Waiting on you
+
+- {e.g. add the DNS record I sent for Google Search Console}
+- {e.g. enter the postcard code from Google Business Profile}
+
+{Remove this section if nothing is pending.}
 
 ## What's set up
 
@@ -9,7 +16,7 @@ Launched {date} at {domain}.
 | Search engine basics (page titles, descriptions, sitemap, share previews, business details for Google) | Done |
 | Google Search Console | {Done / waiting on DNS verification} |
 | Google Business Profile | {Done / waiting on Google's verification / not needed} |
-| Analytics | {Vercel Analytics / GA4}, view at {link} |
+| Analytics | {Vercel Analytics / GA4}, view at {Vercel project Analytics tab, or GA4 property link} |
 | Old site redirects | {Done, {n} old pages forwarded / not a rebuild} |
 
 ## What to expect
