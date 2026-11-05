@@ -41,5 +41,8 @@ Surface habits:
 - Monospace used to look "technical" rather than for code, data or measurement.
 - Emoji or unicode glyphs standing in for an icon system. Icons come from the project's icon set (Lucide by default) or authored SVG, in one consistent stroke and weight.
 - Colour, light or dark chosen by category ("fintech is navy"). Choose from the use scene: who, where, under what light.
+- One radius on everything. Use a small radius scale tied to hierarchy (from `DESIGN.md`).
+- Floating pills, chips and badges with no clear owner. Anchor controls to what they act on.
+- Centred text and controls by default. Left-align dense or task content; centre only short, focused moments.
 
 The floor holds the mechanics; it never picks the direction. With every check green, spend the page on the committed direction.

@@ -25,6 +25,7 @@ Can a user fluent in the category trust the interface immediately, or do they pa
 ## Layout
 
 - Responsive behaviour is structural: collapse the sidebar, adapt the table, change columns at breakpoints.
+- Dashboards answer "what matters now?" and lead to an action. Use the smallest visual that supports the decision; a number or sentence beats a decorative chart.
 
 ## Components
 
@@ -33,6 +34,10 @@ Can a user fluent in the category trust the interface immediately, or do they pa
 - Empty states that teach the interface, not "Nothing here".
 - One affordance vocabulary across the product: same button shapes, same form controls, same icon style.
 - Overlays escape their container. A dropdown inside an `overflow: hidden` ancestor gets clipped; use `<dialog>`, the popover API, `position: fixed` or a portal.
+- Feedback that matters stays inline near the content, with a recovery path. Toasts only for low-stakes confirmations.
+- System status is visible: saving, syncing, processing, permission and failure states, with retry.
+- Destructive actions look destructive, sit apart from the primary action, and state the consequence.
+- Icon-only buttons only for universally known icons; otherwise a label or tooltip.
 
 ## Motion
 
