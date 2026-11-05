@@ -126,6 +126,8 @@ Use the official scaffolder with flags so it doesn't prompt. CLIs change their f
 | Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | `.husky/pre-commit` is `pnpm exec lint-staged`, plus the `lint-staged` config above |
 | JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | Components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
 
+After `shadcn init`, run `pnpm remove shadcn && pnpm add -D shadcn`. Init puts it in `dependencies`, which ships its CLI deps (`@modelcontextprotocol/sdk` and more) to production, but the app only uses its CSS (`shadcn/tailwind.css`) at build time.
+
 **Scaffolding into a folder that already has docs:** scaffolders refuse non-empty folders. Generate into a subfolder, copy it up without overwriting, delete the subfolder:
 
 ```bash
