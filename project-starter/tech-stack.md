@@ -135,6 +135,12 @@ rsync -a --ignore-existing --exclude CLAUDE.md <app>/ ./ && rm -rf <app>
 
 Your docs win. `create-next-app` writes a `<!-- BEGIN:nextjs-agent-rules -->` block into `AGENTS.md`; keep it (see agents-md).
 
+**GitHub repo:** scaffolders don't create one. From the project root, commit (run `git init` first if the scaffolder didn't), then:
+
+```bash
+gh repo create <app> --private --source . --push
+```
+
 ## Avoid by default
 - Next.js for a plain content site; a database or backend for a brochure site.
 - Hono inside Next.js; Neon while Supabase covers the need; separate frontend and backend repos without a split reason above.
