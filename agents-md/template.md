@@ -4,7 +4,7 @@
 
 ## Non-negotiables
 - {Rule an agent must never break, with a reason if it isn't obvious}
-- Tests before code for new behaviour (`tdd`). Never claim something is done without running the tests.
+- Tests before code for new logic at agreed seams (`tdd`); skip for styling, copy, config and throwaway prototypes. Never claim something is done without running the tests.
 - Never commit secrets. Config comes from env vars; keep `.env.example` current.
 
 ## Commands
