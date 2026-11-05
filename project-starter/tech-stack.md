@@ -11,9 +11,9 @@ Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a b
 ## Pick a base stack
 | Project | Stack | Backend logic | Template |
 |---|---|---|---|
-| Mostly content (business site, portfolio, services, blog), a few interactive widgets | Astro + Tailwind, React islands for widgets | Astro actions (contact form + Resend) | astro-site-starter (planned) |
+| Mostly content (business site, portfolio, services, blog), a few interactive widgets | Astro + Tailwind, React islands for widgets | Astro actions (contact form + Resend) | astro-site-starter |
 | Public site with many connected interactive features, or public site + logged-in app | Next.js + Supabase (no Supabase if there's no data) | Next.js route handlers and server actions | nextjs-supabase-starter |
-| Private or SEO-unimportant interactive app (dashboard, client portal, internal tool) | Vite + React + Supabase | Hono in `api/`, when needed | vite-supabase-starter (planned) |
+| Private or SEO-unimportant interactive app (dashboard, client portal, internal tool) | Vite + React + Supabase | Hono in `api/`, when needed | vite-supabase-starter |
 | App that owns all data and auth (custom API, several clients) | Next.js + Neon + Drizzle + Better Auth | Next.js route handlers | nextjs-neon-starter |
 
 **Shared defaults**
@@ -94,9 +94,9 @@ A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail
 
 | Stack | Template |
 |---|---|
-| Astro site | tonylxm/astro-site-starter (planned: scaffold until it exists) |
+| Astro site | [tonylxm/astro-site-starter](https://github.com/tonylxm/astro-site-starter) |
 | Next.js + Supabase | [tonylxm/nextjs-supabase-starter](https://github.com/tonylxm/nextjs-supabase-starter) |
-| Vite + React + Supabase | tonylxm/vite-supabase-starter (planned: start from [tonylxm/vite-react-starter](https://github.com/tonylxm/vite-react-starter) and add Supabase) |
+| Vite + React + Supabase (+ Hono `api/`) | [tonylxm/vite-supabase-starter](https://github.com/tonylxm/vite-supabase-starter) |
 | Next.js + Neon | [tonylxm/nextjs-neon-starter](https://github.com/tonylxm/nextjs-neon-starter) |
 
 ```bash
@@ -113,7 +113,7 @@ Use the official scaffolder with flags so it doesn't prompt. CLIs change their f
 | Astro | `pnpm create astro@latest <app> --template minimal --yes` | `pnpm astro add tailwind vercel` (Vercel adapter for actions), `pnpm astro add react` only for islands |
 | Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Check `globals.css` sets `--font-sans: var(--font-geist-sans)`. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit` |
 | Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to `vite.config.ts` and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` alias to both tsconfigs and `vite.config.ts`, then `pnpm dlx shadcn@latest init -d -t vite`. `typecheck` is `tsc -b` |
-| Hono in `api/` | `pnpm add hono` | Follow Hono's Vercel guide for the entry file; `vercel dev` runs the SPA and API together |
+| Hono in `api/` | `pnpm add hono` | `api/index.ts` does `export default app`, and a `vercel.json` rewrite sends `/api/*` to it. `vercel dev` runs the SPA and API together |
 | Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm add @supabase/supabase-js` (plus `@supabase/ssr` on Next.js). `pnpm supabase start` for local Postgres, Auth and Storage |
 | Neon | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | `db:generate` and `db:migrate` scripts, `drizzle.config.ts`. Auth schema: `pnpm dlx auth@latest generate --config src/lib/auth.ts --output src/db/auth-schema.ts`. Local Postgres via Docker Compose or Testcontainers |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
