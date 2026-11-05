@@ -45,11 +45,12 @@ You do the setup and the work either way. Ownership decides whose name and card 
 
 | Account | Owner | Why |
 |---|---|---|
-| Domain, Stripe | Always the client | Payments, tax, identity checks and chargebacks are theirs |
+| Stripe | Always the client | Payments, tax, identity checks and chargebacks are theirs |
+| Domain | Client is always the registrant. You may buy and renew it for them, transferred at handover | Whoever is registrant controls the site and email |
 | Supabase or Neon with personal data, R2 | Always the client | They are responsible for the data under privacy law, and usage bills stay with them |
 | Vercel (Pro: Hobby is non-commercial), Resend, GitHub repo | Client by default. Content-only sites: yours, charged as a hosting fee | Fewer accounts for small clients, but you carry the billing and the move-out work |
 
-- On client-owned accounts, the client signs up and pays, and adds you as a member or admin, following [client-setup.md](client-setup.md). Secrets live in their accounts.
+- You run the client-owned sign-ups on one setup call ([client-setup.md](client-setup.md)): they enter their own email, card and ID, and invite you. Secrets live in their accounts.
 - Quote the build, a monthly care plan (updates, Dependabot PRs, fixes), and the running costs per service, paid by the client directly or in your hosting fee.
 - Pick the database region for the client's users and privacy law.
 - Handover: repo transferred to the client, Resend domain DNS (SPF, DKIM) set, backups on (a paid database plan), and agreed in writing who handles dependency updates afterwards. Public sites also follow the seo skill's handover.
@@ -144,4 +145,4 @@ Your docs win. `create-next-app` writes a `<!-- BEGIN:nextjs-agent-rules -->` bl
 - Hono inside Next.js; Neon while Supabase covers the need; separate frontend and backend repos without a split reason above.
 - ASP.NET Core, microservices, Kubernetes, Kafka, Redis, until there is a concrete need.
 - Generic repositories, generic services, database adapters, CQRS or MediatR-style layers.
-- Neon Auth, free plans in production, and Stripe, the domain or personal data on accounts billed to you instead of the client.
+- Neon Auth, free plans in production, Stripe or personal data on accounts billed to you, and a domain registered in your name.
