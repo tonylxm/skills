@@ -1,52 +1,22 @@
 # Roadmap
 
-_Current: Phase 0 (walking skeleton). Work it with `/roadmap-next`. Format: see the roadmap-next skill._
+_Current: Phase 0 (walking skeleton). Work it with `/roadmap-next`. Format: roadmap-next._
 
 ## Phase 0: Walking skeleton
 Goal: an empty app that builds, tests, lints and deploys through CI.
-
-<!-- Use ONE variant. Template: the stack matches tech-stack.md → Templates. Scaffold: anything else. Delete the other. -->
-
-### Template variant
-- [ ] Create the repo from the template: `gh repo create {app} --template tonylxm/{template} --private --clone`, then rename per its README
-  - AC: `{dev}` serves the page locally without horizontal scroll at phone width, and `{lint}`, `{format:check}`, `{typecheck}` and `{test}` pass
-- [ ] Apply the workflow mode. Solo: keep the hook. Team: remove it per the README and make `main` require CI
-  - AC: the first push shows green checks. Solo: committing a badly formatted file auto-fixes it. Team: `main` requires the checks
-- [ ] Turn on secret scanning (templates don't copy repo settings): GitHub secret scanning + push protection for public repos, gitleaks hook + CI job for private personal repos (see tech-stack.md → CI/CD; nextjs-neon-starter already has both). Turn on Dependabot alerts
-  - AC: a test commit or push containing a fake secret is blocked
-- [ ] If the stack uses Supabase Auth, create the Supabase project (region near users). If Supabase is also the database, link it with `pnpm supabase link`
-  - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
-- [ ] If the database is Neon, create a Neon project (one per app, region near users)
-  - AC: its pooled connection string is `DATABASE_URL` on {host}, and `pnpm db:migrate` against it applies every migration
-- [ ] Set real env values from `.env.example` locally and on {host}
-  - AC: the app fails fast with a clear message when a required var is missing
-- [ ] Deploy "hello world" to {host}
-  - AC: a public URL responds, production deploys from `main`, and PRs get preview URLs
-  - AC (nextjs-supabase-starter): a sign-up on the deployed URL gets a confirmation email whose link lands on `/account`
-  - AC (nextjs-neon-starter): a sign-up on the deployed URL lands on `/account`, and signing out and back in works
-
-### Scaffold variant
-- [ ] Scaffold the {framework} app: `{scaffold command from tech-stack.md}`
-  - AC: `{dev}` serves a page or endpoint locally (UI projects: the page renders without horizontal scroll at phone width)
-- [ ] Add lint, format and typecheck (see Lint & format in tech-stack.md). Solo: also add Husky + lint-staged
-  - AC: `{lint}`, `{format:check}` and `{typecheck}` pass, and run in CI. Solo: committing a badly formatted file auto-fixes it
-- [ ] Add the test runner with one smoke test
-  - AC: `{test}` passes locally and in CI
-- [ ] Add CI from `templates/ci.yml` in project-starter: lint, format, typecheck, test and build
-  - AC: a push shows green checks. Team: `main` requires them
-- [ ] Enable Dependabot (`templates/dependabot.yml`) and secret scanning (GitHub's for public repos, gitleaks for private personal repos, see tech-stack.md → CI/CD)
-  - AC: `.github/dependabot.yml` is committed, and a test commit or push containing a fake secret is blocked
-- [ ] If the stack uses Supabase Auth, create the Supabase project (region near users). If Supabase is also the database, link it with `pnpm supabase link`
-  - AC: its URL and keys are set locally and on {host} (.NET API: `Supabase__Url`). Linked projects: `pnpm supabase migration list` reaches it
-- [ ] If the database is Neon, create a Neon project (one per app, region near users)
-  - AC: its pooled connection string is `DATABASE_URL` on {host}, and `pnpm db:migrate` against it applies every migration
-- [ ] Add `.env.example` and config loading
-  - AC: the app fails fast with a clear message when a required var is missing
-- [ ] Deploy "hello world" to {host}
-  - AC: a public URL responds, production deploys from `main`, and PRs get preview URLs
+- [ ] 0.1 Create the app from {template or scaffold command from tech-stack.md}
+  - AC: `{dev}` serves locally (UI: no horizontal scroll at phone width), and `{lint}`, `{format:check}`, `{typecheck}` and `{test}` pass
+- [ ] 0.2 Apply the workflow mode and CI (tech-stack.md → CI/CD)
+  - AC: a push shows green checks. Solo: committing a badly formatted file auto-fixes it. Team: `main` requires the checks
+- [ ] 0.3 Turn on secret scanning and Dependabot (tech-stack.md → CI/CD)
+  - AC: a commit or push containing a fake secret is blocked
+- [ ] 0.4 Provision {data store and auth from ARCHITECTURE.md} and set real env values locally and on {host}
+  - AC: the app connects, and fails fast with a clear message when a required var is missing
+- [ ] 0.5 Deploy "hello world" to {host}
+  - AC: a public URL responds, production deploys from `main`, and PRs get previews
 
 ## Phase 1: {first vertical slice}
 Goal: {user-visible outcome}. PRD: F1, F2
 
-## Phase 2: {name}
-Goal: {outcome}. PRD: F3
+## Later
+- {deferred idea or follow-up}: {why, who asked}

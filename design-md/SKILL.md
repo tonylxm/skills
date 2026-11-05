@@ -5,11 +5,11 @@ description: Use when a project needs a visual design system or brand direction 
 
 # DESIGN.md
 
-Write `DESIGN.md`: the single source of truth for how the product looks. It must be precise enough that frontend-design, UI-generation tools and future agents produce on-brand screens without guessing.
+Write `docs/DESIGN.md` (or update an existing root `DESIGN.md` in place): the single source of truth for how the product looks. It must be precise enough that frontend-design, UI-generation tools and future agents produce on-brand screens without guessing.
 
 ## Inputs
 
-Read these first, if they exist: `MVP_PRD.md`, `docs/research/market.md` (competitors' visual language, so you can position against it), `GLOSSARY.md`, and any existing UI code (Tailwind config, CSS variables, theme files).
+Read these first, if they exist: `docs/PRD.md`, `docs/research/market.md` (competitors' visual language, so you can position against it), `GLOSSARY.md`, and any existing UI code (Tailwind config, CSS variables, theme files).
 
 - **Existing UI:** extract the real tokens from the code. Don't invent them. Ask only about the gaps.
 - **New project:** decide each section below. For each one, the user either provides their choice, or you recommend one: give 2–3 directions as one line each, with a recommended pick that is grounded in the audience and the product, not in generic SaaS defaults.

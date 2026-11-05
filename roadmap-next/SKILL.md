@@ -1,21 +1,21 @@
 ---
 name: roadmap-next
-description: Use when continuing work on a project, e.g. "what's next", "where am I", "plan the next phase", "build the next task", "work through the roadmap", or "close out this phase". Reports status and runs plan, build or close from ROADMAP.md.
+description: Use when continuing work on a project, e.g. "what's next", "where am I", "plan the next phase", "build the next task", "work through the roadmap", or "close out this phase". Reports status and runs plan, build or close from docs/ROADMAP.md.
 argument-hint: "status | plan [--issues] | build [task] | close"
 ---
 
 # Roadmap Next
 
-Move a project forward one step at a time from `ROADMAP.md`. The roadmap's checkboxes are the source of truth for what is done. `status` only reports and changes nothing. With no mode given, pick one:
+Move a project forward one step at a time from `docs/ROADMAP.md`. Older repos keep `ROADMAP.md`, `MVP_PRD.md` and `TODO.md` at the root: use those where they exist, and treat `TODO.md` as the Later section. The roadmap's checkboxes are the source of truth for what is done. `status` only reports and changes nothing. With no mode given, pick one:
 - **plan** if the current phase has no tasks.
 - **build** if it has unchecked tasks that aren't `BLOCKED`.
 - **close** if every task is checked or `BLOCKED`.
 
-Before any mode, read `ROADMAP.md`, `AGENTS.md`, `GLOSSARY.md`, and the parts of `MVP_PRD.md` the phase refers to. The Workflow line in `AGENTS.md` sets the mode: **Solo** (commit to `main`, the default when it's missing) or **Team** (branch and PR). Run the two syncs below first, then take the current phase as the first one that still has unchecked items.
+Before any mode, read `docs/ROADMAP.md`, `AGENTS.md`, `docs/GLOSSARY.md`, and the parts of `docs/PRD.md` and `docs/ARCHITECTURE.md` the phase refers to. The Workflow line in `AGENTS.md` sets the mode: **Solo** (commit to `main`, the default when it's missing) or **Team** (branch and PR). Run the two syncs below first, then take the current phase as the first one that still has unchecked items.
 
 If the phase's task lines have issue numbers, sync them first: run `gh issue list --label "phase-<n>" --state closed --json number,stateReason,closedByPullRequestsReferences`, tick each unchecked task whose issue was closed as `COMPLETED` by a pull request, and tell the user which ones you ticked. Work merged elsewhere (by a teammate or a cloud agent) would otherwise leave the roadmap stale. For an issue closed any other way (not planned, or closed by hand with no PR), ask the user before ticking it. `close` re-verifies the whole phase either way.
 
-On `main`, also sync work merged from worktrees. Find the last sync with `git log -1 --grep='^Roadmap-Synced:' --format=%B` (its `Roadmap-Synced: <hash>` line; none means scan all history), then run `git log <hash>..HEAD --format=%B --grep='^Roadmap-Task:'`. Tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to `TODO.md` unless it's already there. Report any trailer that matches no task line (the task was probably reworded) and ask which task it belongs to. Never skip one silently. If anything changed, put a `Roadmap-Synced: <current HEAD hash>` trailer in the commit that records it, so the next sync starts after it. Solo: commit the result to `main` as `docs(roadmap): sync merged tasks`. Team: `main` only changes through PRs, so include it in the next task's branch, and repeat the trailer in the PR body so a squash keeps it.
+On `main`, also sync work merged from worktrees. Find the last sync with `git log -1 --grep='^Roadmap-Synced:' --format=%B` (its `Roadmap-Synced: <hash>` line; none means scan all history), then run `git log <hash>..HEAD --format=%B --grep='^Roadmap-Task:'`. Tick each unchecked task named in a `Roadmap-Task:` trailer, and add each `Todo:` trailer line to the roadmap's Later section unless it's already there. Report any trailer that matches no task line (the task was probably reworded) and ask which task it belongs to. Never skip one silently. If anything changed, put a `Roadmap-Synced: <current HEAD hash>` trailer in the commit that records it, so the next sync starts after it. Solo: commit the result to `main` as `docs(roadmap): sync merged tasks`. Team: `main` only changes through PRs, so include it in the next task's branch, and repeat the trailer in the PR body so a squash keeps it.
 
 ## status
 
@@ -27,7 +27,7 @@ BLOCKED 1.4: {reason}
 Next: /roadmap-next build 1.3
 ```
 
-- **Phase numbers** come from the headings, not position. `1/3` is the current phase's number over the highest phase number in `ROADMAP.md`, so Phase 0 is never counted.
+- **Phase numbers** come from the headings, not position. `1/3` is the current phase's number over the highest phase number in the roadmap, so Phase 0 is never counted.
 - **Task numbers:** `1.3` is the ID of the next unchecked, non-`BLOCKED` task. `/4` is the highest task number in the phase, ticked and `BLOCKED` tasks included.
 - Leave out the `BLOCKED` lines when there are none.
 - Run the two syncs first so the counts are current. Skip the one that doesn't apply (no issue numbers, no commits) without comment.
@@ -36,11 +36,11 @@ Next: /roadmap-next build 1.3
 
 | State | Next |
 | --- | --- |
-| No `ROADMAP.md` | `/project-starter "idea"` (`--adopt` for an existing repo) |
+| No roadmap | `/project-starter "idea"` |
 | Phase has no tasks | `/roadmap-next plan` |
 | Unchecked tasks | `/roadmap-next build <ID>` |
 | All tasks checked or `BLOCKED` | `/roadmap-next close` |
-| Every phase done | Say the MVP is complete and point to `TODO.md` for what to plan next |
+| Every phase done | Say the MVP is complete and point to the roadmap's Later section for what to plan next |
 
 Skills that `build` and `close` call (tdd, frontend-design, `/code-review`) run on their own, so never list them as a next step.
 
@@ -50,7 +50,7 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 - **Size each task** at roughly 1–4 hours: a vertical slice that can be tested and shipped on its own. List them in dependency order.
 - **Acceptance criteria:** each task gets 1–3, taken from the PRD. Never invent requirements.
 - **Choices:** if a task needs a product or design choice the docs don't cover, ask the user (giving your recommended answer) before writing the task.
-- **`--issues`:** only with this flag, never otherwise. If `gh auth status` succeeds, create one issue per task, after the user confirms the list. Use `gh issue create --title "<task>" --body "<criteria + link to ROADMAP.md>" --label "phase-<n>"`, creating the label if it's missing. Add `(#<num>)` to the task line. If `gh` isn't available, say so and continue with markdown only.
+- **`--issues`:** only with this flag, never otherwise. If `gh auth status` succeeds, create one issue per task, after the user confirms the list. Use `gh issue create --title "<task>" --body "<criteria + link to docs/ROADMAP.md>" --label "phase-<n>"`, creating the label if it's missing. Add `(#<num>)` to the task line. If `gh` isn't available, say so and continue with markdown only.
 - **Parallel tasks:** add `(parallel)` to a task line when it depends on no unfinished task and touches different files from the other `(parallel)` tasks. Only these go to separate worktrees.
 - **Confirm:** show the task list and wait for the user to confirm it before building. With `--issues`, also state the repo and label the issues will be created in.
 
@@ -59,7 +59,7 @@ Break the current phase into tasks. If the phase already has tasks, show them an
 Implement the next unchecked task that isn't `BLOCKED`, or the one the user names (by ID, e.g. `1.3`, or by text). For a named `BLOCKED` task, read its reason first and delete the line once it's fixed.
 
 1. **Restate the goal.** Give the task and its acceptance criteria in two lines, and name the files you expect to touch.
-2. **Implement it with the tdd skill**, following the stack's standards skill (typescript-standards or dotnet-standards) if one applies. For UI work, also use the frontend-design skill and follow `DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
+2. **Implement it with the tdd skill**, following the stack's standards skill (typescript-standards or dotnet-standards) if one applies. For UI work, also use the frontend-design skill and follow `docs/DESIGN.md`. When something fails unexpectedly, switch to the systematic-debugging skill. Don't guess at fixes.
 3. **Verify before ticking.** Ticking the task requires fresh evidence, run in this session:
    - Lint and typecheck from `AGENTS.md` pass, and so do the tests that cover the changed code (the whole suite if it runs in under a minute or you can't tell which tests are affected). Show the summary line from each. `close` runs the full suite.
    - Each acceptance criterion is checked one by one.
@@ -69,20 +69,20 @@ Implement the next unchecked task that isn't `BLOCKED`, or the one the user name
 4. **Update the docs:**
    - Tick the task.
    - Record any significant choice made along the way with the decision-log skill.
-   - Add any out-of-scope ideas or follow-ups to `TODO.md`, one line each. Don't widen the current task.
-   - **In a worktree,** leave `ROADMAP.md` and `TODO.md` untouched: parallel branches editing them conflict on merge. Put a `Roadmap-Task: <task ID and text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead, and repeat them at the end of the PR body so a squash merge keeps them. The sync above applies them once the branch merges to `main`.
+   - Add any out-of-scope ideas or follow-ups to the roadmap's Later section, one line each. Don't widen the current task.
+   - **In a worktree,** leave the roadmap untouched: parallel branches editing it conflict on merge. Put a `Roadmap-Task: <task ID and text>` trailer, plus one `Todo: <line>` trailer per follow-up, in the commit message instead, and repeat them at the end of the PR body so a squash merge keeps them. The sync above applies them once the branch merges to `main`.
 5. **Commit** if the user's workflow commits per task. Use `Closes #<num>` when the task line has an issue number. Then stop and report what was done and the next task. Continue to the next task only if the user asked for the whole phase.
 
 ## close
 
-Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to `TODO.md`.
+Run this when every task in the phase is checked. For each `BLOCKED` task, ask the user to unblock it now (back to `build`), move it to the next phase, or move it to Later.
 
 1. **Review the phase's diff.** Run `/code-review` and `/simplify` (or the agent's equivalents) on everything the phase changed, each in a subagent so the diff doesn't fill this context. Add `/security-review` only if the phase touched auth, user input, secrets, permissions or dependencies. Fix the findings, or list them for the user if they're not worth fixing now.
 2. **Re-verify.** Re-run the full test suite, lint and typecheck, and the other build step 3 checks.
 3. **Update the docs:**
    - Run the agents-md skill in update mode, to capture conventions the phase taught.
-   - Update `MVP_PRD.md` or `DESIGN.md` if the shipped reality differs from them.
-   - Move the completed phase to `docs/roadmap-archive.md` (create the file on first use, and add the archive link to the `ROADMAP.md` header at the same time) as a summary line plus the task list, and leave a one-line "Done" entry in `ROADMAP.md`.
+   - Update `docs/PRD.md`, `docs/ARCHITECTURE.md` or `docs/DESIGN.md` if the shipped reality differs from them.
+   - Move the completed phase to `docs/roadmap-archive.md` (create the file on first use, and add the archive link to the roadmap header at the same time) as a summary line plus the task list, and leave a one-line "Done" entry in the roadmap.
 4. **Summarise the phase:** what shipped, how it was verified, and `Closes #…` for each open issue.
    - Solo: the tasks are already on `main`. Put the summary in the close commit and the report.
    - Team: use it as the PR title and body. Open the PR only if the user asks.

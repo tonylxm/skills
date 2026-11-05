@@ -13,11 +13,11 @@ Most repos have a single context:
 
 ```
 /
-├── GLOSSARY.md
 ├── docs/
+│   ├── GLOSSARY.md
 │   └── decisions/
-│       ├── 0001-event-sourced-orders.md
-│       └── 0002-postgres-for-write-model.md
+│       ├── ADR-0001-event-sourced-orders.md
+│       └── ADR-0002-postgres-for-write-model.md
 └── src/
 ```
 
@@ -37,7 +37,7 @@ If a `GLOSSARY-MAP.md` exists at the root, the repo has multiple contexts. The m
 │       └── docs/decisions/
 ```
 
-Create files lazily: only when you have something to write. If no `GLOSSARY.md` exists, create one when the first term is resolved. ADRs are written by the decision-log skill.
+Create files lazily: only when you have something to write. If no glossary exists (`docs/GLOSSARY.md`, or a root `GLOSSARY.md` in older repos), create `docs/GLOSSARY.md` when the first term is resolved. ADRs are written by the decision-log skill.
 
 ## During the session
 

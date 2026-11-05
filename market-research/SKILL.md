@@ -13,7 +13,7 @@ Produce a sourced, skimmable snapshot of a market and its competitors. It inform
 - Known competitors (you will find more).
 - Focus: `quick` (5 competitors, pricing and positioning) or `deep` (adds market size, reviews, trends).
 
-Read `docs/ideas/*`, `MVP_PRD.md` or `docs/research/` first if they exist; don't re-ask what they answer.
+Read `docs/ideas/*`, `docs/PRD.md` or `docs/research/` first if they exist; don't re-ask what they answer.
 
 ## Research
 

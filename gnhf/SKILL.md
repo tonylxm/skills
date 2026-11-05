@@ -104,15 +104,15 @@ Stop only when: <observable completion condition>, or the deadline has passed an
 
 ## Roadmap preset
 
-When the repo has a `ROADMAP.md`, use this as the Hands-Off default unless the user gives a different objective.
+When the repo has a `docs/ROADMAP.md` (or a root `ROADMAP.md`), use this as the Hands-Off default unless the user gives a different objective.
 
 1. **Check the roadmap first.** If the current phase has no tasks, run the roadmap-next skill in `plan` mode with the user *before* launching. The worker must not invent tasks.
-2. **Launch** with this worker prompt and stop condition. Don't pass `--worktree`: in a worktree, `build` records ticks as commit trailers instead of editing `ROADMAP.md`, which this prompt doesn't expect.
+2. **Launch** with this worker prompt and stop condition. Don't pass `--worktree`: in a worktree, `build` records ticks as commit trailers instead of editing the roadmap, which this prompt doesn't expect.
 
 ```text
-Objective: complete Phase <n> of ROADMAP.md, one task per iteration.
+Objective: complete Phase <n> of docs/ROADMAP.md, one task per iteration.
 
-Each iteration: follow the roadmap-next skill in `build` mode on the next unchecked task (read its SKILL.md if the Skill tool is unavailable). Follow AGENTS.md. Tick the task only with fresh passing test/lint/typecheck evidence. Put out-of-scope ideas in TODO.md. Never edit tasks in later phases.
+Each iteration: follow the roadmap-next skill in `build` mode on the next unchecked task (read its SKILL.md if the Skill tool is unavailable). Follow AGENTS.md. Tick the task only with fresh passing test/lint/typecheck evidence. Put out-of-scope ideas in the roadmap's Later section. Never edit tasks in later phases.
 
 If a task is blocked after two attempts, leave it unchecked, add an indented "- BLOCKED: <reason + evidence>" line under it, and move to the next task.
 

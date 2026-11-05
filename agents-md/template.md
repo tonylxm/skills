@@ -18,12 +18,12 @@
 
 ## Map
 - `{dir}/`: {what lives there}
-- Product: [MVP_PRD.md](MVP_PRD.md) · Roadmap: [ROADMAP.md](ROADMAP.md) · Design: [DESIGN.md](DESIGN.md)
-- Terms: [GLOSSARY.md](GLOSSARY.md) · Decisions: [docs/decisions/](docs/decisions/)
+- [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/decisions/)
+- Terms: [GLOSSARY](docs/GLOSSARY.md) {drop this line when there is no glossary}
 
 ## Conventions
 - {Only conventions that tooling doesn't enforce and agents get wrong}
 
 ## Workflow
 - {Solo: commit to `main`; a pre-commit hook auto-formats; use a branch + PR for long unattended runs and `(parallel)` worktree tasks | Team: branch `feat|fix|chore/{slug}`; squash-merge PRs once CI is green}. Conventional Commits.
-- Work from `ROADMAP.md` with `roadmap-next`. Ideas go in `TODO.md`, not in scope.
+- Work from `docs/ROADMAP.md` with `roadmap-next`. Ideas go in its Later section, not in scope.

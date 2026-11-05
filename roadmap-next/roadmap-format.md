@@ -1,14 +1,14 @@
-# ROADMAP.md format
+# docs/ROADMAP.md format
 
 ```md
 # Roadmap
 
-_Current: Phase 1: {name}. Done phases: [archive](docs/roadmap-archive.md) (link added once the archive exists)._
+_Current: Phase 1: {name}. Done phases: [archive](roadmap-archive.md) (link added once the archive exists)._
 
 ## ✅ Phase 0: Walking skeleton (done {YYYY-MM-DD})
 
 ## Phase 1: {name}
-Goal: {one line, the user-visible outcome}. PRD: F1, F2 (feature IDs from the MVP_PRD.md scope table)
+Goal: {one line, the user-visible outcome}. PRD: F1, F2 (feature IDs from the docs/PRD.md MVP scope table)
 - [ ] 1.1 {Task, verb-first} (#12)
   - AC: {observable criterion}
   - AC: {observable criterion}
@@ -18,6 +18,9 @@ Goal: {one line, the user-visible outcome}. PRD: F1, F2 (feature IDs from the MV
 
 ## Phase 2: {name}
 Goal: {one line}. _Tasks added when the phase starts._
+
+## Later
+- {deferred idea or follow-up}: {why, who asked}
 ```
 
 Rules:
@@ -27,4 +30,4 @@ Rules:
 - When a phase closes, collapse it to its `✅` heading line and move its task list to `docs/roadmap-archive.md`.
 - `(parallel)` marks a task with no unfinished dependencies whose files don't overlap other `(parallel)` tasks, so it can be built in its own worktree.
 - A stuck task stays unchecked with an indented `- BLOCKED: {reason and evidence}` line beneath it. Delete that line once it's unblocked.
-- Future ideas go in `TODO.md`, not in an unplanned phase.
+- Future ideas and follow-ups go in Later, one line each, not in an unplanned phase. Nothing in Later is scheduled until `plan` moves it into a phase.

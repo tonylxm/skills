@@ -9,7 +9,7 @@ Write and maintain `AGENTS.md`, the instructions every coding agent reads at the
 
 ## Create
 
-1. **Gather facts yourself.** Read the package manifests, lockfiles, CI config, lint and format config, the test setup, `README.md`, `MVP_PRD.md`, `DESIGN.md`, `GLOSSARY.md` and `docs/decisions/`. Run the build, test and lint commands to confirm they work. **Greenfield** (nothing scaffolded yet): write the planned commands with a `# planned` marker. The roadmap's Phase 0 makes them real, and `roadmap-next close` re-runs this skill to verify them and remove the markers.
+1. **Gather facts yourself.** Read the package manifests, lockfiles, CI config, lint and format config, the test setup, `README.md`, everything in `docs/` (PRD, architecture, design, roadmap, glossary, decisions). Run the build, test and lint commands to confirm they work. **Greenfield** (nothing scaffolded yet): write the planned commands with a `# planned` marker. The roadmap's Phase 0 makes them real, and `roadmap-next close` re-runs this skill to verify them and remove the markers.
 2. **Ask the user only for things the code can't tell you.** Non-negotiables, team conventions, and areas that are off-limits. Give a recommended answer with each question.
 3. **Write the file** from [template.md](template.md).
 4. **Don't create `CLAUDE.md`.** Claude Code (v2.1.277+) reads `AGENTS.md` natively, but only when no `CLAUDE.md` exists in the repo or a parent dir. If one exists, merge it into `AGENTS.md` and delete it.
@@ -35,11 +35,11 @@ Write and maintain `AGENTS.md`, the instructions every coding agent reads at the
 | Rules for one concern, such as testing, API style or migrations | `docs/<topic>.md`, linked from the root file |
 | Why a decision was made | `docs/decisions/` (decision-log) |
 | Library version gotchas | `AGENTS.md` Conventions, version-stamped, or a shared skill if stack-wide |
-| Domain terms | `GLOSSARY.md` |
-| Look and feel | `DESIGN.md` |
+| Domain terms | `docs/GLOSSARY.md` |
+| Look and feel | `docs/DESIGN.md` |
 | Personal preferences for every repo | `~/.claude/CLAUDE.md`, not `AGENTS.md` |
 
-Exception: a non-negotiable may restate a rule recorded elsewhere when breaking it would be costly. Keep it to one line and link the source, e.g. `Gap entries are private ([ADR-0005](docs/decisions/0005-….md))`.
+Exception: a non-negotiable may restate a rule recorded elsewhere when breaking it would be costly. Keep it to one line and link the source, e.g. `Gap entries are private ([ADR-0005](docs/decisions/ADR-0005-….md))`.
 
 Leave out:
 - Anything an agent can infer from the code or config.

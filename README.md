@@ -22,7 +22,7 @@ You run one command per step. It calls the other skills for you.
 
 | Step | Command | What it does | Skills it calls |
 | --- | --- | --- | --- |
-| 1. Kick off | `/project-starter "idea"` | Turns an idea into the PRD, roadmap, TODO, design and AGENTS.md. Phase 0 (walking skeleton) comes pre-planned, so go straight to step 3 | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
+| 1. Kick off | `/project-starter "idea"` | Turns an idea into README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap, decisions). Phase 0 (walking skeleton) comes pre-planned, so go straight to step 3 | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
 | 2. Plan | `/roadmap-next plan` | Breaks the current phase into tasks with acceptance criteria from the PRD, and waits for your OK | |
 | 3. Build | `/roadmap-next build` | Builds and verifies the next task, then ticks it. Repeat until the phase is done, or hand the phase to `/gnhf` overnight. Tasks marked `(parallel)` can be built at the same time in separate worktrees | tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, frontend-verify, decision-log |
 | 4. Close | `/roadmap-next close` | Reviews and re-verifies the phase, updates the docs, archives the phase and drafts the PR | `/code-review`, `/security-review` (when the phase touches auth, input or dependencies), `/simplify`, agents-md |
@@ -40,14 +40,14 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | Skill | Description | Origin |
 | --- | --- | --- |
 | **Kickoff and planning** | | |
-| [project-starter](project-starter/SKILL.md) | Kick off a project: produces the PRD, roadmap, TODO, design and AGENTS.md, starting from your stack defaults in `tech-stack.md` | Original |
+| [project-starter](project-starter/SKILL.md) | Kick off a project: produces README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap, decisions), starting from your stack defaults in `tech-stack.md` | Original |
 | [refine-idea](refine-idea/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
 | [market-research](market-research/SKILL.md) | Sourced market and competitor snapshot | Original, based on firecrawl-market-research and coreyhaines31 competitor-profiling |
 | [grilling](grilling/SKILL.md) | Round-based interview with recommended answers | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [grill-with-docs](grill-with-docs/SKILL.md) | Grilling that also writes the glossary and ADRs | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
-| [domain-modeling](domain-modeling/SKILL.md) | Build `GLOSSARY.md` and sharpen domain terms | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
+| [domain-modeling](domain-modeling/SKILL.md) | Build `docs/GLOSSARY.md` and sharpen domain terms | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [decision-log](decision-log/SKILL.md) | Record significant decisions as ADRs in `docs/decisions/` | Original |
-| [design-md](design-md/SKILL.md) | Define the visual design system in `DESIGN.md` | Original, based on google-labs-code stitch design-md |
+| [design-md](design-md/SKILL.md) | Define the visual design system in `docs/DESIGN.md` | Original, based on google-labs-code stitch design-md |
 | [agents-md](agents-md/SKILL.md) | Write and maintain a lean `AGENTS.md` (Claude Code reads it natively) | Original, based on the agents.md standard and github/awesome-copilot create-agentsmd |
 | **Building** | | |
 | [roadmap-next](roadmap-next/SKILL.md) | Plan, build and close roadmap phases, with optional GitHub issues | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |

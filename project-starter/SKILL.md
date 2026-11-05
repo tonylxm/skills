@@ -1,61 +1,45 @@
 ---
 name: project-starter
-description: Kick off a new software project from a short description. Walks through the stack, architecture, design, quality and project specifics, then writes MVP_PRD.md, ROADMAP.md, TODO.md, DESIGN.md and AGENTS.md. Use --adopt for an existing repo.
-argument-hint: "\"<quick description>\" [--adopt]"
+description: Use when starting a new project from an idea or short description and it needs a plan before code. Writes README.md, AGENTS.md and docs/ (PRD, architecture, design, roadmap, decisions).
+argument-hint: "\"<quick description>\""
 disable-model-invocation: true
 ---
 
 # Project Starter
 
-Turn a quick description into a planned, agent-ready project. You orchestrate the work. Delegate to the named skills instead of redoing what they do.
+Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate to the named skills instead of redoing their work.
 
-## How every step runs
+## Rules
 
-- **Questions:** follow the grilling skill for every step that asks the user anything, and the domain-modeling skill whenever new domain terms come up. When a step delegates to another skill (refine-idea, market-research, design-md, agents-md), that skill's own questions replace grilling for that step. Ask in rounds, with a recommended answer for every question. The user either **provides** their own answer or **accepts the recommendation**. For bigger choices, show 2–3 options with one-line trade-offs, and recommend the option that best fits the step 2 constraints.
-- **Glossary:** domain-modeling keeps `GLOSSARY.md` up to date as terms come up.
-- **Decisions:** decisions that pass its three-part test go to `docs/decisions/` via the decision-log skill.
-- **Facts:** find facts yourself. Read the repo, search the web, and dispatch sub-agents. Only *decisions* go to the user.
-- **Resume:** before each step, check whether its output already exists. If it does, summarise it and ask "keep, update, or redo?" This makes the skill resumable and lets you re-run a single step ("redo design").
-- **Progress:** show a one-line progress marker at the start of each step, e.g. `[4/10] Tech stack`. End each step with a one-line summary of what was decided and the next step, e.g. `Done: Next.js + Postgres on Vercel. Next: [5/10] Architecture`.
+- **Ask with grilling:** rounds of questions, each with a recommended answer. Bigger choices get 2–3 options with one-line trade-offs. Delegated skills ask their own questions.
+- **Find facts yourself** (repo, web, sub-agents). Only decisions go to the user.
+- **Resumable:** if a file in the Output table already exists, summarise it and ask "keep, update or redo?" before its step.
+- **Progress:** open each step with `[n/6] Name`, close it with `Done: <decision>. Next: <step>`.
+- **ADRs:** a decision that passes decision-log's test goes to `docs/decisions/` via decision-log.
 
 ## Steps
 
-1. **Idea.** Restate the description as one line covering the problem, the user and the outcome. If it's vague, run the refine-idea skill first. Called from here, it saves its one-pager to `docs/ideas/` without asking.
-2. **Constraints.** Solo or team (this sets the workflow mode in [tech-stack.md → CI/CD](tech-stack.md#cicd)), timeline, budget and hosting cost ceiling, and existing skills or stack preferences. Also compliance: privacy law applies wherever personal data is stored, e.g. the NZ Privacy Act or GDPR.
-3. **Market** (optional, offered): run the market-research skill, using `quick` by default.
-4. **Tech stack.** Cover language, framework, data store, auth, hosting and key libraries. Start from [tech-stack.md](tech-stack.md) as the default recommendation, and deviate only when the step 2 constraints require it, saying why. Record an ADR for each choice that carries lock-in.
-5. **Architecture.**
-   - Components and how they talk, as a mermaid diagram.
-   - The core data model (entities and relationships, using `GLOSSARY.md` terms).
-   - The main API or interface contracts.
-   - Record an ADR for its shape.
-6. **Design.** Run the design-md skill. Skip this step for backend-only, CLI or library projects.
-7. **Quality baseline.**
-   - Testing: start from the Testing section of [tech-stack.md](tech-stack.md). Confirm this project's must-cover flows, and deviate only when the constraints require it.
-   - Security: auth model, secrets handling, OWASP top risks for this stack, dependency scanning.
-   - Deployment: the workflow mode, environments, CI/CD and rollbacks. Start from [tech-stack.md → CI/CD](tech-stack.md#cicd).
-   - Non-functional requirements: performance targets, scale assumptions, observability (logs, errors, uptime), and a responsive layout (mobile-first, phone to desktop) for UI projects unless specified otherwise.
-8. **Project specifics.** Ask which areas need depth, such as pricing and plans, a key feature's behaviour, onboarding, or integrations. Then grill only those.
-9. **Write the docs**, using `templates/`:
-   - `MVP_PRD.md`: scope, non-goals, features with acceptance criteria, success metrics, risks and open questions.
-   - `ROADMAP.md`. **Phase 0 is always a walking skeleton:** the repo scaffold, lint and format, test runner, CI, `.env.example`, and a deploy of "hello world" to the chosen host. Later phases deliver vertical slices of the MVP. Break only Phase 0 into tasks. If the stack matches a template in [tech-stack.md → Templates](tech-stack.md#templates), use the template variant of Phase 0. Otherwise use the scaffold variant, whose scaffold task uses the exact command from [tech-stack.md](tech-stack.md).
-   - `TODO.md`: everything deferred past the MVP, including the CI/CD deferred list.
-   - Then run the agents-md skill to produce `AGENTS.md`.
-10. **Hand off.** List the files created, the 3 riskiest open questions, and the next command: `/roadmap-next build` (Phase 0 is already planned).
+1. **Idea.** One line: problem, user, outcome. Vague? Run refine-idea first. Offer market-research (`quick`) if the market is unclear.
+2. **Constraints.** Solo or team (sets the Workflow mode, [tech-stack.md → CI/CD](tech-stack.md#cicd)), timeline, hosting budget, compliance (privacy law wherever personal data is stored).
+3. **Stack.** Start from the defaults in [tech-stack.md](tech-stack.md). Deviate only when step 2 requires it, and say why. ADR for each lock-in choice.
+4. **Architecture.** Components (mermaid), core data model, key contracts, quality baseline (tests, security, deploy, NFRs) from tech-stack.md. If the domain has terms that are easy to confuse, run domain-modeling, which writes `docs/GLOSSARY.md`. ADR for the shape.
+5. **Design.** Run design-md. Skip for backend-only, CLI or library projects.
+6. **Write and hand off.**
+   - Fill the doc templates into the layout below, then run agents-md for `AGENTS.md`.
+   - Phase 0 in `docs/ROADMAP.md` is always the walking skeleton, created from the template or scaffold that tech-stack.md names for the chosen stack. Later phases stay one line each.
+   - Report the files created, the 3 riskiest open questions, and the next command: `/roadmap-next build`.
 
-## --adopt (existing repo)
+## Output
 
-Run the same steps, but take the answers from the code first:
-- The stack comes from the manifests, which override [tech-stack.md](tech-stack.md). An existing `.husky/`, `lefthook.yml` or `.github/workflows/` also wins. The architecture comes from the directory layout and entry points.
-- Commands come from the scripts and CI. The design comes from the theme files.
+| File | Holds | Template |
+|---|---|---|
+| `README.md` | What it is, run it, links to docs | [templates/README.md](templates/README.md) |
+| `AGENTS.md` | Agent index: rules, commands, map, workflow | agents-md |
+| `docs/PRD.md` | Why and what: users, scope with AC, non-goals, metrics, risks | [templates/PRD.md](templates/PRD.md) |
+| `docs/ARCHITECTURE.md` | How: stack, diagram, data model, contracts, quality baseline | [templates/ARCHITECTURE.md](templates/ARCHITECTURE.md) |
+| `docs/DESIGN.md` | Look: tokens, type, components (UI only) | design-md |
+| `docs/ROADMAP.md` | Phases, tasks, and Later (deferred ideas) | [templates/ROADMAP.md](templates/ROADMAP.md) |
+| `docs/decisions/ADR-0001-<slug>.md` | One significant decision each | decision-log |
+| `docs/GLOSSARY.md` | Domain terms, only when step 4 needed them | domain-modeling |
 
-Present what you inferred as settled, and only grill the gaps (the product intent, non-goals, and what's next). Never overwrite existing docs without the "keep, update, or redo?" check.
-
-## Doc rules (all outputs)
-
-- Each file opens with a summary that a reader can stop after.
-- Use tables and bullets, not paragraphs.
-- Each fact lives in exactly one file. Other files link to it. For example, the stack is listed in the PRD, and `AGENTS.md` links to it.
-- When a section outgrows its file, split it into `docs/<area>/…` and link to the new file.
-- Exceptions: ADRs keep decision-log's format. `AGENTS.md` non-negotiables may restate a critical rule in one line if they link its source.
-- Don't link to files that don't exist yet.
+Doc rules: summary line first; tables and bullets over prose; each fact in one file, linked from others; split an oversized section into `docs/<area>/` and link it; never link to a file that doesn't exist.
