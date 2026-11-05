@@ -12,4 +12,4 @@
 Other commands: [AGENTS.md → Commands](AGENTS.md#commands).
 
 ## Docs
-[PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/decisions/)
+[PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) {drop when no UI} · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/decisions/)

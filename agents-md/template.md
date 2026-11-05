@@ -18,7 +18,7 @@
 
 ## Map
 - `{dir}/`: {what lives there}
-- [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/decisions/)
+- [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) {drop when no UI} · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/decisions/)
 - Terms: [GLOSSARY](docs/GLOSSARY.md) {drop this line when there is no glossary}
 
 ## Conventions
