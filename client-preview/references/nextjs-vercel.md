@@ -36,4 +36,16 @@ Confirm each with the user before running.
 3. **Link**: add `<project>-preview.vercel.app` as a project domain assigned to a git branch (for example `client-preview`). Update it with `git push origin main:client-preview`. Prefer this to `vercel alias set`, which pins one deployment and goes stale.
 4. **Check** in a private window: no Vercel login, unlock works, production preview route 404s.
 
-Link points at the site root. If the preview lives under a route, either send the full path (`/design-preview`) or redirect `/` to it on that host only.
+Link points at the site root. If the preview lives under a route, redirect `/` to it on the preview host only, so the bare link works and other deploys are unchanged:
+
+```ts
+// next.config.ts
+async redirects() {
+  return [{
+    source: "/",
+    has: [{ type: "host", value: "<project>-preview.vercel.app" }],
+    destination: "/design-preview",
+    permanent: false,
+  }];
+},
+```
