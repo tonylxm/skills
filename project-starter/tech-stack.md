@@ -79,7 +79,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 
 | | Solo (default) | Team |
 |---|---|---|
-| Commits | Straight to `main`; agent runs and `(parallel)` tasks use a branch and PR | Branch and PR only, squash merge |
+| Commits | Straight to `main`; agent runs use a branch and PR | Branch and PR only, squash merge |
 | Pre-commit | Husky + lint-staged | None, CI is the gate |
 | CI | Runs on every push and PR, reports | Runs on PRs, blocks the merge |
 | Deploy | Production on push to `main` | Preview per PR, production on merge |
