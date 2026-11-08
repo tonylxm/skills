@@ -31,6 +31,8 @@ Use auto mode for everything. You work in phases; tasks are the agent's steps in
 - **Interrupted** (usage limit, laptop closed)? New chat, `/roadmap-next` resumes where it stopped.
 - **Lost?** `/roadmap-next status` shows where you are and offers the next step.
 - **Overnight:** plan the phase, then hand it to `/gnhf`, and run `/roadmap-next close` after the morning review.
+- **No accounts yet?** Fine. `build` does all the local work first, uses `gh` and connected tools where you're logged in, and ends with one setup checklist. Do it, then run `/roadmap-next` again and it resumes. The phase stays open until then.
+- **Solo `close` deploys.** It pushes `main`, which goes live before you try the app. For client work with real users, use Team mode (previews before merge).
 - `plan` only edits `docs/ROADMAP.md`, never code, so auto mode is safe there too.
 
 Generated docs stay lean. Root `AGENTS.md` is an index, every fact lives in one file, and docs grow by splitting into linked files instead of getting longer.
