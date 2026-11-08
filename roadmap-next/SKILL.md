@@ -9,7 +9,7 @@ argument-hint: "[status | plan | build | close]"
 Move a project forward one phase at a time from `docs/ROADMAP.md`. The user answers questions once, in `plan`; `build` and `close` then run the whole phase without stopping. Older repos keep `ROADMAP.md`, `MVP_PRD.md` and `TODO.md` at the root: use those where they exist, and treat `TODO.md` as the Later section. The roadmap's checkboxes are the source of truth for what is done.
 
 The current phase is the first one with unchecked tasks or no tasks yet. With no mode given, pick one:
-- **plan** if the current phase has no tasks.
+- **plan** if the current phase has no tasks, or has unanswered `Review notes` (only `plan` reads them, so `build` and `close` never run past them).
 - **build** if it has unchecked tasks that aren't `BLOCKED`, or any `BLOCKED (setup)` task to retry.
 - **close** if every task is checked or `BLOCKED`.
 
@@ -25,9 +25,9 @@ If the mode the user ran doesn't fit the state, ask:
 
 | Ran | State | Options |
 | --- | --- | --- |
-| `plan` | Phase has unchecked tasks | Continue build (recommended) / Revise the unchecked tasks |
-| `plan` | All tasks checked | Close the phase (recommended) / Add tasks |
-| `build` | Phase has no tasks | Plan it first (recommended) / Stop |
+| `plan` | Phase has unchecked tasks and no `Review notes` | Continue build (recommended) / Revise the unchecked tasks |
+| `plan` | All tasks checked and no `Review notes` | Close the phase (recommended) / Add tasks |
+| `build` | Phase has no tasks, or has unanswered `Review notes` | Plan it first (recommended) / Build anyway (only if it has tasks) / Stop |
 | `build` | All tasks checked or `BLOCKED` | Close the phase (recommended) / Stop |
 | `close` | Unchecked tasks that aren't `BLOCKED` | Finish the build (recommended) / Close anyway |
 | any | No roadmap | Run `/project-starter` (recommended) / Stop |
@@ -44,7 +44,7 @@ Next: /roadmap-next build
 
 - `1/3` is the current phase's number over the highest phase number (Phase 0 is never counted). `1.3` is the next unchecked, non-`BLOCKED` task; `/4` is the highest task number in the phase.
 - Leave out the `BLOCKED` lines when there are none.
-- `Next:` per state: no roadmap → `/project-starter "idea"`; no tasks → `/roadmap-next plan`; unchecked tasks → `/roadmap-next build`; only `BLOCKED (setup)` left → "finish the setup checklist, then `/roadmap-next`"; all checked or `BLOCKED` → `/roadmap-next close`; every phase done → say the MVP is complete and point to the Later section.
+- `Next:` per state: no roadmap → `/project-starter "idea"`; no tasks or unanswered `Review notes` → `/roadmap-next plan`; unchecked tasks → `/roadmap-next build`; only `BLOCKED (setup)` left → "finish the setup checklist, then `/roadmap-next`"; all checked or `BLOCKED` → `/roadmap-next close`; every phase done → say the MVP is complete and point to the Later section.
 - Then offer that step as the recommended option.
 
 ## plan
@@ -56,7 +56,7 @@ Break the current phase into tasks. **Plan writes only `docs/ROADMAP.md`.** It n
    - assumptions you would otherwise make,
    - each item in the phase's `Review notes` (left by the last `close`); a "carried over" task becomes a task of this phase unless the user drops it,
    - accounts, keys or paid services the phase will need, only to decide what `build` provisions itself and what goes on the setup checklist (they are usually not set up yet, so never ask for the values).
-2. **Write the tasks.** Each is roughly 1–4 hours, a vertical slice that can be tested and shipped on its own, in dependency order. Each gets 1–3 acceptance criteria taken from the PRD (never invented), observable at a public interface. Those ACs are the agreed test seams for the tdd skill. If the phase passes ~8 tasks, suggest splitting it.
+2. **Write the tasks.** If the phase already has tasks, keep them and revise only the unchecked ones (see below). Each task is roughly 1–4 hours, a vertical slice that can be tested and shipped on its own, in dependency order. Each gets 1–3 acceptance criteria taken from the PRD (never invented), observable at a public interface. Those ACs are the agreed test seams for the tdd skill. If the phase passes ~8 tasks, suggest splitting it.
 3. **Confirm.** Show the task list in chat and ask: Build it (recommended) / Change something. Write the tasks into `docs/ROADMAP.md` (and remove the answered `Review notes`) only after the user confirms, then go straight into `build`.
 
 **Revising a phase in progress:** change only unchecked tasks (add, drop, reword). New tasks take the next free ID. Never edit checked tasks.
