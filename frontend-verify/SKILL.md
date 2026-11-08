@@ -30,6 +30,8 @@ Collect everything in a single round, using `browser_batch` where the steps are 
 
 Reset the viewport with `resize_window` preset `desktop` when done.
 
+**Quick mode** (when a caller such as roadmap-next `build` asks for it): skip screenshots and the design comparison. Check widths with `resize_window` plus the `scrollWidth` test, the accessibility tree, console and network, keyboard, and the flow. A later full pass covers the visuals.
+
 ## 3. Fix, then confirm once
 
 Fix everything the pass found in one batch, then run one confirming pass over the failed checks. Stop there: open-ended screenshot loops cost more than they find. If something still fails, report it rather than looping.
