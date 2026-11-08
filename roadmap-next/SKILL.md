@@ -8,10 +8,12 @@ argument-hint: "[status | plan | build | close]"
 
 Move a project forward one phase at a time from `docs/ROADMAP.md`. The user answers questions once, in `plan`; `build` and `close` then run the whole phase without stopping. Older repos keep `ROADMAP.md`, `MVP_PRD.md` and `TODO.md` at the root: use those where they exist, and treat `TODO.md` as the Later section. The roadmap's checkboxes are the source of truth for what is done.
 
-The current phase is the first one with unchecked tasks or no tasks yet. With no mode given, pick one:
+The current phase is the first one whose heading doesn't start with `✅`. With no mode given, pick one:
 - **plan** if the current phase has no tasks, or has unanswered `Review notes` (only `plan` reads them, so `build` and `close` never run past them).
 - **build** if it has unchecked tasks that aren't `BLOCKED`, or any `BLOCKED (setup)` task to retry.
 - **close** if every task is checked or `BLOCKED`.
+
+If every phase is `✅`, say the MVP is complete and ask: Plan items from Later as a new phase (recommended) / Stop. Choosing plan adds the next phase heading and runs `plan`.
 
 If the only unchecked tasks are `BLOCKED (setup)` and the retry at the start of `build` shows none can proceed yet, print the setup checklist and stop. Don't re-run `close`.
 
@@ -100,7 +102,7 @@ Safe to re-run: skip any step that has already happened (review fixes committed,
 4. **Update the docs:**
    - Run agents-md in update mode for conventions the phase taught.
    - Update `docs/PRD.md`, `docs/ARCHITECTURE.md` or `docs/DESIGN.md` where the shipped reality differs.
-   - Unless a `BLOCKED (setup)` task remains, move the phase's task list to `docs/roadmap-archive.md` (create it on first use and link it from the roadmap header) and leave its `✅` heading line.
+   - Unless a `BLOCKED (setup)` task remains, move the phase to `docs/roadmap-archive.md` in the layout from [roadmap-format.md](roadmap-format.md) (create the file on first use and link it from the roadmap header) and leave its `✅` heading line.
    - Add `Review notes` under the next phase heading (under Later if there is no next phase): assumptions made during build, and what to try in the app. The next `plan` asks about them, so the feedback survives a new chat.
 5. **Push.** If there is no remote yet (repo creation is `BLOCKED (setup)`), skip this and keep it on the checklist. Solo: push `main` (this deploys). Team: push the phase branch and offer to open the PR, using the report as its body.
 6. **Report:** what shipped, how it was verified, assumptions to confirm, tasks moved on because they were `BLOCKED`, any setup checklist (the numbered steps, together in one place), what to try in the app, then: "Start a new chat and run `/roadmap-next`." Solo `close` has already deployed `main`, so say so.
