@@ -1,6 +1,6 @@
 # Roadmap
 
-_Current: Phase 0 (walking skeleton). Work it with `/roadmap-next`. Format: roadmap-next._
+_Work it with `/roadmap-next`. Format: roadmap-next._
 
 ## Phase 0: Walking skeleton
 Goal: an empty app that builds, tests, lints and deploys through CI.
