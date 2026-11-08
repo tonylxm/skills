@@ -31,6 +31,6 @@ Rules:
 - Only the current phase is broken into tasks. Later phases stay one line until `plan` reaches them.
 - Each task fits on one line. Acceptance criteria are indented beneath it, and they are observable results, not implementation steps.
 - When a phase closes, collapse it to its `✅` heading line and move its task list to `docs/roadmap-archive.md`.
-- A stuck task stays unchecked with an indented `- BLOCKED: {reason and evidence}` line beneath it. Delete that line once it's unblocked.
+- A stuck task stays unchecked with an indented `- BLOCKED: {reason and evidence}` line beneath it. Delete that line once it's unblocked. `- BLOCKED (setup): {numbered steps}` marks a task waiting on the user's accounts or keys: it keeps its phase open and is retried on every run.
 - `Review notes:` under a phase heading are written by `close` and removed by the next `plan` once answered.
 - Future ideas and follow-ups go in Later, one line each, not in an unplanned phase. Nothing in Later is scheduled until `plan` moves it into a phase.
