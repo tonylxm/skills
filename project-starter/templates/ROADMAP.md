@@ -5,7 +5,7 @@ _Current: Phase 0 (walking skeleton). Work it with `/roadmap-next`. Format: road
 ## Phase 0: Walking skeleton
 Goal: an empty app that builds, tests, lints and deploys through CI.
 - [ ] 0.1 Create the app from {template or scaffold command from tech-stack.md}
-  - AC: `{dev}` serves locally (UI: no horizontal scroll at phone width) and `{build}` passes
+  - AC: `{dev}` serves locally (UI: no horizontal scroll at phone width) and `{build}` passes (an app that fails fast on missing env uses the placeholder values from `.env.example` or `ci.yml`, as CI does)
 - [ ] 0.2 Add the quality baseline (tech-stack.md → Quality baseline; a template already ships it, so only check it)
   - AC: `{lint}`, `{format:check}`, `{typecheck}` and `{test}` pass
 - [ ] 0.3 Apply the workflow mode and CI (tech-stack.md → CI/CD)

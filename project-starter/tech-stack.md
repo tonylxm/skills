@@ -64,6 +64,7 @@ Breaking changes use expand and contract: add the new column, backfill, switch t
     "*.{json,md,css,yml}": "prettier --write"
   }
   ```
+  On oxlint projects (Vite) replace `eslint --fix` with `oxlint --fix`, as vite-supabase-starter does.
 
 **Testing** (test-first with the tdd skill)
 | Stack | Tests |
@@ -122,9 +123,9 @@ Use the official scaffolder with flags so it doesn't prompt. CLIs change their f
 | Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm add @supabase/supabase-js` (plus `@supabase/ssr` on Next.js). `pnpm supabase start` for local Postgres, Auth and Storage |
 | Neon | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | `db:generate` and `db:migrate` scripts, `drizzle.config.ts`. Auth schema: `pnpm dlx auth@latest generate --config src/lib/auth.ts --output src/db/auth-schema.ts`. Local Postgres via Docker Compose or Testcontainers |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
-| JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` last in `eslint.config.mjs`, then the scripts above |
+| JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` last in `eslint.config.mjs`, then the scripts above. Run `pnpm format` once and add `pnpm-lock.yaml` to `.prettierignore`, or `format:check` fails on the scaffold's own files |
 | Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | `.husky/pre-commit` is `pnpm exec lint-staged`, plus the `lint-staged` config above |
-| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | Components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
+| JS testing | `pnpm add -D vitest` · `pnpm create playwright@latest` | `test` is `vitest run --passWithNoTests` until the first test exists. Components: `pnpm add -D @testing-library/react @testing-library/dom jsdom` |
 
 After `shadcn init`, run `pnpm remove shadcn && pnpm add -D shadcn`. Init puts it in `dependencies`, which ships its CLI deps (`@modelcontextprotocol/sdk` and more) to production, but the app only uses its CSS (`shadcn/tailwind.css`) at build time.
 
