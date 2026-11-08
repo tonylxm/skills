@@ -18,16 +18,20 @@ Some skills call others (for example, project-starter uses grilling, domain-mode
 
 ## Workflow
 
-You run one command per step. It calls the other skills for you.
+Use auto mode for everything. You work in phases; tasks are the agent's steps inside a phase. After kickoff you only ever type `/roadmap-next`: it picks the step for the current phase, and whenever a choice is needed it asks a clickable question with the recommended option first.
 
-| Step | Command | What it does | Skills it calls |
+| Chat | What happens | You | Skills it calls |
 | --- | --- | --- | --- |
-| 1. Kick off | `/project-starter "idea"` | Turns an idea into README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap, decisions). Phase 0 (walking skeleton) comes pre-planned, so go straight to step 3 | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
-| 2. Plan | `/roadmap-next plan` | Breaks the current phase into tasks with acceptance criteria from the PRD, and waits for your OK | |
-| 3. Build | `/roadmap-next build` | Builds and verifies the next task, then ticks it. Repeat until the phase is done, or hand the phase to `/gnhf` overnight. Tasks marked `(parallel)` can be built at the same time in separate worktrees | tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, frontend-verify, decision-log |
-| 4. Close | `/roadmap-next close` | Reviews and re-verifies the phase, updates the docs, archives the phase and drafts the PR | `/code-review`, `/security-review` (when the phase touches auth, input or dependencies), `/simplify`, agents-md |
+| Kickoff | `/project-starter "idea"` writes README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap with Phase 0 planned, decisions) and lists what only you can provide | Answer questions, set up the listed accounts and keys | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
+| Each phase, new chat | `/roadmap-next` → **plan**: asks every question up front, then confirms the task list. Phase 0 skips this | Answer, click confirm | |
+| | → **build**: every task in order, each in its own subagent, verified and committed locally. Never stops to ask; stuck tasks are marked `BLOCKED` | Nothing | tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, frontend-verify, decision-log |
+| | → **close** (automatic): review, re-verify, update docs, archive the phase, push, report | Try the app, read the assumptions | `/code-review`, `/security-review` (when relevant), `/simplify`, frontend-verify, agents-md |
+| | Report ends with "Start a new chat and run `/roadmap-next`" | New chat | |
 
-Then go back to step 2 for the next phase. Plain `/roadmap-next` picks the right step for you.
+- **Interrupted** (usage limit, laptop closed)? New chat, `/roadmap-next` resumes where it stopped.
+- **Lost?** `/roadmap-next status` shows where you are and offers the next step.
+- **Overnight:** plan the phase, then hand it to `/gnhf`, and run `/roadmap-next close` after the morning review.
+- `plan` only edits `docs/ROADMAP.md`, never code, so auto mode is safe there too.
 
 Generated docs stay lean. Root `AGENTS.md` is an index, every fact lives in one file, and docs grow by splitting into linked files instead of getting longer.
 
@@ -50,7 +54,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [design-md](design-md/SKILL.md) | Define the visual design system in `docs/DESIGN.md` | Original, based on google-labs-code stitch design-md |
 | [agents-md](agents-md/SKILL.md) | Write and maintain a lean `AGENTS.md` (Claude Code reads it natively) | Original, based on the agents.md standard and github/awesome-copilot create-agentsmd |
 | **Building** | | |
-| [roadmap-next](roadmap-next/SKILL.md) | Plan, build and close roadmap phases, with optional GitHub issues | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |
+| [roadmap-next](roadmap-next/SKILL.md) | Plan a phase up front, then build and close it unattended | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |
 | [tdd](tdd/SKILL.md) | Test-driven development, red-green-refactor | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [codebase-design](codebase-design/SKILL.md) | Deep-module vocabulary, used by tdd | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Debugging that finds the root cause first | Adapted from [obra/superpowers](https://github.com/obra/superpowers) |
