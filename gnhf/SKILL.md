@@ -114,7 +114,7 @@ Objective: complete Phase <n> of docs/ROADMAP.md, one task per iteration.
 
 Each iteration: follow the roadmap-next skill as `build <task ID>` for the next unchecked task only (read its SKILL.md if the Skill tool is unavailable). Commit, but don't push and don't run `close`. Follow AGENTS.md. Tick the task only with fresh passing test/lint/typecheck evidence. Put out-of-scope ideas in the roadmap's Later section. Never edit tasks in later phases.
 
-If a task is blocked after two attempts, leave it unchecked, add an indented "- BLOCKED: <reason + evidence>" line under it, and move to the next task.
+If a task is blocked after about three attempts, leave it unchecked, add an indented "- BLOCKED: <reason + evidence>" line under it, and move to the next task.
 
 Deadline: <absolute time + timezone> (soft). Run `date` before starting each task. Do not start a new task after the deadline. Finish the task in flight (tick it or mark it BLOCKED), then stop.
 
