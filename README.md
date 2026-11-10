@@ -24,7 +24,7 @@ Use auto mode for everything. You work in phases; tasks are the agent's steps in
 | --- | --- | --- | --- |
 | Kickoff | `/project-starter "idea"` writes README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap with Phase 0 planned, decisions) and lists what only you can provide | Answer questions, set up the listed accounts and keys | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
 | Each phase, new chat | `/roadmap-next` → **plan**: asks every question up front, then confirms the task list. Phase 0 skips this | Answer, click confirm | |
-| | → **build**: every task in order, each in its own subagent, verified and committed locally. Never stops to ask; stuck tasks are marked `BLOCKED` | Nothing | tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, frontend-verify, decision-log |
+| | → **build**: every task in order, each in its own subagent, verified and committed locally. Never stops to ask; stuck tasks are marked `BLOCKED`, consequential choices `BLOCKED (decision)` (asked in the next `plan`) | Nothing | tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, frontend-verify, decision-log |
 | | → **close** (automatic): review, re-verify, update docs, archive the phase, push, report | Try the app, read the assumptions | `/code-review`, `/security-review` (when relevant), `/simplify`, frontend-verify, agents-md |
 | | Report ends with "Start a new chat and run `/roadmap-next`" | New chat | |
 
