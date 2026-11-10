@@ -26,7 +26,7 @@ USD, checked 2026-11 from pricing pages and summaries; recheck before quoting. W
 
 | Service | Use | Free tier | Production |
 |---|---|---|---|
-| Cloudflare Workers | Hosting, cron | 100k requests/day per account | Paid: $5/month per account with 10M requests, then $0.30 per million. One account covers every client you host |
+| Cloudflare Workers | Hosting, cron | 100k requests/day per account, 10 ms CPU per request (too little for Next.js server rendering) | Paid: $5/month per account with 10M requests, then $0.30 per million, 30 s CPU per request by default. One account covers every client you host |
 | Neon | Postgres | 1 GB per branch, 100 CU-hours/month, 6 h restore window. Suspends after 5 min idle (can't be turned off); the next query waits a few hundred ms while it wakes | Launch: $0.106 per CU-hour, $0.35 per GB-month. Always on at 0.25 CU is about $19/month in compute. Neon's plans page lists a $5/month minimum; other sources say none |
 | Resend | Email | 3,000/month, 100/day | Pro: $20/month for 50k |
 | Cloudflare R2 | Files | 10 GB, 1M Class A and 10M Class B operations/month | $0.015 per GB-month, no egress fees |
@@ -36,7 +36,7 @@ USD, checked 2026-11 from pricing pages and summaries; recheck before quoting. W
 Static assets (prerendered Astro pages, JS, CSS, images) are served without running the Worker and don't count as requests. A request is one run of server code: a server-rendered page, a server action, an API call or a webhook.
 
 **Upgrade when**
-- **Workers Paid:** from the first client in production. On Free, requests past the daily cap fail until midnight UTC.
+- **Workers Paid:** from the first client in production. On Free, requests past the daily cap fail until midnight UTC, and Next.js pages can fail on the 10 ms CPU limit.
 - **Neon Launch:** the app holds real customer data (a longer restore window than Free; check the current numbers on Neon's plans page), it nears 100 CU-hours or 1 GB, or the client won't accept cold starts (staff use it all day, or they notice the first slow request). Then turn scale-to-zero off (about $19/month at 0.25 CU), billed to the client.
 - **Resend Pro:** over 3,000 emails a month or 100 a day.
 - **Supabase Pro ($25/month):** the app needs realtime or a full backend-as-a-service. No template; scaffold it.
