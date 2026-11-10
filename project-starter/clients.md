@@ -34,7 +34,7 @@ Send only the rows the project needs.
 | Send the content: copy, photos, logo, prices | Always |
 | Approve the privacy policy and terms | The site collects personal data or takes payments |
 | Create Apple and Google developer accounts (business verification takes days) | Mobile apps |
-| Create a [Cloudflare](https://dash.cloudflare.com/sign-up) account on Workers Paid and invite you as a member | One-off builds, at handover |
+| Create a [Cloudflare](https://dash.cloudflare.com/sign-up) account and invite you as a member. Workers Paid for a Next.js app; an Astro site can stay on Free ([when to upgrade](tech-stack.md#running-costs)) | One-off builds, at handover |
 
 Every account they create: a business email more than one person can reach, two-factor login on. They never send you passwords or keys.
 
