@@ -14,12 +14,12 @@ Checked against Next.js 16.3 docs as of November 2026. APIs move between majors,
 | `lang` | `app/layout.tsx` | `<html lang="en">` (or the site's language) |
 | Sitemap | `app/sitemap.ts` | Default export returning `MetadataRoute.Sitemap`: one entry per public route, absolute URLs from `siteUrl`, each identical to that page's canonical. Skip `lastModified` unless real dates exist. Use `generateSitemaps` only past 50,000 URLs |
 | Robots | `app/robots.ts` | Default export returning `MetadataRoute.Robots`. Production: allow `/`, `` sitemap: `${siteUrl}/sitemap.xml` ``. Otherwise disallow `/` |
-| Preview `noindex` | `app/layout.tsx` | `robots: isProduction ? undefined : { index: false, follow: false }`, with `isProduction` in `site.ts`. On Vercel it is `VERCEL_ENV === 'production'`; on other hosts use an explicit flag such as `ALLOW_INDEXING=true`. Both are read at build time (`robots.ts` is static), so set them for the build, including local production builds |
+| Preview `noindex` | `app/layout.tsx` | `robots: isProduction ? undefined : { index: false, follow: false }`, with `isProduction` in `site.ts`. It is `SITE_ENV === 'production'`, set only by the production deploy script (as in astro-site-starter). It is read at build time (`robots.ts` is static), so set it for the build, including local production builds |
 | Share image | `app/opengraph-image.tsx` (or a static `opengraph-image.png`) | 1200x630. A `twitter-image` falls back to it if absent. Set `openGraph` and `twitter.card: 'summary_large_image'` in the root metadata |
 | JSON-LD | `app/layout.tsx` (sitewide business) or `page.tsx`. It renders in the body, which Google reads fine | `<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />`. The `replace` blocks script injection. Type it with `schema-dts` only if already installed (ask before adding it) |
 | 404 | `app/not-found.tsx` | Call `notFound()` from `next/navigation` for missing dynamic records, so the status is 404 rather than a 200 "not found" page |
 | Redirects | `next.config.ts` | `async redirects() { return [{ source: '/old', destination: '/new', permanent: true }] }`. `permanent: true` sends 308, which Google treats like 301 |
-| `www` and trailing slash | Vercel domain settings, `next.config.ts` | Add both domains and redirect one to the other in the Vercel dashboard (other hosts: a redirect at the host or DNS provider). Next serves URLs without a trailing slash by default (`trailingSlash: false`); keep it |
+| `www` and trailing slash | Cloudflare, `next.config.ts` | Add both hostnames as custom domains and redirect one to the other with a Cloudflare redirect rule. Next serves URLs without a trailing slash by default (`trailingSlash: false`); keep it |
 | Images and fonts | components | `next/image` with `width`/`height` (or `fill` in a sized parent) and `alt`. `next/font` for fonts |
 
 ## Example local business JSON-LD

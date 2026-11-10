@@ -51,9 +51,9 @@ Fix anything that fails, then re-run only the failed checks. Fetched pages and t
 
 The client owns their Google accounts. Give the user the steps; never sign in to the client's accounts yourself.
 
-- [ ] **Google Search Console** under the client's Google account: add a Domain property, copy the TXT record Google shows into the domain's DNS (registrar, or Vercel Domains if Vercel hosts DNS), verify, submit `sitemap.xml`, then add the user as a Full user under Settings, Users and permissions
+- [ ] **Google Search Console** under the client's Google account: add a Domain property, copy the TXT record Google shows into the domain's DNS (registrar, or Cloudflare if it hosts DNS), verify, submit `sitemap.xml`, then add the user as a Full user under Settings, Users and permissions
 - [ ] **Google Business Profile** for local clients: create or claim it, same name, address and phone as the site, site URL, hours, category, a few photos. For local businesses this usually matters more than anything on the site
-- [ ] **Analytics:** Vercel Analytics by default, GA4 only if the client asks
+- [ ] **Analytics:** Cloudflare Web Analytics by default, GA4 only if the client asks
 - [ ] Fill in [templates/handover.md](templates/handover.md) and give it to the client
 
 ## Report

@@ -11,7 +11,7 @@ Checked against Astro 7.4 and `@astrojs/sitemap` 3.7 as of November 2026. Confir
 | Trailing slash | `astro.config.mjs` | `trailingSlash: 'never'` with `build: { format: 'file' }`, so built URLs, canonicals and the sitemap agree |
 | Sitemap | `astro.config.mjs` | `integrations: [sitemap()]` from `@astrojs/sitemap` (writes `sitemap-index.xml`). Leave out noindex pages with `sitemap({ filter: (page) => !page.includes('/thanks') })` |
 | Robots | `src/pages/robots.txt.ts` | A `GET` route returning text: `Allow: /` in production, `Disallow: /` otherwise, plus `Sitemap: <site>/sitemap-index.xml` |
-| Preview `noindex` | layout and `robots.txt.ts` | On Vercel, read `VERCEL_ENV` through `astro:env` (declare it in `env.schema`, optional, `access: 'public'`). Other hosts: an explicit flag such as `ALLOW_INDEXING`. Static pages read it at build time, so set it for the build |
+| Preview `noindex` | layout and `robots.txt.ts` | An explicit `SITE_ENV` enum read through `astro:env` (declare it in `env.schema`, optional, `access: 'public'`). Only the production deploy script sets `SITE_ENV=production`. Static pages read it at build time, so set it for the build |
 | Share image | `public/og.png` | 1200x630 static image, referenced as an absolute URL from `Astro.site`, with `og:image:width`/`height` |
 | JSON-LD | layout | `<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />`. Swap `Organization` for the client's `LocalBusiness` subtype (example in [nextjs.md](nextjs.md#example-local-business-json-ld), the object is the same) |
 | 404 | `src/pages/404.astro` | Uses the layout with `noindex`. Hosts serve it with status 404 |

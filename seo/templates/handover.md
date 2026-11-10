@@ -16,7 +16,7 @@ Launch: {date, or "pending domain"} at {domain}.
 | Search engine basics (page titles, descriptions, sitemap, share previews, business details for Google) | Done |
 | Google Search Console | {Done / waiting on DNS verification} |
 | Google Business Profile | {Done / waiting on Google's verification / not needed} |
-| Analytics | {Vercel Analytics / GA4}, view at {Vercel project Analytics tab, or GA4 property link} |
+| Analytics | {Cloudflare Web Analytics / GA4}, view at {Cloudflare dashboard Web Analytics, or GA4 property link} |
 | Old site redirects | {Done, {n} old pages forwarded / not a rebuild} |
 
 ## What to expect
