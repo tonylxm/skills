@@ -26,7 +26,7 @@ Send only the rows the project needs.
 |---|---|
 | Confirm the domain owner email (one click) | Every domain you register for them |
 | Sign up to [Stripe](https://dashboard.stripe.com/register), complete business, ID and bank details, invite you as **Developer** (**Settings → Team**, invite expires in 10 days) | They take payments |
-| Sign up to [Neon](https://neon.com/signup) (**Launch**, usage-based, likely a US$5/month minimum), add a card, invite you as **Admin** | The app stores personal data |
+| Sign up to [Neon](https://neon.com/signup) on **Free** and invite you as **Admin**. They move to Launch (usage-based, add a card) when [tech-stack.md → Upgrade when](tech-stack.md#running-costs) says so | The app stores personal data |
 | Create a [Cloudflare](https://dash.cloudflare.com/sign-up) account, turn on R2 (needs a card, free up to 10 GB) and invite you as a member | The app stores personal data (nightly backups land there) |
 | Give you access to what they already have: domain, Google Workspace or Microsoft 365 email, old host | They already have a site or email |
 | Sign in to connect their tools (Xero, Google Calendar, Mailchimp, social) | An integration with their accounts |
