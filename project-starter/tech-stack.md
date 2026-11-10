@@ -27,7 +27,7 @@ USD, checked 2026-11 from pricing pages and summaries; recheck before quoting. W
 | Service | Use | Free tier | Production |
 |---|---|---|---|
 | Cloudflare Workers | Hosting, cron | 100k requests/day per account | Paid: $5/month per account with 10M requests, then $0.30 per million. One account covers every client you host |
-| Neon | Postgres | 1 GB per branch, 100 CU-hours/month, 6 h restore window, suspends when idle | Launch: $0.106 per CU-hour, $0.35 per GB-month. Neon's plans page lists a $5/month minimum; other sources say none |
+| Neon | Postgres | 1 GB per branch, 100 CU-hours/month, 6 h restore window. Suspends after 5 min idle (can't be turned off); the next query waits a few hundred ms while it wakes | Launch: $0.106 per CU-hour, $0.35 per GB-month. Always on at 0.25 CU is about $19/month in compute. Neon's plans page lists a $5/month minimum; other sources say none |
 | Resend | Email | 3,000/month, 100/day | Pro: $20/month for 50k |
 | Cloudflare R2 | Files | 10 GB, 1M Class A and 10M Class B operations/month | $0.015 per GB-month, no egress fees |
 | Stripe | Payments | No monthly fee | Transaction fees only |
@@ -37,7 +37,7 @@ Static assets (prerendered Astro pages, JS, CSS, images) are served without runn
 
 **Upgrade when**
 - **Workers Paid:** from the first client in production. On Free, requests past the daily cap fail until midnight UTC.
-- **Neon Launch:** the app holds real customer data (a longer restore window than Free; check the current numbers on Neon's plans page), or it outgrows Free.
+- **Neon Launch:** the app holds real customer data (a longer restore window than Free; check the current numbers on Neon's plans page), it nears 100 CU-hours or 1 GB, or the client won't accept cold starts (staff use it all day, or they notice the first slow request). Then turn scale-to-zero off (about $19/month at 0.25 CU), billed to the client.
 - **Resend Pro:** over 3,000 emails a month or 100 a day.
 - **Supabase Pro ($25/month):** the app needs realtime or a full backend-as-a-service. No template; scaffold it.
 
@@ -52,6 +52,7 @@ A prototype gets client sign-off on flows and look during requirements. It is th
 
 ## Data and auth
 - **Neon:** Drizzle on `node-postgres` (`pg`), so tests run on plain Postgres. Deployed Workers connect through Cloudflare Hyperdrive (Neon's direct connection string, caching off), which pools connections near Neon; it's included in every Workers plan, with a limit of 25 configs per Paid account. Change `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Auth is Better Auth with the Drizzle adapter (`better-auth`, `@better-auth/drizzle-adapter`), its tables in the app's own schema. Not Neon Auth (beta SDK, no MFA). Email verification and password reset need Resend. On Workers, build the database client and auth instance per request and never hold one at module level (see nextjs-neon-starter's `src/db/index.ts`).
+- **Neon cold starts (Free):** keep public pages free of database queries (static or cached), so only signed-in users ever wake a suspended database, and show a loading state on database-backed pages and forms. Put the Neon region near the client's users. Never keep a Free database awake with a scheduled ping: 0.25 CU around the clock is about 182 CU-hours a month, and past 100 Neon stops the database until the next month. If cold starts matter, move to Launch (see [Running costs](#running-costs)).
 - **Authorization:** the browser never queries the database. Server code checks the session on every request and filters by user, deny by default. Multi-tenant or sensitive data adds Postgres RLS as a second net: policies in the Drizzle schema (`pgPolicy`), the app connecting as a non-owner role, and the user set with `set_config('app.user_id', ..., true)` inside each request's transaction. Not the Neon Data API (browser-direct, custom auth providers still in beta).
 - **Keys:** only public values go in `NEXT_PUBLIC_`/`PUBLIC_` vars. Database, auth, Stripe and Resend secrets stay server-side (`wrangler secret put`).
 - Never store passwords yourself. Authorize on the server for every request and deny by default; hiding UI is not authorization.

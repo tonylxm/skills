@@ -9,7 +9,7 @@ _You do the work on your own accounts, and the client does only what needs their
 | **First year included** | Covered by the build fee on your accounts, then a yearly hosting fee or a handover | Yearly invoice, paid upfront |
 | **Care plan** | Hosting on your accounts plus set hours for updates, Dependabot PRs and fixes | Monthly, via repeating invoices (Xero or Stripe) |
 
-If you host, your contract says what happens when a payment is missed. Your Cloudflare Workers Paid account ($5/month) and Resend plan cover many clients, so a hosting fee is mostly margin. Running costs per service: [tech-stack.md → Running costs](tech-stack.md#running-costs).
+If you host, your contract says what happens when a payment is missed. Your Cloudflare Workers Paid account ($5/month) and Resend plan cover many clients, so a hosting fee is mostly margin. Neon is on the client's card: if their app needs no cold starts, Launch with scale-to-zero off adds about $19/month, so name it in the quote or care plan. Running costs per service: [tech-stack.md → Running costs](tech-stack.md#running-costs).
 
 ## Accounts
 | Account | Owner | Why |
