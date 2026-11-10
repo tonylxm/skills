@@ -37,7 +37,7 @@ Static assets (prerendered Astro pages, JS, CSS, images) are served without runn
 
 **Upgrade when**
 - **Workers Paid:** every Next.js app from its first day in production, since its pages can fail on Free's 10 ms CPU limit. An Astro site on the client's own account can stay on Free: its prerendered pages are static assets and only the contact form runs the Worker. Move it to Paid when the Worker's errors show `exceededCpu` (Error 1102), when regular days pass about 50k requests (on Free, requests past the daily cap fail until midnight UTC), or when it gains a shop, login or other server-rendered pages.
-- **Neon Launch:** the app holds real customer data (a longer restore window than Free; check the current numbers on Neon's plans page), it nears 100 CU-hours or 1 GB, or the client won't accept cold starts (staff use it all day, or they notice the first slow request). Then turn scale-to-zero off (about $19/month at 0.25 CU), billed to the client.
+- **Neon Launch:** losing up to a day of data is unacceptable (Free's nightly backup plus a 6-hour restore window can lose writes made between them; Launch restores to any point in 7 days), it nears 100 CU-hours or 1 GB, or the client won't accept cold starts (staff use it all day, or they notice the first slow request). Then turn scale-to-zero off (about $19/month at 0.25 CU), billed to the client.
 - **Resend Pro:** over 3,000 emails a month or 100 a day.
 - **Checking:** the thresholds above are buffers below each limit. Check each dashboard monthly and after a launch or campaign: Workers (Metrics → Errors, Requests), Neon (Usage, act at about 70 CU-hours), Resend (Usage), R2 (Overview).
 - **Supabase Pro ($25/month):** the app needs realtime or a full backend-as-a-service. No template; scaffold it.
