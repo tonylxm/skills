@@ -6,22 +6,40 @@ Defaults for step 3 and the Phase 0 scaffold, tuned for freelance work: pick a b
 - Use the simplest stack that fits. Most freelance jobs are public websites with no database or backend.
 - One repo per project. Split the backend into its own repo only when the API serves several products (web plus mobile), different teams own each side, the backend has its own release cycle or security boundary, or the API is sold to customers.
 - Keep Postgres portable: app-owned migrations and server-side data access for business logic. No generic database adapter without a real need.
-- Accounts, billing, handover and contracts: [clients.md](clients.md). Free plans are for experiments and demos, including [prototypes](#prototypes).
+- Accounts, billing, handover and contracts: [clients.md](clients.md). Plans and running costs: [Running costs](#running-costs).
 
 ## Pick a base stack
 | Project | Stack | Backend logic | Template |
 |---|---|---|---|
 | Mostly content (business site, portfolio, services, blog), a few interactive widgets | Astro + Tailwind, React islands for widgets | Astro actions (contact form + Resend) | astro-site-starter |
-| Public site with many connected interactive features, or public site + logged-in app | Next.js + Supabase (no Supabase if there's no data) | Next.js route handlers and server actions | nextjs-supabase-starter |
-| Private or SEO-unimportant interactive app (dashboard, client portal, internal tool) | Vite + React + Supabase | Hono in `api/`, when needed | vite-supabase-starter |
-| App that owns all data and auth (custom API, several clients) | Next.js + Neon + Drizzle + Better Auth | Next.js route handlers | nextjs-neon-starter |
+| Any app: public site with connected interactive features, logged-in app, dashboard, client portal, internal tool | Next.js + Neon + Drizzle + Better Auth (no database if there's no data) | Next.js route handlers and server actions | nextjs-neon-starter |
 
 **Shared defaults**
 - **Astro:** `.astro` components + Tailwind, zero JS by default. Add `@astrojs/react` only for an interactive island (calculator, booking widget), which also lets you reuse shadcn/ui pieces. If islands need to share state or cover most of the page, use Next.js instead.
 - **React apps:** TypeScript, Tailwind, shadcn/ui + Lucide, Zod, React Hook Form for complex forms, TanStack Query when caching, refetching or mutations help. `useState`/`useReducer` for local state, URL params for shareable filters.
-- **Everywhere:** responsive from ~360px phone width up, unless the project says desktop only. Vercel hosting. Stripe for payments, Resend for email. Files in Supabase Storage, or Cloudflare R2 on Neon.
-- **Backend logic** means Stripe webhooks, private API keys, transactional email, scheduled jobs (Vercel Cron), integrations or real business logic. Next.js apps use Next.js for it, never Hono inside Next.js. Vite apps add Hono in `api/` (Vercel Functions; run locally with `vercel dev`).
-- **FastAPI** only where Python genuinely helps (AI/ML, data processing), as Vercel Python Functions in the same repo unless the work is long-running.
+- **Everywhere:** responsive from ~360px phone width up, unless the project says desktop only. Cloudflare Workers hosting (the Astro adapter, or OpenNext for Next.js) on your Workers Paid account. Stripe for payments, Resend for email, files in Cloudflare R2.
+- **Backend logic** means Stripe webhooks, private API keys, transactional email, scheduled jobs (Cloudflare Cron Triggers), integrations or real business logic. Next.js apps use Next.js for it, never Hono inside Next.js.
+- **FastAPI** only where Python genuinely helps (AI/ML, data processing). Workers don't run it, so pick its host per project.
+
+## Running costs
+USD, checked 2026-11 from pricing pages and summaries; recheck before quoting. Who owns and pays each account: [clients.md](clients.md#accounts).
+
+| Service | Use | Free tier | Production |
+|---|---|---|---|
+| Cloudflare Workers | Hosting, cron | 100k requests/day per account | Paid: $5/month per account with 10M requests, then $0.30 per million. One account covers every client you host |
+| Neon | Postgres | 0.5 GB per project, 100 CU-hours/month, suspends when idle | Launch: $0.106 per CU-hour, $0.35 per GB-month. Neon's plans page lists a $5/month minimum; other sources say none |
+| Resend | Email | 3,000/month, 100/day | Pro: $20/month for 50k |
+| Cloudflare R2 | Files | 10 GB, 1M Class A and 10M Class B operations/month | $0.015 per GB-month, no egress fees |
+| Stripe | Payments | No monthly fee | Transaction fees only |
+| Domain | | | About $11/year for `.com`. Registrar choice: [clients.md](clients.md#accounts) |
+
+Static assets (prerendered Astro pages, JS, CSS, images) are served without running the Worker and don't count as requests. A request is one run of server code: a server-rendered page, a server action, an API call or a webhook.
+
+**Upgrade when**
+- **Workers Paid:** from the first client in production. On Free, requests past the daily cap fail until midnight UTC.
+- **Neon Launch:** the app holds real customer data (a longer restore window than Free; check the current numbers on Neon's plans page), or it outgrows Free.
+- **Resend Pro:** over 3,000 emails a month or 100 a day.
+- **Supabase Pro ($25/month):** the app needs realtime or a full backend-as-a-service. No template; scaffold it.
 
 ## Prototypes
 A prototype gets client sign-off on flows and look during requirements. It is throwaway, and the quote says so.
@@ -29,23 +47,21 @@ A prototype gets client sign-off on flows and look during requirements. It is th
 - **Stack:** the intended project's UI framework (Astro for content sites, otherwise React + Tailwind + shadcn/ui), or Vite + React if that isn't decided yet. Use the plain scaffolder from [Scaffolding](#scaffolding-when-no-template-fits), not a template.
 - **Data:** frontend only. Typed mock fixtures shaped like the domain, `localStorage` when a flow needs to persist, and a role switcher instead of a real login.
 - **Skip:** database, real auth, tests, CI, Husky, Dependabot and SEO.
-- **Accounts:** your Vercel (free plan is fine), shared by preview URL. Never real client or personal data.
+- **Accounts:** your Cloudflare account (`wrangler deploy`, shared by its `*.workers.dev` URL). Never real client or personal data.
 - **After approval:** create a new repo from the matching template rather than building on the prototype. Copy presentational components, layouts and design tokens (or `DESIGN.md`), turn screens and flows into the PRD and roadmap, and discard the mock data and state wiring.
 
 ## Data and auth
-- **Supabase:** RLS on for every table reachable from the client, with policies covered by tests. Server code using the service-role key bypasses RLS, so it checks authorization itself. Next.js uses `@supabase/ssr` (cookie sessions); Hono verifies the Supabase JWT.
-- **Neon:** Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Change `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Auth is Better Auth with the Drizzle adapter (`better-auth`, `@better-auth/drizzle-adapter`), its tables in the app's own schema. Not Neon Auth (beta SDK, no MFA). Email verification and password reset need Resend.
-- **Keys:** only publishable keys go in `VITE_`/`NEXT_PUBLIC_` vars. Service-role, Stripe and Resend keys stay server-side.
+- **Neon:** Drizzle on `node-postgres` (`pg`) with Neon's pooled connection string, so tests run on plain Postgres. Change `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Auth is Better Auth with the Drizzle adapter (`better-auth`, `@better-auth/drizzle-adapter`), its tables in the app's own schema. Not Neon Auth (beta SDK, no MFA). Email verification and password reset need Resend. On Workers, build the database client and auth instance per request and never hold one at module level (see nextjs-neon-starter's `src/db/index.ts`).
+- **Authorization:** the browser never queries the database. Server code checks the session on every request and filters by user, deny by default. Multi-tenant or sensitive data adds Postgres RLS as a second net: policies in the Drizzle schema (`pgPolicy`), the app connecting as a non-owner role, and the user set with `set_config('app.user_id', ..., true)` inside each request's transaction. Not the Neon Data API (browser-direct, custom auth providers still in beta).
+- **Keys:** only public values go in `NEXT_PUBLIC_`/`PUBLIC_` vars. Database, auth, Stripe and Resend secrets stay server-side (`wrangler secret put`).
 - Never store passwords yourself. Authorize on the server for every request and deny by default; hiding UI is not authorization.
 - Pick the database region for the client's users and privacy law.
-- Portability is partial on Supabase: schema and migrations move to any Postgres, but `supabase-js` calls and Supabase Auth don't. Choose Neon at the start if the app must own its data access and auth.
 
 ## Migrations
 Schema changes go only through committed migrations, never by hand on a shared database.
 
 | Stack | Create | Apply in deploy |
 |---|---|---|
-| Supabase | `pnpm supabase migration new <name>`, SQL in `supabase/migrations/`. Replay locally with `pnpm supabase db reset` | `pnpm supabase db push --db-url "$DATABASE_URL"` as an explicit step before the app deploys |
 | Neon (Drizzle) | Edit `src/db/schema.ts`, then `pnpm db:generate --name=<name>`. SQL lands in `drizzle/`. Never `drizzle-kit push` on a shared database | `pnpm db:migrate` with the target `DATABASE_URL`, before the app deploys |
 
 Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy.
@@ -64,16 +80,16 @@ Breaking changes use expand and contract: add the new column, backfill, switch t
     "*.{json,md,css,yml}": "prettier --write"
   }
   ```
-  On oxlint projects (Vite) replace `eslint --fix` with `oxlint --fix`, as vite-supabase-starter does.
+  On oxlint projects (Vite) replace `eslint --fix` with `oxlint --fix`.
 
 **Testing** (test-first with the tdd skill)
 | Stack | Tests |
 |---|---|
 | Astro site | Build, a phone-width Playwright smoke test, and the seo skill's launch checks |
-| React apps | Vitest + React Testing Library, integration tests against real Postgres (`supabase start` or Testcontainers, never SQLite), 1–3 critical journeys in Playwright |
+| React apps | Vitest + React Testing Library, integration tests against real Postgres (Docker Compose or Testcontainers, never SQLite), 1–3 critical journeys in Playwright |
 | FastAPI | pytest + `TestClient`, Ruff |
 
-Levels, journeys and Playwright conventions: [tdd/testing.md](../tdd/testing.md). Must cover business rules, authorization (RLS policies included) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
+Levels, journeys and Playwright conventions: [tdd/testing.md](../tdd/testing.md). Must cover business rules, authorization (RLS policies too, where used) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
 
 ## CI/CD
 Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and `AGENTS.md`.
@@ -86,7 +102,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 | Deploy | Production on push to `main` | Preview per PR, production on merge |
 
 - **CI:** copy [templates/ci.yml](templates/ci.yml): frozen install, lint and format checks, tests, build. Add a Postgres service once integration tests exist.
-- **Deploy:** Vercel's Git integration, no workflow file. Migrations run as an explicit step before deploy. Roll back a bad deploy in Vercel.
+- **Deploy:** `pnpm run deploy` (wrangler) from your machine, or Workers Builds (Cloudflare's Git integration, previews for other branches) with the same command, no workflow file. Migrations run as an explicit step before deploy. Roll back with `wrangler rollback`.
 - **Dependencies and secrets:** Dependabot weekly, minor and patch grouped ([templates/dependabot.yml](templates/dependabot.yml)), alerts on. Public repos or orgs with GitHub Secret Protection: turn on secret scanning and push protection. Private personal repos: the `secrets` job in `ci.yml` runs gitleaks (orgs need a free `GITLEAKS_LICENSE`), and Solo's `.husky/pre-commit` starts with:
   ```sh
   command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
@@ -101,8 +117,6 @@ A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail
 | Stack | Template |
 |---|---|
 | Astro site | [tonylxm/astro-site-starter](https://github.com/tonylxm/astro-site-starter) |
-| Next.js + Supabase | [tonylxm/nextjs-supabase-starter](https://github.com/tonylxm/nextjs-supabase-starter) |
-| Vite + React + Supabase (+ Hono `api/`) | [tonylxm/vite-supabase-starter](https://github.com/tonylxm/vite-supabase-starter) |
 | Next.js + Neon | [tonylxm/nextjs-neon-starter](https://github.com/tonylxm/nextjs-neon-starter) |
 
 ```bash
@@ -116,12 +130,10 @@ Use the official scaffolder with flags so it doesn't prompt. CLIs change their f
 
 | Stack | Scaffold | Then |
 |---|---|---|
-| Astro | `pnpm create astro@latest <app> --template minimal --yes` | `pnpm astro add tailwind vercel` (Vercel adapter for actions), `pnpm astro add react` only for islands |
-| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Check `globals.css` sets `--font-sans: var(--font-geist-sans)`. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit` |
+| Astro | `pnpm create astro@latest <app> --template minimal --yes` | `pnpm astro add tailwind cloudflare`, then copy the adapter options from astro-site-starter: `imageService: "compile"` and `prerenderEnvironment: "node"` (so the build reads env from `process.env`), plus `session: false` unless the site needs sessions. `pnpm astro add react` only for islands |
+| Next.js | `pnpm create next-app@latest <app> --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --use-pnpm --yes` | `pnpm dlx shadcn@latest init -d`. Check `globals.css` sets `--font-sans: var(--font-geist-sans)`. Delete the generated `CLAUDE.md`. Make `typecheck` `next typegen && tsc --noEmit`. For Workers: `pnpm add @opennextjs/cloudflare` and `pnpm add -D wrangler`, then copy `wrangler.jsonc`, `open-next.config.ts` and the `preview`/`deploy` scripts from nextjs-neon-starter |
 | Vite + React | `pnpm create vite@latest <app> --template react-ts --no-interactive` | `pnpm add tailwindcss @tailwindcss/vite`, add `tailwindcss()` to `vite.config.ts` and `@import "tailwindcss";` to `src/index.css`. Add the `@/*` alias to both tsconfigs and `vite.config.ts`, then `pnpm dlx shadcn@latest init -d -t vite`. `typecheck` is `tsc -b` |
-| Hono in `api/` | `pnpm add hono` | `api/index.ts` does `export default app`, and a `vercel.json` rewrite sends `/api/*` to it. `vercel dev` runs the SPA and API together |
-| Supabase | `pnpm add -D supabase --allow-build=supabase` · `pnpm supabase init` | `pnpm add @supabase/supabase-js` (plus `@supabase/ssr` on Next.js). `pnpm supabase start` for local Postgres, Auth and Storage |
-| Neon | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | `db:generate` and `db:migrate` scripts, `drizzle.config.ts`. Auth schema: `pnpm dlx auth@latest generate --config src/lib/auth.ts --output src/db/auth-schema.ts`. Local Postgres via Docker Compose or Testcontainers |
+| Neon | `pnpm add drizzle-orm pg better-auth @better-auth/drizzle-adapter` · `pnpm add -D drizzle-kit @types/pg` | `db:generate` and `db:migrate` scripts, `drizzle.config.ts`. Auth schema: `pnpm dlx auth@latest generate --config src/lib/auth.cli.ts --output src/db/auth-schema.ts` (the CLI needs an exported `auth`, the app uses `getAuth()`). Local Postgres via Docker Compose or Testcontainers |
 | FastAPI | `uv init <app>` · `uv add "fastapi[standard]"` | `uv add --dev pytest ruff` |
 | JS lint/format | `pnpm add -D prettier eslint-config-prettier prettier-plugin-tailwindcss` | Add `eslint-config-prettier` last in `eslint.config.mjs`, then the scripts above. Run `pnpm format` once and add `pnpm-lock.yaml` to `.prettierignore`, or `format:check` fails on the scaffold's own files |
 | Git hooks (Solo) | `pnpm add -D husky lint-staged` · `pnpm exec husky init` | `.husky/pre-commit` is `pnpm exec lint-staged`, plus the `lint-staged` config above |
@@ -146,7 +158,7 @@ gh repo create <app> --private --source . --push
 
 ## Avoid by default
 - Next.js for a plain content site; a database or backend for a brochure site.
-- Hono inside Next.js; Neon while Supabase covers the need; separate frontend and backend repos without a split reason above.
+- Hono inside Next.js; separate frontend and backend repos without a split reason above.
 - ASP.NET Core, microservices, Kubernetes, Kafka, Redis, until there is a concrete need.
 - Generic repositories, generic services, database adapters, CQRS or MediatR-style layers.
-- Neon Auth, and free plans in production.
+- Neon Auth (beta, no MFA); Workers Free for a client in production.

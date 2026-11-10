@@ -31,7 +31,7 @@ jobs:
       - run: pnpm build
 
   # Delete this job until the project has Playwright journeys. Needs a "test:e2e" script that serves the built app.
-  # Journeys that hit the database need it here too: a `services:` Postgres (or `supabase start`) and a migrate step before test:e2e.
+  # Journeys that hit the database need it here too: a `services:` Postgres and a migrate step before test:e2e.
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 15

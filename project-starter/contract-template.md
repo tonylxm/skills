@@ -27,14 +27,14 @@ I aim to launch by {date}, with these milestones: {milestones}. I'll tell you as
 The fee includes {2} rounds of revisions per milestone. New features or changes to the agreed scope are quoted separately, and I start them once you approve the quote in writing.
 
 ## 6. Third-party services
-The site uses third-party services such as {Vercel, Resend, Stripe, domain registrar}.
+The site uses third-party services such as {Cloudflare, Neon, Resend, Stripe, domain registrar}.
 - **Running costs:** {One-off: after launch, you pay these providers directly. | Hosting: covered by my hosting fee of {amount} per {year/month}.}
 - Their prices and terms can change, and they're outside my control. I'm not responsible for their outages or changes, but I'll help you work around them at my usual rate.
 
 ## 7. Accounts and ownership
 - **Domain:** registered in your name as owner. I may buy and renew it for you, and I'll transfer it to your account on request.
 - **Stripe** and any account holding your customers' personal data are in your name.
-- I build on my own GitHub, Vercel and Resend accounts. {One-off: I transfer the repo and hosting project to your accounts at launch. | Hosting: they stay on my accounts while you're on the hosting plan, and I transfer them when you leave.}
+- I build on my own GitHub, Cloudflare and Resend accounts. {One-off: I transfer the repo and hosting project to your accounts at launch. | Hosting: they stay on my accounts while you're on the hosting plan, and I transfer them when you leave.}
 
 ## 8. Intellectual property
 - Once you've paid in full, you own the custom design, code and content made for this project.
