@@ -67,6 +67,29 @@ Schema changes go only through committed migrations, never by hand on a shared d
 
 Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy.
 
+## Backups
+Every app whose Neon database holds real data gets a nightly copy outside Neon. Neon's own recovery lives in the same account, so it's lost with the account or project.
+
+| Plan | Neon gives you | You add |
+|---|---|---|
+| Free | Restore to any point in the last 6 hours, 1 manual snapshot | Nightly backup workflow. Take the manual snapshot before a risky migration, then delete it |
+| Launch | Restore window up to 7 days (set it to 7), scheduled daily snapshots kept up to 35 days ($0.09 per GB-month) | Daily snapshot schedule kept 7 to 14 days, plus the nightly backup workflow |
+
+**Set up** [templates/backup.yml](templates/backup.yml) (copy to `.github/workflows/backup.yml`):
+1. In the client's Cloudflare account, create an R2 bucket and an R2 API token scoped to it (Object Read & Write). Add a lifecycle rule that deletes objects after 30 days.
+2. `age-keygen -o <app>-backup.key` on your machine. Store the file in your password manager, never in the repo. The public key it prints goes in the `BACKUP_AGE_RECIPIENT` variable.
+3. Add the secrets and variables listed at the top of the workflow. `BACKUP_DATABASE_URL` is Neon's direct (non-pooler) string; set `PG_MAJOR` to the project's Postgres version.
+4. Run it once from the Actions tab and check the file lands in the bucket. GitHub emails you when a scheduled run fails.
+
+**Restore** into a new, empty Neon project or branch, check the data, then point the app at it:
+
+```bash
+aws s3 cp s3://<bucket>/<file> . --endpoint-url https://<account-id>.r2.cloudflarestorage.com
+age --decrypt --identity <app>-backup.key <file> | pg_restore --no-owner --no-acl -d "<new database url>"
+```
+
+Test a restore into a throwaway project once a quarter, and before handover.
+
 ## Quality baseline
 **Package manager:** pnpm, pinned with `"packageManager": "pnpm@<version>"`. In an existing repo, use its lockfile's manager and never mix lockfiles. Allow needed install scripts with `pnpm approve-builds`.
 
@@ -124,7 +147,7 @@ A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail
 gh repo create <app> --template tonylxm/<template> --private --clone
 ```
 
-Then follow the template's README checklist. If the folder already has the project docs, clone into `<app>` and copy it up as described below. Keep templates current: [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml) and this page are the source. Merge template Dependabot PRs when CI is green.
+Then follow the template's README checklist. If the folder already has the project docs, clone into `<app>` and copy it up as described below. Keep templates current: [templates/ci.yml](templates/ci.yml), [templates/dependabot.yml](templates/dependabot.yml), [templates/backup.yml](templates/backup.yml) and this page are the source. Merge template Dependabot PRs when CI is green.
 
 ## Scaffolding (when no template fits)
 Use the official scaffolder with flags so it doesn't prompt. CLIs change their flags; if one is rejected, check `--help`.

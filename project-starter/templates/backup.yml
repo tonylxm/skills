@@ -1,0 +1,52 @@
+# Copy to .github/workflows/backup.yml for any app with a Neon database. Nightly encrypted pg_dump to the client's R2 bucket.
+# Setup and restore steps: tech-stack.md → Backups.
+# Repository secrets: BACKUP_DATABASE_URL (Neon direct, non-pooler string), R2_ACCOUNT_ID, R2_ACCESS_KEY_ID,
+# R2_SECRET_ACCESS_KEY (an R2 token scoped to the backup bucket, Object Read & Write). Repository variables: R2_BUCKET,
+# BACKUP_AGE_RECIPIENT (the age public key; the private key never goes into GitHub).
+name: Backup
+
+on:
+  schedule:
+    - cron: "17 16 * * *" # UTC; pick a quiet hour in the client's time zone
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PG_MAJOR: "17" # match the Neon project's Postgres version; pg_dump refuses newer servers
+    steps:
+      - name: Install pg_dump and age
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-common age
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y -qq "postgresql-client-$PG_MAJOR"
+
+      - name: Dump, encrypt and upload
+        env:
+          DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+          AGE_RECIPIENT: ${{ vars.BACKUP_AGE_RECIPIENT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          file="db-$(date -u +%Y-%m-%dT%H%MZ).dump.age"
+          # Custom format is compressed and restores with pg_restore. Encrypting before upload keeps personal data
+          # unreadable to anyone with bucket access but not the private key.
+          "/usr/lib/postgresql/$PG_MAJOR/bin/pg_dump" --format=custom --no-owner --no-acl "$DATABASE_URL" \
+            | age --recipient "$AGE_RECIPIENT" > "$file"
+          size=$(stat -c %s "$file")
+          [ "$size" -gt 1024 ] || { echo "Backup is only $size bytes, refusing to upload"; exit 1; }
+          aws s3 cp "$file" "s3://$BUCKET/$file" --endpoint-url "$ENDPOINT" --only-show-errors
+          echo "Uploaded $file ($size bytes)"
