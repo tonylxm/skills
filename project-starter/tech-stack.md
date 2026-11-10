@@ -27,7 +27,7 @@ USD, checked 2026-11 from pricing pages and summaries; recheck before quoting. W
 | Service | Use | Free tier | Production |
 |---|---|---|---|
 | Cloudflare Workers | Hosting, cron | 100k requests/day per account | Paid: $5/month per account with 10M requests, then $0.30 per million. One account covers every client you host |
-| Neon | Postgres | 0.5 GB per project, 100 CU-hours/month, suspends when idle | Launch: $0.106 per CU-hour, $0.35 per GB-month. Neon's plans page lists a $5/month minimum; other sources say none |
+| Neon | Postgres | 1 GB per branch, 100 CU-hours/month, 6 h restore window, suspends when idle | Launch: $0.106 per CU-hour, $0.35 per GB-month. Neon's plans page lists a $5/month minimum; other sources say none |
 | Resend | Email | 3,000/month, 100/day | Pro: $20/month for 50k |
 | Cloudflare R2 | Files | 10 GB, 1M Class A and 10M Class B operations/month | $0.015 per GB-month, no egress fees |
 | Stripe | Payments | No monthly fee | Transaction fees only |
