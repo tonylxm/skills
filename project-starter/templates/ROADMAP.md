@@ -14,8 +14,8 @@ Goal: an empty app that builds, tests, lints and deploys through CI.
   - AC: a commit or push containing a fake secret is blocked
 - [ ] 0.5 Provision {data store and auth from ARCHITECTURE.md} and set real env values locally and on {host}
   - AC: the app connects, and fails fast with a clear message when a required var is missing
-- [ ] 0.6 Deploy "hello world" to {host}
-  - AC: a public URL responds, production deploys from `main`, and PRs get previews
+- [ ] 0.6 Deploy "hello world" to {host} through CI (tech-stack.md → CI/CD)
+  - AC: a public URL responds, production deploys from `main` only after green CI and passes the smoke check, and PRs get previews
 
 ## Phase 1: {first vertical slice}
 Goal: {user-visible outcome}. PRD: F1, F2

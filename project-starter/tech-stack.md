@@ -66,7 +66,7 @@ Schema changes go only through committed migrations, never by hand on a shared d
 |---|---|---|
 | Neon (Drizzle) | Edit `src/db/schema.ts`, then `pnpm db:generate --name=<name>`. SQL lands in `drizzle/`. Never `drizzle-kit push` on a shared database | `pnpm db:migrate` with the target `DATABASE_URL`, before the app deploys |
 
-Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy.
+Breaking changes use expand and contract: add the new column, backfill, switch the code, drop the old one in a later deploy. A deploy's migrations must work with the code already running, so a failed deploy or a `wrangler rollback` can't break production.
 
 ## Backups
 Every app whose Neon database holds real data gets a nightly copy outside Neon. Neon's own recovery lives in the same account, so it's lost with the account or project.
@@ -107,14 +107,14 @@ Test a restore into a throwaway project once a quarter, and before handover.
   ```
   On oxlint projects (Vite) replace `eslint --fix` with `oxlint --fix`.
 
-**Testing** (test-first with the tdd skill)
+**Testing** (strategy and verification tiers in the dev-loop skill; test-first with tdd where it applies)
 | Stack | Tests |
 |---|---|
 | Astro site | Build, a phone-width Playwright smoke test, and the seo skill's launch checks |
 | React apps | Vitest + React Testing Library, integration tests against real Postgres (Docker Compose or Testcontainers, never SQLite), 1–3 critical journeys in Playwright |
 | FastAPI | pytest + `TestClient`, Ruff |
 
-Levels, journeys and Playwright conventions: [tdd/testing.md](../tdd/testing.md). Must cover business rules, authorization (RLS policies too, where used) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
+Levels: [tdd/testing.md](../tdd/testing.md). Journeys and Playwright conventions: [browser-e2e/e2e.md](../browser-e2e/e2e.md). Must cover business rules, authorization (RLS policies too, where used) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
 
 ## CI/CD
 Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and `AGENTS.md`.
@@ -127,7 +127,17 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 | Deploy | Production on push to `main` | Preview per PR, production on merge |
 
 - **CI:** copy [templates/ci.yml](templates/ci.yml): frozen install, lint and format checks, tests, build. Add a Postgres service once integration tests exist.
-- **Deploy:** `pnpm run deploy` (wrangler) from your machine, or Workers Builds (Cloudflare's Git integration, previews for other branches) with the same command, no workflow file. Migrations run as an explicit step before deploy. Roll back with `wrangler rollback`.
+- **Deploy:** production deploys only after green CI, from the `deploy` job in [templates/ci.yml](templates/ci.yml) (`needs: ci`): migrations, `pnpm run deploy`, then a smoke check of the live URL. Workers Builds may stay on for branch previews, with its production deploy on push turned off.
+
+  | Stage | Flow | Who deploys |
+  |---|---|---|
+  | Before launch (Solo) | push `main` → CI → deploy job | Pushing `main` (roadmap-next `close`) |
+  | After launch (Team, the switch below) | PR → CI and preview → merge → CI → deploy job | Merging the PR, after you or the client checked the preview |
+  | Release on a chosen date | Enable the job's `workflow_dispatch` trigger and drop the `push` trigger | You, with the Run workflow button |
+  | Emergency | `wrangler rollback`, or `pnpm run deploy` from your machine | You |
+
+  No staging environment: PR previews cover it.
+- **Production errors:** check Workers Logs is on before launch (`"observability": { "enabled": true }` in the wrangler config; the templates set it). Add Sentry only when a client needs alerting. Every production bug gets a regression test (dev-loop, "After a bug escapes").
 - **Dependencies and secrets:** Dependabot weekly, minor and patch grouped ([templates/dependabot.yml](templates/dependabot.yml)), alerts on. Public repos or orgs with GitHub Secret Protection: turn on secret scanning and push protection. Private personal repos: the `secrets` job in `ci.yml` runs gitleaks (orgs need a free `GITLEAKS_LICENSE`), and Solo's `.husky/pre-commit` starts with:
   ```sh
   command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
