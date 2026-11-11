@@ -1,6 +1,6 @@
 # Testing levels
 
-Integration-heavy, a few unit tests for pure logic, 1-3 Playwright journeys. Nothing else. Stack picks live in [project-starter/tech-stack.md](../project-starter/tech-stack.md); this page says what to write at each level.
+Integration-heavy, a few unit tests for pure logic, 1-3 Playwright journeys. Nothing else. Which behaviours get test-first is decided in [dev-loop](../dev-loop/SKILL.md). Stack picks live in [project-starter/tech-stack.md](../project-starter/tech-stack.md); this page says what to write at each level.
 
 ## Which level
 
@@ -28,12 +28,5 @@ Short job (under a week): build, smoke, contact form journey only. Anything with
 - Agree the seams before writing any test (see [SKILL.md](SKILL.md)).
 - Every bug fix starts with a failing regression test.
 - Test what must not break: business rules, authorization, money. Not layout, copy or glue.
-- No coverage targets, no snapshot tests. [frontend-verify](../frontend-verify/SKILL.md) covers how it looks.
-
-## Playwright conventions
-
-- Locators by role, label or text first. Test ids only when nothing accessible fits. No CSS or XPath selectors.
-- Run against the built app (`build` + `start`), not the dev server, so CI matches production.
-- Sign in once in a setup project and reuse `storageState`. Seed data through the DB or API, not through the UI.
-- CI: one retry, `trace: 'on-first-retry'`, upload the report on failure. A flaky test is fixed or deleted, never retried more.
-- A fourth journey needs a past bug in that area as its reason.
+- No coverage targets, no snapshot tests. [browser-e2e](../browser-e2e/SKILL.md) covers how it looks; Playwright conventions are in [browser-e2e/e2e.md](../browser-e2e/e2e.md).
+- Mock only at system boundaries ([mocking.md](mocking.md)).

@@ -1,11 +1,11 @@
 ---
-name: frontend-verify
-description: Use after any user-facing UI change (new screen, restyle, layout or component fix, UI bug fix) and before saying it is done, or when asked to check, QA, test or screenshot the running app in a browser.
+name: browser-e2e
+description: Use after any user-facing UI or full-stack change (new screen, restyle, layout or component fix, form or API flow, UI bug fix) and before saying it is done, when asked to check, QA, test or screenshot the running app in a browser, or when deciding whether a flow deserves a Playwright E2E test.
 ---
 
-# Frontend verify
+# Browser E2E
 
-Prove a UI change works in a real browser before calling it done. Tests and typecheck passing is not evidence that a screen looks or behaves right.
+Prove a UI or full-stack change works in the running app before calling it done, then decide whether anything you found deserves a permanent E2E test. Tests and typecheck passing is not evidence that a screen looks or behaves right.
 
 ## 1. Open the app
 
@@ -25,7 +25,7 @@ Collect everything in a single round, using `browser_batch` where the steps are 
 | Accessibility tree | `read_page`: every control has a name, headings run in order, landmarks exist |
 | Keyboard | Tab through the changed area: logical order, visible focus, Escape closes overlays, Enter and Space activate |
 | States | Trigger loading, empty, error and disabled where the change touches them |
-| The flow | Exercise the changed journey end to end with real-looking data, including long text |
+| The flow | Exercise the changed journey end to end with real-looking data, including long text. For full-stack changes, confirm the outcome persisted (reload, or read it back through the UI or API) and check the server or dev-server logs |
 | Design | Compare screenshots with `DESIGN.md`, the frontend-design craft-floor Refuse list and any `docs/design/references/` screens |
 
 Reset the viewport with `resize_window` preset `desktop` when done.
@@ -44,4 +44,10 @@ In an environment without them (for example Codex), take screenshots at the thre
 
 A short table: check, pass or fail, and the evidence (screenshot, console line, element). List anything not checked and why.
 
-Playwright end-to-end tests in CI remain the regression gate. This skill is the human-eye check before a change is called done.
+## Exploration vs permanent tests
+
+This pass is exploration: most of what it finds is fixed and needs no test. Write or extend a deterministic Playwright test only when:
+- the flow is one of the project's 1-3 critical journeys (money, sign-in, the main conversion), or
+- you found a regression in a critical journey, which becomes a test so it can't return.
+
+Never add an E2E test per feature. Journeys assert user-visible outcomes, not markup or implementation details. Conventions: [e2e.md](e2e.md). Playwright tests in CI remain the regression gate; this pass is the human-eye check before a change is called done.

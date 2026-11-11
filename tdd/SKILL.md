@@ -1,11 +1,13 @@
 ---
 name: tdd
-description: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+description: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", wants integration tests, or dev-loop calls for test-first (business logic, validation, invariants, regression bugs).
 ---
 
 # Test-Driven Development
 
 TDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: what a good test is, where tests go, the anti-patterns, and the rules of the loop. Every section applies on every cycle: consult them before and during the loop, not after.
+
+Use it where test-first pays: business logic, algorithms, state machines, validation, money or security invariants, and regression bugs. [dev-loop](../dev-loop/SKILL.md) decides that per behaviour; CRUD, styling and exploratory work don't need it.
 
 When exploring the codebase, read `GLOSSARY.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in `docs/decisions/` for the area you're touching.
 
@@ -21,7 +23,7 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 **Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You can't test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
 
-Seams already count as agreed when the user confirmed them in planning (a roadmap task's acceptance criteria, confirmed in roadmap-next `plan`) or the run is unattended (gnhf, or no user to ask). Then use the acceptance criteria as the seams and list them in the commit body. Otherwise ask: "What's the public interface, and which seams should we test?"
+Seams already count as agreed when the work has acceptance criteria (a roadmap task's ACs confirmed in roadmap-next `plan`, or criteria the user stated) or the run is unattended (gnhf, or no user to ask). Then use the acceptance criteria as the seams and list them in the commit body. Only when there are none and a user is present, ask: "What's the public interface, and which seams should we test?"
 
 When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
 
@@ -36,4 +38,5 @@ When the shape of that interface is itself in question (how deep the module is, 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **Bug fixes start red.** Reproduce the bug as a failing test, then fix it.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
+- **Never weaken an existing test to go green.** A failing old test is evidence; follow dev-loop's test-integrity rule.
 - **Refactor after green, outside the loop.** Once the slices pass, refactor in the review stage (`/simplify`), never mid-cycle.

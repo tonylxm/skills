@@ -4,14 +4,16 @@
 
 ## Non-negotiables
 - {Rule an agent must never break, with a reason if it isn't obvious}
-- Tests before code for new logic at agreed seams (`tdd`); skip for styling, copy, config and throwaway prototypes. Never claim something is done without running the tests.
+- Every important behaviour gets a verification strategy (`dev-loop`): test-first for business logic, validation, money or security rules and bug fixes. Never edit a test just to make it pass, and never claim done without showing the check output.
 - Never commit secrets. Config comes from env vars; keep `.env.example` current.
 
 ## Commands
 ```bash
 {install}
 {dev}
-{test}            # single test: {cmd}
+{test}            # full suite (quiet: {cmd})
+{single test}     # one file or name
+{area tests}      # tests for one area, e.g. {src/x → tests/x}
 {lint && typecheck}
 {build}
 ```

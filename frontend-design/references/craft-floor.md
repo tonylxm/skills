@@ -6,7 +6,7 @@ Read this after the direction is settled, and build without announcing the check
 
 ## Verify
 
-Each item is a check on the built result, not an intention. Run them together in one frontend-verify pass, not as separate screenshot trips.
+Each item is a check on the built result, not an intention. Run them together in one browser-e2e pass, not as separate screenshot trips.
 
 - **Contrast:** body and placeholder text at least 4.5:1, large text at least 3:1. On coloured surfaces, tint secondary text from that hue or the foreground, never plain grey.
 - **Depth:** shadows have an offset and a soft blur. A zero-offset coloured halo is decoration.
