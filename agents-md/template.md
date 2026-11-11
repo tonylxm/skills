@@ -11,7 +11,7 @@
 ```bash
 {install}
 {dev}
-{test}            # full suite (quiet: {cmd})
+{test}            # full suite (quiet, still prints pass/fail counts: {cmd})
 {single test}     # one file or name
 {area tests}      # tests for one area, e.g. {src/x → tests/x}
 {lint && typecheck}

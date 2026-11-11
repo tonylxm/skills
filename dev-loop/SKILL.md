@@ -28,7 +28,7 @@ The loop for one change: **Goal → Explore → Plan → Implement → Verify �
 | Reviewing only your own work | `/code-review` in a fresh context |
 
 ## 1. Goal
-Restate the goal and its observable acceptance criteria (from the user, the task or `docs/PRD.md`). If requirements, tests and code disagree, investigate which is wrong; don't make the tests pass by default.
+Restate the goal, its observable acceptance criteria (from the user, the task or `docs/PRD.md`), and the edge cases that matter (invalid input, boundaries, money rounding, repeats). If requirements, tests and code disagree, investigate which is wrong; don't make the tests pass by default.
 
 ## 2. Explore
 For non-trivial work, read the code you will touch, the patterns next to it, its tests and the docs it cites (`AGENTS.md`, `docs/GLOSSARY.md`, ADRs for the area). Search narrowly with `rg`; skip anything the change can't reach.
@@ -59,8 +59,8 @@ Cheapest effective check first. Never run the whole suite in the inner loop.
 | 2b | Shared modules, schema or migrations, auth, dependencies or lockfile, config or env, shared fixtures touched; related tests unclear; or the suite runs under ~2 min | Full suite. Lean towards it in unattended runs |
 | 3 | Before push, merge or deploy (roadmap-next `close`) | Full suite, all E2E journeys, production build. CI repeats it and is the hard gate |
 
-- **Evidence:** command, exit code, and pass/fail/skip counts. "Tests pass" on its own is a claim, not evidence.
-- **Quiet output:** use failure-only reporters so a green run costs a few lines of context.
+- **Evidence:** command, exit code, and pass/fail/skip counts. "Tests pass" on its own is a claim, not evidence. For test-first work, also show each new test failing before the fix.
+- **Quiet output:** use reporters that print only failures plus the summary counts, so a green run costs a few lines of context.
 - **UI or full-stack changes:** also run browser-e2e against the running app.
 
 **Test integrity.** Never change an existing test just to make the code pass. When one fails, decide: is the implementation wrong, the test wrong, the requirement changed, or the environment or data wrong? Change a test only for the second or third, and say why in the report and commit body.

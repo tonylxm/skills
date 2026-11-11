@@ -35,7 +35,7 @@ When the shape of that interface is itself in question (how deep the module is, 
 
 ## Rules of the loop
 
-- **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
+- **Red before green.** Write the failing test first, run it on its own and see it fail for the expected reason, then write only enough code to pass it. Never write the test and the fix in the same step. If red was skipped, break the fix on purpose and confirm the test catches it. Don't anticipate future tests or add speculative features.
 - **Bug fixes start red.** Reproduce the bug as a failing test, then fix it.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Never weaken an existing test to go green.** A failing old test is evidence; follow dev-loop's test-integrity rule.
