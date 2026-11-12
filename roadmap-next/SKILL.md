@@ -91,7 +91,7 @@ Build every unchecked, non-`BLOCKED` task in the phase, in order, without stoppi
 5. **Commit, don't push.** One commit per task, staging only the files the task touched (never `git add -A`). Solo: on `main`, which deploys to production once pushed, so nothing leaves the machine until `close`. Team: on the phase branch.
 
 **Never stop to ask mid-phase:**
-- Minor unforeseen choice: take the option most consistent with the docs, and note it for the close report.
+- Minor unforeseen choice: take the option most consistent with the docs and existing code (best practice where neither has a precedent), and note it for the close report.
 - Consequential choice: if the task changed files, `git stash push -u -m "<task ID> decision" -- <task files>` (skip the stash if nothing was written). Add `- BLOCKED (decision): {question; options, recommended first; stash name}` under the task, and move on.
 - A check still failing after systematic-debugging and the Opus re-run (about 3 fix attempts in all): `git stash push -u -m "<task ID> wip" -- <task files>`, add `- BLOCKED: {reason, evidence, stash name}` under the task, and move on.
 - Missing user prerequisite: `- BLOCKED (setup): ...` as above, and move on.
@@ -102,7 +102,7 @@ When no unblocked tasks remain, run `close`.
 ### Choice rules
 
 Give these to every subagent verbatim. Sort every choice the docs and plan don't settle:
-- **Minor:** internal, reversible, no effect outside the code being written (naming, internal helper shape, test structure, error message wording, tables only this project uses). Take the option most consistent with the docs and list it under Decisions to confirm.
+- **Minor:** internal, reversible, no effect outside the code being written (naming, internal helper shape, test structure, error message wording, tables only this project uses). Take the option most consistent with the docs and existing code, or established best practice where neither has a precedent, and list it under Decisions to confirm.
 - **Consequential:** changes an external contract (procedure result sets, queue or payload shapes, API responses used outside this repo); changes security or authorisation behaviour; defines data semantics (what a sync applies or rejects, keys, backfill rules, soft vs hard delete); defines a schema that existing data, other systems or other repos depend on, or that migrates existing rows; invents business data (seed or lookup values, thresholds, role or status spellings); or contradicts the PRD or spec. Don't implement a guess: stop the task and report it under Blocked decisions, options with the recommended one first.
 - Security checks always fail closed: an unknown, missing or null identity gets no access. This is a rule, not a choice.
 
