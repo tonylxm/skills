@@ -147,7 +147,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 - **Deferred to the roadmap's Later section:** CodeQL, a staging environment, release automation, E2E beyond the 1-3 journeys.
 
 ## Templates
-A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, green in CI, with auth deny-by-default where the stack has auth.
+A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, green in CI, with auth deny-by-default where the stack has auth, and the seo skill's baseline (astro-site-starter adds a business config and service pages).
 
 | Stack | Template |
 |---|---|

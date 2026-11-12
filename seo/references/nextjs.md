@@ -1,20 +1,20 @@
 # SEO in Next.js App Router
 
-Checked against Next.js 16.3 docs as of November 2026. APIs move between majors, so confirm against the installed version's `node_modules/next/dist/docs/01-app/` before copying.
+Checked against Next.js 16.4 docs as of November 2026. nextjs-neon-starter implements this baseline (`src/lib/site.ts`, root layout, `sitemap.ts`, `robots.ts`). APIs move between majors, so confirm against the installed version's `node_modules/next/dist/docs/01-app/` before copying.
 
 **Metadata merges shallowly.** A page's `openGraph` replaces the layout's whole `openGraph` object, so a page that sets it repeats the shared fields (or spreads a shared constant). Never put `alternates.canonical` or `openGraph.url` in the root layout, or every page inherits the home URL.
 
 | Baseline item | Where | How |
 |---|---|---|
-| Site URL | `src/lib/site.ts` | One `siteUrl` constant from `NEXT_PUBLIC_SITE_URL`, validated in `site.ts` itself (not a shared env module that also requires the database). Add the var to `.env.example`, the test config and every Vercel environment. Previews use the production URL too, so canonicals always point at production |
+| Site URL | `src/lib/site.ts` | One `siteUrl` constant from `NEXT_PUBLIC_SITE_URL`, validated in `site.ts` itself (not a shared env module that also requires the database). Add the var to `.env.example`, the test config and the deploy build (a CI variable). Previews use the production URL too, so canonicals always point at production |
 | Titles | `app/layout.tsx` | `metadata.title = { template: '%s \| Business', default: 'Business, what it does' }`. Pages set a plain `title` string. The template applies only to child segments, not the layout's own segment |
 | Description | each `page.tsx` | `metadata.description`, or `generateMetadata` for dynamic routes |
 | Absolute URLs | `app/layout.tsx` | `metadataBase: new URL(siteUrl)`, so canonical and OG paths can be relative. Return it as a string if `generateMetadata` uses `'use cache'` |
 | Canonical | each `page.tsx` | `alternates: { canonical: '/path' }` |
 | `lang` | `app/layout.tsx` | `<html lang="en">` (or the site's language) |
-| Sitemap | `app/sitemap.ts` | Default export returning `MetadataRoute.Sitemap`: one entry per public route, absolute URLs from `siteUrl`, each identical to that page's canonical. Skip `lastModified` unless real dates exist. Use `generateSitemaps` only past 50,000 URLs |
+| Sitemap | `app/sitemap.ts` | Default export returning `MetadataRoute.Sitemap`: one entry per public route, absolute URLs from `siteUrl`, each identical to that page's canonical (Next renders the home canonical without a trailing slash, so list the home page as `siteUrl`). Skip `lastModified` unless real dates exist. Use `generateSitemaps` only past 50,000 URLs |
 | Robots | `app/robots.ts` | Default export returning `MetadataRoute.Robots`. Production: allow `/`, `` sitemap: `${siteUrl}/sitemap.xml` ``. Otherwise disallow `/` |
-| Preview `noindex` | `app/layout.tsx` | `robots: isProduction ? undefined : { index: false, follow: false }`, with `isProduction` in `site.ts`. It is `SITE_ENV === 'production'`, set only by the production deploy script (as in astro-site-starter). It is read at build time (`robots.ts` is static), so set it for the build, including local production builds |
+| Preview `noindex` | `app/layout.tsx` | `robots: isProduction ? undefined : { index: false, follow: false }`, with `isProduction` in `site.ts`. It is `process.env.NEXT_PUBLIC_SITE_ENV === 'production'`, set only by the production deploy script. The `NEXT_PUBLIC_` prefix inlines it at build time, so static pages, `robots.ts` and dynamic pages rendered later on the Worker all agree. Set it for the build, including local production builds |
 | Share image | `app/opengraph-image.tsx` (or a static `opengraph-image.png`) | 1200x630. A `twitter-image` falls back to it if absent. Set `openGraph` and `twitter.card: 'summary_large_image'` in the root metadata |
 | JSON-LD | `app/layout.tsx` (sitewide business) or `page.tsx`. It renders in the body, which Google reads fine | `<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />`. The `replace` blocks script injection. Type it with `schema-dts` only if already installed (ask before adding it) |
 | 404 | `app/not-found.tsx` | Call `notFound()` from `next/navigation` for missing dynamic records, so the status is 404 rather than a 200 "not found" page |
