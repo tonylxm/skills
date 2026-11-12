@@ -1,6 +1,6 @@
 # SEO in Next.js App Router
 
-Checked against Next.js 16.4 docs as of November 2026. nextjs-neon-starter implements this baseline (`src/lib/site.ts`, root layout, `sitemap.ts`, `robots.ts`). APIs move between majors, so confirm against the installed version's `node_modules/next/dist/docs/01-app/` before copying.
+Checked against Next.js 16.4 docs as of November 2026. APIs move between majors, so confirm against the installed version's `node_modules/next/dist/docs/01-app/` before copying.
 
 **Metadata merges shallowly.** A page's `openGraph` replaces the layout's whole `openGraph` object, so a page that sets it repeats the shared fields (or spreads a shared constant). Never put `alternates.canonical` or `openGraph.url` in the root layout, or every page inherits the home URL.
 

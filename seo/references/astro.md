@@ -1,6 +1,6 @@
 # SEO in Astro
 
-Checked against Astro 7.4 and `@astrojs/sitemap` 3.7 as of November 2026. Confirm against the installed versions (`node_modules/astro/dist/types/public/config.d.ts` and the docs) before copying. The astro-site-starter template already does all of this; start from it when it fits. Business facts live in `src/business.ts` (read by metadata, JSON-LD, footer and contact page), service pages in the `services` content collection, and its README lists what the client provides.
+Checked against Astro 7.4 and `@astrojs/sitemap` 3.7 as of November 2026. Confirm against the installed versions (`node_modules/astro/dist/types/public/config.d.ts` and the docs) before copying.
 
 | Baseline item | Where | How |
 |---|---|---|
@@ -13,7 +13,7 @@ Checked against Astro 7.4 and `@astrojs/sitemap` 3.7 as of November 2026. Confir
 | Robots | `src/pages/robots.txt.ts` | A `GET` route returning text: `Allow: /` in production, `Disallow: /` otherwise, plus `Sitemap: <site>/sitemap-index.xml` |
 | Preview `noindex` | layout and `robots.txt.ts` | An explicit `SITE_ENV` enum read through `astro:env` (declare it in `env.schema`, optional, `access: 'public'`). Only the production deploy script sets `SITE_ENV=production`. Static pages read it at build time, so set it for the build |
 | Share image | `public/og.png` | 1200x630 static image, referenced as an absolute URL from `Astro.site`, with `og:image:width`/`height` |
-| JSON-LD | layout | `<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />`. Build it from the business config, leaving out unset fields. Swap `Organization` for the client's `LocalBusiness` subtype (example in [nextjs.md](nextjs.md#example-local-business-json-ld), the object is the same) |
+| JSON-LD | layout | `<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />`. Build it from one source of business facts, leaving out unset fields. Swap `Organization` for the client's `LocalBusiness` subtype (example in [nextjs.md](nextjs.md#example-local-business-json-ld), the object is the same) |
 | 404 | `src/pages/404.astro` | Uses the layout with `noindex`. Hosts serve it with status 404 |
 | Redirects | `astro.config.mjs` | `redirects: { '/old': '/new' }`. Production GET redirects are 301 |
 | Images and fonts | components | `Image` / `Picture` from `astro:assets` with `alt`; local fonts through Astro's fonts API or self-hosted files, not a render-blocking stylesheet |
