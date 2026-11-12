@@ -30,6 +30,8 @@ The loop for one change: **Goal → Explore → Plan → Implement → Verify �
 ## 1. Goal
 Restate the goal, its observable acceptance criteria (from the user, the task or `docs/PRD.md`), and the edge cases that matter (invalid input, boundaries, money rounding, repeats). If requirements, tests and code disagree, investigate which is wrong; don't make the tests pass by default.
 
+If the goal or criteria are ambiguous, ask before exploring further: one batch of questions, each with a recommended answer. Minor gaps (internal and reversible: naming, helper shape, error wording) take the option most consistent with the existing code, or established best practice where the code has no precedent; when the two conflict, follow the code and note the better practice as a follow-up. State every such choice in the report. Consequential gaps (external contracts, security, data semantics, money, business values) are always asked, never guessed.
+
 ## 2. Explore
 For non-trivial work, read the code you will touch, the patterns next to it, its tests and the docs it cites (`AGENTS.md`, `docs/GLOSSARY.md`, ADRs for the area). Search narrowly with `rg`; skip anything the change can't reach.
 
