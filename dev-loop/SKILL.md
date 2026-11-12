@@ -66,7 +66,7 @@ Cheapest effective check first. Never run the whole suite in the inner loop.
 **Test integrity.** Never change an existing test just to make the code pass. When one fails, decide: is the implementation wrong, the test wrong, the requirement changed, or the environment or data wrong? Change a test only for the second or third, and say why in the report and commit body.
 
 ## 6. Review
-For meaningful changes, review in a fresh context: `/code-review`, plus `/security-review` when auth, input handling, secrets, permissions or dependencies changed. The reviewer challenges, not summarises: misread requirements, missing edge cases, tests overfit to the code, regressions, authorization holes, races, partial failures, duplicate operations, backwards compatibility, needless complexity. Fix findings or list them.
+Review in a fresh context with `/code-review`, plus `/security-review` when auth, input handling, secrets, permissions or dependencies changed. Risk decides, not size: always review changes to money, auth or permissions, user data, concurrency, external contracts or migrations, even a one-character fix. Skip only for copy, styling, docs, or a pure refactor already covered by tests; anything else is a judgment call. The reviewer challenges, not summarises: misread requirements, missing edge cases, tests overfit to the code, regressions, authorization holes, races, partial failures, duplicate operations, backwards compatibility, needless complexity. Fix findings or list them.
 
 ## 7. Commit
 Commit at green checkpoints, one concern per commit, never mixing unrelated changes, so each is easy to review and revert. Branch and commit rules come from `AGENTS.md` Workflow.
