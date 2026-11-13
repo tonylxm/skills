@@ -116,6 +116,8 @@ Test a restore into a throwaway project once a quarter, and before handover.
 
 Levels: [tdd/testing.md](../tdd/testing.md). Journeys and Playwright conventions: [browser-e2e/e2e.md](../browser-e2e/e2e.md). Must cover business rules, authorization (RLS policies too, where used) and money paths. Mock only at system boundaries (Stripe, Resend). Skip coverage targets and snapshot-heavy tests.
 
+Add pgTAP once a project puts logic in Postgres (RLS policies, triggers, functions), since only the database enforces it. Not before: the starter's auth tables don't need it. Setup: a `postgres:<major>` image with `postgresql-<major>-pgtap` and `libtap-parser-sourcehandler-pgtap-perl` (for `pg_prove`), and a script that recreates a test database, migrates it as a non-superuser owner (like Neon's) so RLS isn't bypassed, then runs `pg_prove` over `db/tests/*.test.sql`. Neon has the extension too, so the same suite can run on a throwaway Neon branch before launch.
+
 ## CI/CD
 Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and `AGENTS.md`.
 
