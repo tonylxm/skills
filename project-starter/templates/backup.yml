@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      PG_MAJOR: "17" # match the Neon project's Postgres version; pg_dump refuses newer servers
+      PG_MAJOR: "18" # match the Neon project's Postgres version; pg_dump refuses newer servers
     steps:
       - name: Install pg_dump and age
         run: |
