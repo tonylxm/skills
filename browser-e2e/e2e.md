@@ -4,6 +4,7 @@ Deterministic tests for the project's 1-3 critical journeys. Which journeys qual
 
 - Locators by role, label or text first. Test ids only when nothing accessible fits. No CSS or XPath selectors.
 - Run against the built app (`build` + `start`), not the dev server, so CI matches production.
+- Serve E2E on its own port, not the dev port, so `reuseExistingServer` can't pick up a running `pnpm dev`.
 - Sign in once in a setup project and reuse `storageState`. Seed data through the DB or API, not through the UI.
 - CI: one retry, `trace: 'on-first-retry'`, upload the report on failure. A flaky test is fixed or deleted, never retried more.
 - A fourth journey needs a past bug in that area as its reason.
