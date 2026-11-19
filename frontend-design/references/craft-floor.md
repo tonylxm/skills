@@ -46,3 +46,7 @@ Surface habits:
 - Centred text and controls by default. Left-align dense or task content; centre only short, focused moments.
 
 The floor holds the mechanics; it never picks the direction. With every check green, spend the page on the committed direction.
+
+## Growing this list
+
+Add an item only after it recurs across projects, not after one bad page. A generic default goes under Refuse in the group it fits. A check that would have caught it goes under Verify. One line each, stated as the rule, and edit in `~/.agents/skills`, never a project copy.

@@ -79,4 +79,4 @@ Commit at green checkpoints, one concern per commit, never mixing unrelated chan
 - A noisy or overloaded context: write a handoff (the handoff skill) and continue in a fresh session.
 
 ## After a bug escapes
-Ask "why didn't the workflow catch this?" Codify the lesson only where it pays: a regression test, an E2E journey, an eval case, a lint rule, a script, or one line in `AGENTS.md` (agents-md). Don't add process for completeness.
+Ask "why didn't the workflow catch this?" Codify the lesson only where it pays: a regression test, an E2E journey, an eval case, a lint rule, a script, one line in `AGENTS.md` (agents-md), or, for a recurring generic UI default, one line in frontend-design's craft-floor list. Don't add process for completeness.
