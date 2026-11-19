@@ -20,7 +20,14 @@ Each item is a check on the built result, not an intention. Run them together in
 
 ## Refuse
 
-These are the category's defaults. The brief's own words can earn any of them back; reaching for one when the axis is free means you were not deciding. Rewrite the element rather than softening it.
+These are the category's defaults, and the one list of what AI-generated design clusters around. The brief's own words can earn any of them back; reaching for one when the axis is free means you were not deciding. Rewrite the element rather than softening it.
+
+Whole-page looks:
+
+- Warm cream background (near `#F4F1EA`) with a high-contrast serif display and a terracotta or clay accent (near `#D97757`, Anthropic's own Claude accent, so on a user's brief it reads as a tell).
+- Near-black background with a single bright acid-green or vermilion accent.
+- Broadsheet layout: hairline rules, zero radius, dense newspaper-like columns.
+- The SaaS-card kit: identical rounded cards, the same soft grey shadow (`rgba(0,0,0,.1)`) under each, gradient washes as decoration.
 
 Page scaffolds:
 
@@ -29,6 +36,14 @@ Page scaffolds:
 - An eyebrow or kicker label above a heading. The heading carries its own weight.
 - Section numbers (01 / 02 / 03) unless the sequence carries information the reader needs.
 - A modal for a task that needs neither interruption nor protected focus.
+
+Type and labels:
+
+- One word or phrase in a headline accented in italic, bold or another colour.
+- All-caps labels.
+- Meta strings joined with middle dots (`A · B · C`).
+- Labels built as `WORD — fragment` with a spaced em dash.
+- A `→` appended to link and button text.
 
 Surface habits:
 
@@ -39,6 +54,7 @@ Surface habits:
 - Hard offset shadows (`box-shadow: 4px 4px 0`) outside a design that is actually neobrutalist.
 - Sparklines, progress rings and soft-shadowed rounded rectangles standing in for content.
 - Monospace used to look "technical" rather than for code, data or measurement.
+- Tinted near-black (`#0B0B0B`, `#111`) standing in for black.
 - Emoji or unicode glyphs standing in for an icon system. Icons come from the project's icon set (Lucide by default) or authored SVG, in one consistent stroke and weight.
 - Colour, light or dark chosen by category ("fintech is navy"). Choose from the use scene: who, where, under what light.
 - One radius on everything. Use a small radius scale tied to hierarchy (from `DESIGN.md`).

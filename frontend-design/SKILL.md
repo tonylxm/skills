@@ -21,7 +21,7 @@ Either way, prefer lists, tables and plain sections spaced for hierarchy over ca
 
 **Components:** build on the project's primitives (shadcn/ui on Base UI or Radix by default) restyled through `DESIGN.md` tokens, never shipped with stock radius, colour and type. Animated effect libraries (Aceternity, Magic UI) only when the brief earns one specific effect.
 
-**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the "never by default" set in either mode: purple or indigo defaults, gradient text, decorative glass, card grids and nested cards, emoji icons, thick coloured side borders, modal-first flows. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist. **When adding or editing animation**, also read [references/motion.md](references/motion.md).
+**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the one list of generic AI defaults to avoid, in either mode. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist. **When adding or editing animation**, also read [references/motion.md](references/motion.md).
 
 ## Ground your designs in the subject matter
 
@@ -37,11 +37,6 @@ Choose your typefaces deliberately, not the default families you would reach for
 
 Default to line lengths of less than 80 characters. Serif typefaces can have slightly longer line lengths; give serif body text slightly more line-height than a sans-serif.
 
-Avoid these default typographic treatments; they are the commonest tells of a generated page:
-- Accenting just a single word or phrase in a headline, like putting one word in italic/bold or a different color.
-- Using all caps for labels.
-- Adding unnecessary typographic labels above content.
-
 Visual structure is information. Structural devices like outlines, borders, numbering, eyebrows, dividers, labels, etc., encode useful information about the content rather than decorate it. Many generic designs use numbered markers (01 / 02 / 03), but that's only appropriate if the content actually is a sequence — like a stepped process or a timeline. Before adding numbered markers, check the content really is a sequence. The same holds for every colour, border, shadow, radius, icon and animation: if it doesn't encode hierarchy, state, grouping or brand, cut it. When unsure, simplify the layout before adding a component.
 
 Use non-user-triggered motion sparingly and deliberately, only to draw attention. A single orchestrated moment — one page-load sequence or one reveal — lands better than scattered effects; fade-and-slide-up entrances on each section and hover transitions on every card are the generic default and read as AI-generated. Motion that answers a person's action (opening, expanding, confirming) is welcome when it shows what changed.
@@ -50,14 +45,7 @@ Consider written content carefully. Often a design brief may not contain real co
 
 ## Process: plan, review against the brief, build, critique
 
-For calibration, AI-generated design right now clusters around some traits:
-1. a warm cream background (near #F4F1EA) with a high-contrast serif display and a terracotta or warm-clay accent (often near #D97757 — Anthropic's own Claude-interaction accent, so on a user's brief it reads as a tell);
-2. a near-black background with a single bright acid-green or vermilion accent;
-3. a broadsheet-style layout with hairline rules, zero border-radius, and dense newspaper-like columns;
-4. the SaaS-card kit: content chopped into identical rounded cards, one border-radius on everything regardless of hierarchy, the same soft grey shadow (rgba(0,0,0,.1)) under each, and gradient washes as decoration;
-5. template chrome that appears whatever the subject: a tracked-out ALL-CAPS eyebrow label above every heading; meta strings joined with middle dots ('A · B · C'); labels built as 'WORD — fragment' with a spaced em dash; tinted near-black (#0B0B0B, #111) standing in for black; a monospace face for small data labels; a '→' appended to link and button text.
-
-All traits are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. As with a hired human designer, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.
+For calibration, AI-generated design right now clusters around the traits in the [craft-floor](references/craft-floor.md) Refuse list. All traits are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. As with a hired human designer, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.
 
 Work in two passes. First, brainstorm a short design plan based on the client's design brief: create a compact token system with color, type, layout, and principles.
 - Color: describe the core base palette as 4–6 named hex values.
