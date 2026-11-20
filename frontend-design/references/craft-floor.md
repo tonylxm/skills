@@ -18,6 +18,21 @@ Each item is a check on the built result, not an intention. Run them together in
 - **Copy:** the product's own language. Controls name their action; errors name the problem and the recovery.
 - **Coverage:** every brief requirement is present and findable within seconds.
 
+## Conventions
+
+The default behaviour of common controls. Break one only when the brief gives a reason.
+
+- **Switch or checkbox:** a switch applies its change the moment it flips, with no Save. Settings that wait for a Save button are checkboxes. Never put both in one group.
+- **Choice controls:** up to 6 mutually exclusive options are radio buttons or a segmented control, all visible. More than 6 is a select, and past about 15 a searchable combobox. Multi-select follows the same split: checkboxes, then a multi-select combobox.
+- **Dirty state:** unsaved edits are visible (Save enabled, a changed marker). Leaving them by navigation, close or Esc opens a discard dialog that names what is lost, with "Discard changes", "Keep editing" (focused by default) and Save where it can. Tab close and reload use `beforeunload`. No dialog when nothing changed.
+- **Save feedback:** every save ends in a toast. Success is short ("Settings saved"), `role="status"`, gone after about 5s. A failed save shows an error toast that stays until dismissed, names what failed, offers Retry and keeps the user's edits. Field errors also stay inline, never only in a toast.
+- **Submit buttons:** stay enabled. Validate a touched field on blur and the whole form on submit, never per keystroke, then focus the first error with its message under the field. While the request runs, the button shows loading and ignores repeat clicks.
+- **Destructive actions:** reversible ones run at once with Undo in the toast. Irreversible or bulk ones confirm in a dialog that states the object and count, with a button named for the action ("Delete 12 files"), never "Yes" or "OK".
+- **Waiting:** under about 1s, show nothing. From 1 to 10s, a skeleton for page loads or a spinner in the control that started it. Over 10s, a progress bar with an estimate and a way to cancel or leave.
+- **Labels:** every field has a visible label above it. A placeholder is an example, never the label. Mark whichever of optional or required is the minority, not both.
+- **Keyboard:** Enter submits a single-line form. Esc closes dialogs, menus and popovers (through the dirty-state check), and focus returns to the trigger.
+- **Targets:** at least 24×24px (WCAG 2.5.8), 44px on touch-first screens.
+
 ## Refuse
 
 These are the category's defaults, and the one list of what AI-generated design clusters around. The brief's own words can earn any of them back; reaching for one when the axis is free means you were not deciding. Rewrite the element rather than softening it.
@@ -65,4 +80,4 @@ The floor holds the mechanics; it never picks the direction. With every check gr
 
 ## Growing this list
 
-Add an item only after it recurs across projects, not after one bad page. A generic default goes under Refuse in the group it fits. A check that would have caught it goes under Verify. One line each, stated as the rule, and edit in `~/.agents/skills`, never a project copy.
+Add an item only after it recurs across projects, not after one bad page. A generic default goes under Refuse in the group it fits. A check that would have caught it goes under Verify. A control behaviour goes under Conventions. One line each, stated as the rule, and edit in `~/.agents/skills`, never a project copy.
