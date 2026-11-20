@@ -59,6 +59,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [agents-md](agents-md/SKILL.md) | Write and maintain a lean `AGENTS.md` (Claude Code reads it natively) | Original, based on the agents.md standard and github/awesome-copilot create-agentsmd |
 | **Building** | | |
 | [roadmap-next](roadmap-next/SKILL.md) | Plan a phase up front, then build and close it unattended | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |
+| [pipeline](pipeline/SKILL.md) | Issue-to-merged-PR pipeline contracts: labels, issue body, verdict comments, caps, git and merge conventions, and the per-repo kit (issue forms, PR template, `checks.sh`) | Original |
 | [dev-loop](dev-loop/SKILL.md) | The loop for every code change: core rules, agentic pitfalls, test strategy, tiered verification, test integrity, review | Original |
 | [data-modeling](data-modeling/SKILL.md) | Relational schema rules: keys, constraints, types, indexes, transactions, idempotency, query pitfalls | Original |
 | [tdd](tdd/SKILL.md) | Test-driven development, red-green-refactor, for logic, invariants and regressions | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |

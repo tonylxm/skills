@@ -1,0 +1,5 @@
+# Optional per-repo overrides for the pipeline. Delete any line to use the default.
+merge: safe          # safe | all | none  (see pipeline/conventions.md)
+# risk_paths:        # replaces the default list
+#   - src/auth
+#   - db/migrations

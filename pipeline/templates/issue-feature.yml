@@ -1,0 +1,21 @@
+name: Feature
+description: Something new, or a change in behaviour
+title: "feat: "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should change, for whom, and why. A rough idea is fine, planning sharpens it.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable results, one per line. Skip if unsure.
+      placeholder: "- A visitor can ..."
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
