@@ -63,6 +63,6 @@ Flag these on sight. Fix by deleting first, then shortening, then fixing easing,
 - Keyframes on toasts or toggles
 - Layout properties animated (`width`, `height`, `margin`, `padding`, `top`, `left`)
 - Missing reduced-motion handling, ungated hover motion
-- Same entrance on every section (see the Motion line in [craft-floor.md](craft-floor.md))
+- Same entrance on every section (see the Motion line in [ui-standards.md](ui-standards.md))
 
 When unsure about feel, slow it 2–5x (DevTools Animations panel) and check origin, easing and synced properties.

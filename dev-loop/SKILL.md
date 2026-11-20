@@ -1,11 +1,11 @@
 ---
 name: dev-loop
-description: Use when implementing any non-trivial code change (feature, bug fix, refactor, client request), on its own or as a roadmap-next task, or when unsure how much to explore, plan, test, verify or review before calling a change done.
+description: Use when implementing any non-trivial code change (feature, bug fix, refactor, client request), on its own or as a pipeline build, or when unsure how much to explore, plan, test, verify or review before calling a change done.
 ---
 
 # Dev loop
 
-The loop for one change: **Goal → Explore → Plan → Implement → Verify → Review → Commit**. Done means the acceptance criteria are met, with fresh evidence, and the change is committed or handed back. Ad-hoc work runs it directly. roadmap-next runs it once per task, and its rules win there: the task subagent stops after Verify (the orchestrator commits, and Review runs once per phase in `close`), and "stop and ask" becomes a `BLOCKED` mark, never a question.
+The loop for one change: **Goal → Explore → Plan → Implement → Verify → Review → Commit**. Done means the acceptance criteria are met, with fresh evidence, and the change is committed or handed back. Ad-hoc work runs it directly. In the [pipeline](../pipeline/SKILL.md) it is the build stage: the job's worktree and branch exist already, Review is a separate fresh-context stage ([review](../review/SKILL.md)), and "stop and ask" means comment the question on the issue, label `needs-human` and stop, never wait.
 
 ## Core rules
 1. **Requirements over tests.** Never trade the actual requirement for a passing test.
@@ -39,7 +39,7 @@ For non-trivial work, read the code you will touch, the patterns next to it, its
 For meaningful changes, a few lines: files, approach, how each criterion gets verified. Prefer the smallest change and the existing architecture unless there is a concrete reason to depart (then use decision-log). For UI, load frontend-design before planning, not just before building: its mode choice and design plan are part of the plan.
 
 ## 4. Implement
-Small increments, each left working. Preserve existing behaviour unless the requirement changes it. Follow the stack's standards skill (typescript-standards); UI follows frontend-design; schema and query work follows data-modeling. Read [references/code-floor.md](references/code-floor.md) before writing code.
+Small increments, each left working. Preserve existing behaviour unless the requirement changes it. Follow the stack's standards skill (typescript-standards); UI follows frontend-design; schema and query work follows data-modeling. Read [references/code-standards.md](references/code-standards.md) before writing code.
 
 Pick the verification per behaviour, before writing code:
 
@@ -59,7 +59,7 @@ Cheapest effective check first. Never run the whole suite in the inner loop.
 | 1 | While editing | The single test or file you're working on |
 | 2 | Change done | Whole-project lint and typecheck, plus tests for the changed area (the test map in `AGENTS.md` Commands) |
 | 2b | Shared modules, schema or migrations, auth, dependencies or lockfile, config or env, shared fixtures touched; related tests unclear; or the suite runs under ~2 min | Full suite. Lean towards it in unattended runs |
-| 3 | Before push, merge or deploy (roadmap-next `close`) | Full suite, all E2E journeys, production build. CI repeats it and is the hard gate |
+| 3 | Before push, merge or deploy | Full suite, all E2E journeys, production build. CI repeats it and is the hard gate |
 
 - **Evidence:** command, exit code, and pass/fail/skip counts. "Tests pass" on its own is a claim, not evidence. For test-first work, also show each new test failing before the fix.
 - **Quiet output:** use reporters that print only failures plus the summary counts, so a green run costs a few lines of context.
@@ -68,15 +68,15 @@ Cheapest effective check first. Never run the whole suite in the inner loop.
 **Test integrity.** Never change an existing test just to make the code pass. When one fails, decide: is the implementation wrong, the test wrong, the requirement changed, or the environment or data wrong? Change a test only for the second or third, and say why in the report and commit body.
 
 ## 6. Review
-Review in a fresh context with `/code-review`, plus `/security-review` when auth, input handling, secrets, permissions or dependencies changed. Risk decides, not size: always review changes to money, auth or permissions, user data, concurrency, external contracts or migrations, even a one-character fix. Skip only for copy, styling, docs, or a pure refactor already covered by tests; anything else is a judgment call. The reviewer challenges, not summarises: misread requirements, missing edge cases, tests overfit to the code, regressions, authorization holes, races, partial failures, duplicate operations, backwards compatibility, needless complexity. Check the diff against the Verify and Refuse lists in [references/code-floor.md](references/code-floor.md). Fix findings or list them.
+Ad-hoc work: review in a fresh context with `/code-review`, plus `/security-review` when auth, input handling, secrets, permissions or dependencies changed. In the pipeline the `review` skill does this, routed by the diff. Risk decides, not size: always review changes to money, auth or permissions, user data, concurrency, external contracts or migrations, even a one-character fix. Skip only for copy, styling, docs, or a pure refactor already covered by tests. Fix findings or list them.
 
 ## 7. Commit
-Commit at green checkpoints, one concern per commit, never mixing unrelated changes, so each is easy to review and revert. Branch and commit rules come from `AGENTS.md` Workflow.
+Commit at green checkpoints, one concern per commit, never mixing unrelated changes, so each is easy to review and revert. Branch, commit and PR rules: [pipeline conventions](../pipeline/conventions.md), and the repo's `AGENTS.md` Workflow wins. In the pipeline, finish by pushing the branch and opening the PR (`Closes #N`) from the PR template, then post the `build` verdict comment.
 
 ## When stuck or uncertain
 - If the correct behaviour can't be determined: stop, explain the uncertainty, and name the smallest decision the user must make.
 - Unexpected failures go to systematic-debugging.
-- A noisy or overloaded context: write a handoff (the handoff skill) and continue in a fresh session.
+- A noisy or overloaded context: summarise state in the PR or issue comment and continue in a fresh session.
 
 ## After a bug escapes
-Ask "why didn't the workflow catch this?" Codify the lesson only where it pays: a regression test, an E2E journey, an eval case, a lint rule, a script, one line in `AGENTS.md` (agents-md), or, for a recurring generic UI default, one line in frontend-design's craft-floor list or dev-loop's [code-floor](references/code-floor.md). Don't add process for completeness.
+Ask "why didn't the workflow catch this?" Codify the lesson only where it pays: a regression test, an E2E journey, an eval case, a lint rule, a script, one line in `AGENTS.md` (agents-md), or, for a recurring generic UI default, one line in frontend-design's ui-standards list or dev-loop's [code-standards](references/code-standards.md). Don't add process for completeness.

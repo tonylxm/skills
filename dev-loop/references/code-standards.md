@@ -1,4 +1,4 @@
-# Code floor
+# Code standards
 
 Read this before Implement and again before Review. A repo's `AGENTS.md`, ADRs or an explicit user instruction override anything here. Add to the lists only by the rule in the last section.
 

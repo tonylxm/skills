@@ -26,11 +26,11 @@ Collect everything in a single round, using `browser_batch` where the steps are 
 | Keyboard | Tab through the changed area: logical order, visible focus, Escape closes overlays, Enter and Space activate |
 | States | Trigger loading, empty, error and disabled where the change touches them |
 | The flow | Exercise the changed journey end to end with real-looking data, including long text. For full-stack changes, confirm the outcome persisted (reload, or read it back through the UI or API) and check the server or dev-server logs |
-| Design | Compare screenshots with `DESIGN.md`, the frontend-design craft-floor Refuse list and any `docs/design/references/` screens |
+| Design | Compare screenshots with `DESIGN.md`, the frontend-design ui-standards Refuse list and any `docs/design/references/` screens |
 
 Reset the viewport with `resize_window` preset `desktop` when done.
 
-**Quick mode** (when a caller such as roadmap-next `build` asks for it): skip screenshots and the design comparison. Check widths with `resize_window` plus the `scrollWidth` test, the accessibility tree, console and network, keyboard, and the flow. A later full pass covers the visuals.
+**Quick mode** (when a caller such as the pipeline build stage asks for it): skip screenshots and the design comparison. Check widths with `resize_window` plus the `scrollWidth` test, the accessibility tree, console and network, keyboard, and the flow. A later full pass covers the visuals.
 
 ## 3. Fix, then confirm once
 

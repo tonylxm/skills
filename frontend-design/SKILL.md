@@ -21,7 +21,7 @@ Either way, prefer lists, tables and plain sections spaced for hierarchy over ca
 
 **Components:** build on the project's primitives (shadcn/ui on Base UI or Radix by default) restyled through `DESIGN.md` tokens, never shipped with stock radius, colour and type. Animated effect libraries (Aceternity, Magic UI) only when the brief earns one specific effect.
 
-**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the one list of generic AI defaults to avoid, in either mode. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist. **When adding or editing animation**, also read [references/motion.md](references/motion.md), and [references/tactile.md](references/tactile.md) for physical-feeling controls, skeletons and layout stability.
+**Before any UI edit**, read [references/ui-standards.md](references/ui-standards.md). Its Refuse list is the one list of generic AI defaults to avoid, in either mode. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the ui-standards Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist. **When adding or editing animation**, also read [references/motion.md](references/motion.md), and [references/tactile.md](references/tactile.md) for physical-feeling controls, skeletons and layout stability.
 
 ## Ground your designs in the subject matter
 
@@ -45,7 +45,7 @@ Consider written content carefully. Often a design brief may not contain real co
 
 ## Process: plan, review against the brief, build, critique
 
-For calibration, AI-generated design right now clusters around the traits in the [craft-floor](references/craft-floor.md) Refuse list. All traits are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. As with a hired human designer, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.
+For calibration, AI-generated design right now clusters around the traits in the [ui-standards](references/ui-standards.md) Refuse list. All traits are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. As with a hired human designer, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.
 
 Work in two passes. First, brainstorm a short design plan based on the client's design brief: create a compact token system with color, type, layout, and principles.
 - Color: describe the core base palette as 4–6 named hex values.
@@ -53,7 +53,7 @@ Work in two passes. First, brainstorm a short design plan based on the client's 
 - Layout: a layout concept, using one-sentence prose descriptions and ASCII wireframes to ideate and compare. Include alignment guidance; should the content be left aligned, center aligned, justified?
 - Principles: the high-level guidance for what makes this page unique.
 
-Then review that plan against the brief and the craft-floor Refuse list before building: if any part of it reads like the generic default you would produce for any similar page (work through a similar prompt to see if you arrive somewhere similar) rather than a choice made for this specific brief — revise that part, say what you changed and why. Only after you've confirmed the relative uniqueness of your design plan should you start to write the code, following the revised plan.
+Then review that plan against the brief and the ui-standards Refuse list before building: if any part of it reads like the generic default you would produce for any similar page (work through a similar prompt to see if you arrive somewhere similar) rather than a choice made for this specific brief — revise that part, say what you changed and why. Only after you've confirmed the relative uniqueness of your design plan should you start to write the code, following the revised plan.
 
 When writing the code, be careful of structuring your CSS selector specificities. It's easy to generate CSS classes that cancel each other out (especially with a type-based selector like .section and an element-based selector like .cta). This can happen often with padding/margin between sections.
 

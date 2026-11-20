@@ -1,4 +1,4 @@
-# Craft floor
+# UI standards
 
 Adapted from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) `craft-floor.md` (Apache-2.0, commit `508d7e8`).
 
@@ -17,6 +17,15 @@ Each item is a check on the built result, not an intention. Run them together in
 - **Browser surfaces:** text selection, caret, focus rings, underline offset, scrollbars and tabular numerals ship with browser defaults. Theme them from the palette. This is the cheapest sign a page was built rather than assembled.
 - **Copy:** the product's own language. Controls name their action; errors name the problem and the recovery.
 - **Coverage:** every brief requirement is present and findable within seconds.
+
+## Responsive
+
+Every UI is responsive from 360px unless the issue or PRD says app-only or desktop-only. Breakpoints and adapted layouts live in the project's `DESIGN.md`.
+
+- No page-level horizontal scroll at 360, 768 or 1280 (scrolling inside a deliberate table or timeline is fine).
+- Navigation, tables and multi-column layouts change structure at breakpoints (collapse, stack, scroll in a container), they don't just shrink.
+- Touch targets are at least 44px on touch layouts. Nothing depends on hover.
+- Test with the real longest copy and real data, not placeholder text.
 
 ## Conventions
 
@@ -86,7 +95,7 @@ Surface habits:
 - Floating pills, chips and badges with no clear owner. Anchor controls to what they act on.
 - Centred text and controls by default. Left-align dense or task content; centre only short, focused moments.
 
-The floor holds the mechanics; it never picks the direction. With every check green, spend the page on the committed direction.
+The standards hold the mechanics; it never picks the direction. With every check green, spend the page on the committed direction.
 
 ## Growing this list
 

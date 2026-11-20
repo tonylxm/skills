@@ -150,7 +150,7 @@ Modifications: added a note at the top of `SKILL.md` making the project's `DESIG
 
 ## pbakaus/impeccable
 
-Source: https://github.com/pbakaus/impeccable (commit `508d7e8`). Used for: `frontend-design/references/craft-floor.md` and `frontend-design/references/product-ui.md`, adapted from `reference/craft-floor.md` and `reference/operate.md`, under the Apache License 2.0. The full licence text is in [frontend-design/LICENSE.txt](frontend-design/LICENSE.txt).
+Source: https://github.com/pbakaus/impeccable (commit `508d7e8`). Used for: `frontend-design/references/ui-standards.md` and `frontend-design/references/product-ui.md`, adapted from `reference/craft-floor.md` and `reference/operate.md`, under the Apache License 2.0. The full licence text is in [frontend-design/LICENSE.txt](frontend-design/LICENSE.txt).
 
 Modifications: condensed and reworded; removed references to Impeccable's hook, launcher and other commands; added the purple/indigo default rule; pointed verification at `browser-e2e`.
 
