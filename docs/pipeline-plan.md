@@ -1,6 +1,6 @@
 # Pipeline plan
 
-_Draft, 2026-11-21. Moves the skills from "one chat drives a ROADMAP.md phase" to "GitHub Issues → up to 3 parallel jobs → one PR each". Open points are marked **[Q]** and get settled in grilling._
+_Built 2026-11-21 (steps 1 to 9). Status and deviations are in the last section; per-skill health is in [skill-health.md](skill-health.md). Original draft: Moves the skills from "one chat drives a ROADMAP.md phase" to "GitHub Issues → up to 3 parallel jobs → one PR each". Open points are marked **[Q]** and get settled in grilling._
 
 ## Summary
 
@@ -112,6 +112,18 @@ retro (weekly or on demand): 3+ repeats in the log → PRs to skills, floors, te
 | 11 | New projects enter through interactive `/project-starter`, which creates the repo from a template and files the first issues |
 | 12 | Three issue forms: Feature, Bug, Chore. Dependabot PRs skip plan and build |
 | 13 | Each job has a 90-minute wall-clock cap, then `needs-human`. Spend cap depends on `claude` CLI flags, checked at build time |
+
+## Built, and where it differs from the plan
+
+| Item | What was built | Difference |
+|---|---|---|
+| 25 Models | Table in `pipeline/scripts/lib/config.mjs` | `claude` accepts `--model`, `--effort`, `--max-budget-usd` and `--permission-mode`, so a per-call and per-job spend cap exist (off by default) |
+| Merge | Runner waits for CI (`gh pr checks`), then `gh pr merge --squash --delete-branch` | Not `--auto`: that needs branch protection on every repo |
+| Findings | Added a `category` slug | Needed so retro can count repeats |
+| Stage state | Derived from PR verdict comments | No state file, so a restart resumes |
+| Dashboard | `run.mjs dashboard`, localhost only, `--demo` for sample data | Also shows retro repeats and `docs/skill-health.md` |
+| Not verified | Real `gh` and real `claude -p` end to end | Tested with stubs only. `claude -p` failed auth from the build session, so the first real run is the dry run |
+| Not done | Token pass on seo and codebase-design, `pipeline-sandbox` repo creation, template repos (`checks.sh`, issue and PR templates) | Sandbox script is written, not run. Template repos live on GitHub, outside this repo |
 
 ## Outside this repo
 

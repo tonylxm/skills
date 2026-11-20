@@ -78,7 +78,11 @@ node ~/.agents/skills/pipeline/scripts/run.mjs --dry-run        # what would sta
 node ~/.agents/skills/pipeline/scripts/run.mjs --until 07:00    # run; stops starting jobs at 07:00
 node ~/.agents/skills/pipeline/scripts/run.mjs status           # queue, running, needs-human, merged today
 node ~/.agents/skills/pipeline/scripts/run.mjs clean            # remove worktrees of closed issues
+node ~/.agents/skills/pipeline/scripts/run.mjs retro            # repeated problems become PRs (see retro.md)
+node ~/.agents/skills/pipeline/scripts/run.mjs dashboard        # local page: needs-you, running, ready, merged, repeats, skill health (--demo for sample data)
 ```
+
+The flow as a diagram: [docs/flow.md](../docs/flow.md). Skill status and weak points: [docs/skill-health.md](../docs/skill-health.md).
 
 Stopping and re-running resumes: a job's stage is derived from its PR's verdict comments. Tests: `node --test scripts/test/runner.test.mjs` (fake `gh` and `claude`).
 

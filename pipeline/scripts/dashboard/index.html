@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pipeline</title>
+<style>
+  :root {
+    --bg: #fbfbfa; --panel: #f2f2f0; --fg: #1d1d1f; --muted: #66666b; --line: #deded9;
+    --accent: #1766c2; --warn: #a94a00; --ok: #19702f; --focus: #1766c2;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1e1e21; --panel: #29292d; --fg: #ececee; --muted: #a0a0a8; --line: #3a3a40;
+      --accent: #6aa8f0; --warn: #f0a15c; --ok: #6fcf8b; --focus: #6aa8f0; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 56rem; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+  header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; }
+  h1 { font-size: 1.35rem; margin: 0; }
+  h2 { font-size: 1.125rem; margin: 2rem 0 .25rem; }
+  .muted { color: var(--muted); }
+  .sub { font-size: .875rem; }
+  button { font: inherit; min-height: 44px; padding: 0 1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--fg); cursor: pointer; }
+  button:hover { border-color: var(--muted); }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .summary { margin: .75rem 0 0; font-size: 1.125rem; }
+  .needs { color: var(--warn); font-weight: 600; }
+  ul.rows { list-style: none; margin: 0; padding: 0; }
+  .row { display: grid; grid-template-columns: 1fr; gap: .1rem; padding: .65rem 0; border-top: 1px solid var(--line); min-width: 0; }
+  .row > * { min-width: 0; overflow-wrap: anywhere; }
+  .row .title { font-weight: 600; }
+  .row .why { color: var(--muted); font-size: .9rem; }
+  .pill { display: inline-block; padding: 0 .5rem; border-radius: 4px; background: var(--panel); border: 1px solid var(--line); font-size: .8rem; margin-right: .5rem; vertical-align: 1px; }
+  .pill.warn { color: var(--warn); border-color: var(--warn); }
+  .pill.ok { color: var(--ok); border-color: var(--ok); }
+  .empty { padding: .65rem 0; border-top: 1px solid var(--line); color: var(--muted); }
+  .repo { color: var(--muted); font-size: .85rem; }
+  .skel { height: 1rem; border-radius: 4px; background: var(--panel); margin: .85rem 0; animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .45; } }
+  @media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+  .error { border: 1px solid var(--warn); border-radius: 6px; padding: .75rem 1rem; margin-top: 1rem; }
+  @media (min-width: 720px) {
+    .row { grid-template-columns: 11rem 1fr; gap: .1rem 1rem; }
+    .row .side { grid-column: 1; grid-row: 1 / span 2; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Pipeline</h1>
+    <div>
+      <span id="updated" class="muted sub" role="status" aria-live="polite"></span>
+      <button id="refresh" type="button">Refresh</button>
+    </div>
+  </header>
+  <p id="summary" class="summary muted">Loading</p>
+  <div id="error" hidden></div>
+
+  <section aria-labelledby="h-needs"><h2 id="h-needs">Needs you</h2><div id="needs"><div class="skel"></div><div class="skel"></div></div></section>
+  <section aria-labelledby="h-running"><h2 id="h-running">Running</h2><div id="running"><div class="skel"></div></div></section>
+  <section aria-labelledby="h-ready"><h2 id="h-ready">Ready</h2><div id="ready"><div class="skel"></div></div></section>
+  <section aria-labelledby="h-merged"><h2 id="h-merged">Merged today</h2><div id="merged"><div class="skel"></div></div></section>
+  <section aria-labelledby="h-retro"><h2 id="h-retro">Repeating problems</h2><div id="retro"><div class="skel"></div></div></section>
+  <section aria-labelledby="h-health"><h2 id="h-health">Skill health</h2><div id="health"><div class="skel"></div></div></section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === 'class' ? (n.className = v) : k === 'text' ? (n.textContent = v) : n.setAttribute(k, v);
+  n.append(...kids.filter((k) => k != null));
+  return n;
+};
+// GitHub text is untrusted: everything goes through textContent, and hrefs are checked.
+const safeRepo = (r) => /^[\w.-]+\/[\w.-]+$/.test(r);
+const issueLink = (repo, n, title) => safeRepo(repo)
+  ? el('a', { href: `https://github.com/${repo}/issues/${n}`, text: `#${n} ${title}` })
+  : el('span', { text: `#${n} ${title}` });
+const prLink = (url, text) => /^https:\/\//.test(url) ? el('a', { href: url, text }) : el('span', { text });
+
+async function get(path) {
+  const r = await fetch(path);
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.statusText);
+  return r.json();
+}
+const fill = (id, rows, emptyText) => {
+  const box = $(id);
+  box.replaceChildren(rows.length ? el('ul', { class: 'rows' }, ...rows) : el('div', { class: 'empty', text: emptyText }));
+};
+const row = (side, title, why) => el('li', { class: 'row' }, el('div', { class: 'side' }, ...side), el('div', { class: 'title' }, title), why ? el('div', { class: 'why', text: why }) : null);
+
+function render(state) {
+  const all = (key) => state.repos.flatMap((r) => r[key].map((x) => ({ ...x, repo: r.repo })));
+  const needs = all('needsHuman'), running = all('inProgress'), ready = all('ready'), merged = all('mergedToday');
+  const parts = [`${running.length} running`, `${ready.length} ready`, `${merged.length} merged today`];
+  $('summary').replaceChildren(needs.length ? el('span', { class: 'needs', text: `${needs.length} need${needs.length === 1 ? 's' : ''} you` }) : el('span', { text: 'Nothing needs you' }), el('span', { class: 'muted', text: `, ${parts.join(', ')}.` }));
+  $('summary').classList.remove('muted');
+
+  fill('needs', needs.map((n) => row([el('div', { class: 'repo', text: n.repo })], issueLink(n.repo, n.number, n.title), n.reason)),
+    'Nothing is waiting on a decision. Blocked jobs show up here with what they need.');
+  fill('running', running.map((j) => row([el('span', { class: 'pill', text: j.phase }), el('div', { class: 'repo', text: j.repo })], issueLink(j.repo, j.number, j.title), j.detail)),
+    'No jobs running. Start the runner: node pipeline/scripts/run.mjs');
+  fill('ready', ready.map((i) => row([el('div', { class: 'repo', text: i.repo })], issueLink(i.repo, i.number, i.title))),
+    'The queue is empty. Run /plan to turn open issues into ready ones.');
+  fill('merged', merged.map((m) => row([el('span', { class: 'pill ok', text: 'merged' }), el('div', { class: 'repo', text: m.repo })], prLink(m.url, `#${m.number} ${m.title}`))),
+    'Nothing merged yet today.');
+  $('updated').textContent = `Updated ${new Date(state.generatedAt).toLocaleTimeString()}`;
+  $('updated').title = new Date(state.generatedAt).toLocaleString();
+}
+
+function renderRetro(r) {
+  if (!r) return fill('retro', [], 'No retro yet. Run: node pipeline/scripts/run.mjs retro');
+  const rec = r.recurring;
+  const rows = [
+    ...rec.findingCategories.map((x) => row([el('span', { class: 'pill', text: `${x.n} times` })], `Review finding: ${x.key}`, 'Candidate for a check or a standards line')),
+    ...rec.escalations.map((x) => row([el('span', { class: 'pill', text: `${x.n} times` })], `Escalation: ${x.key}`, 'Candidate for a skill or flow change')),
+    ...rec.checkFailures.map((x) => row([el('span', { class: 'pill', text: `${x.n} times` })], x.key, 'Candidate for a stronger local check')),
+  ];
+  fill('retro', rows, `Nothing repeated 3 times in ${r.jobs} jobs since ${r.since}.`);
+}
+
+function renderHealth(rows) {
+  fill('health', rows.map((h) => row([el('span', { class: 'pill' + (h.status.startsWith('new') ? ' warn' : ''), text: h.status })], h.skill, `Last dry run: ${h.lastRun}. ${h.notes}`)),
+    'docs/skill-health.md has no rows.');
+}
+
+async function load() {
+  $('refresh').disabled = true;
+  try {
+    const [state, retro, health] = await Promise.all([get('/api/state'), get('/api/retro'), get('/api/health')]);
+    $('error').hidden = true;
+    render(state); renderRetro(retro); renderHealth(health);
+  } catch (e) {
+    $('error').hidden = false;
+    $('error').className = 'error';
+    $('error').setAttribute('role', 'alert');
+    $('error').replaceChildren(el('div', { text: `Could not load state: ${e.message}` }), el('div', { class: 'muted sub', text: 'Check that gh is signed in (gh auth status) and repos.txt lists your repos.' }));
+  } finally {
+    $('refresh').disabled = false;
+  }
+}
+$('refresh').addEventListener('click', load);
+setInterval(() => { if (!document.hidden) load(); }, 20000);
+load();
+</script>
+</body>
+</html>

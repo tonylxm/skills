@@ -1,0 +1,44 @@
+{
+  "state": {
+    "repos": [
+      {
+        "repo": "tonylxm/cafe-site",
+        "ready": [
+          { "number": 14, "title": "feat: add opening hours to footer" },
+          { "number": 15, "title": "fix: menu image overflows on 360px" }
+        ],
+        "inProgress": [
+          { "number": 12, "title": "feat: online booking form", "phase": "review", "detail": "PR #31, checks failed 1x, review rounds 0" },
+          { "number": 13, "title": "chore: bump Astro to latest minor", "phase": "checks", "detail": "PR #32, checks failed 0x, review rounds 0" }
+        ],
+        "needsHuman": [
+          { "number": 9, "title": "feat: member login", "reason": "consequential choice: which provider for sign-in (Better Auth vs magic link)? See PR #27" }
+        ],
+        "mergedToday": [
+          { "number": 30, "title": "fix: wrong page title on home", "url": "https://github.com/tonylxm/cafe-site/pull/30" }
+        ]
+      },
+      {
+        "repo": "tonylxm/ledger-app",
+        "ready": [],
+        "inProgress": [
+          { "number": 41, "title": "fix: rounding error in monthly total with a very long title that should wrap cleanly on a phone", "phase": "build", "detail": "no PR yet" }
+        ],
+        "needsHuman": [
+          { "number": 38, "title": "chore: migrate invoices table", "reason": "ready to merge, policy is none: https://github.com/tonylxm/ledger-app/pull/44" },
+          { "number": 36, "title": "feat: CSV export", "reason": "checks.sh failed 3 times" }
+        ],
+        "mergedToday": []
+      }
+    ]
+  },
+  "retro": {
+    "since": "2026-11-07",
+    "jobs": 24,
+    "recurring": {
+      "findingCategories": [{ "key": "missing-test", "n": 4 }, { "key": "responsive", "n": 3 }],
+      "escalations": [{ "key": "checks.sh failed N times", "n": 3 }],
+      "checkFailures": []
+    }
+  }
+}

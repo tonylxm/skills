@@ -28,7 +28,7 @@ Work flows through GitHub issues. You plan once, then the run is hands-off: up t
 | Needs you | Issues labelled `needs-human` | Answer them in the next `/plan` |
 | Retro | `run.mjs retro`, weekly | Review the PRs it opens |
 
-A job is build ([dev-loop](dev-loop/SKILL.md)) → `checks.sh` → [review](review/SKILL.md) (code, ui, security, routed by the diff) → final review → merge. Labels, verdict comments, caps and the per-repo kit: [pipeline](pipeline/SKILL.md).
+A job is build ([dev-loop](dev-loop/SKILL.md)) → `checks.sh` → [review](review/SKILL.md) (code, ui, security, routed by the diff) → final review → merge. Labels, verdict comments, caps and the per-repo kit: [pipeline](pipeline/SKILL.md). The flow as a diagram: [docs/flow.md](docs/flow.md). What has been proven and what is weak: [docs/skill-health.md](docs/skill-health.md). `run.mjs dashboard` shows the live state in a browser.
 
 - **Work outside the pipeline** (a quick fix, a one-off): just ask for the change. dev-loop runs the same Goal → Explore → Plan → Implement → Verify → Review → Commit loop.
 - **Interrupted** (laptop closed, usage limit)? Run `run.mjs` again: each job's stage is read back from its PR.
