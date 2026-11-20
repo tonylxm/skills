@@ -47,7 +47,8 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | Skill | Description | Origin |
 | --- | --- | --- |
 | **Kickoff and planning** | | |
-| [project-starter](project-starter/SKILL.md) | Kick off a project: produces README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap, decisions), starting from your stack defaults in `tech-stack.md` | Original |
+| [project-starter](project-starter/SKILL.md) | Kick off a project: produces README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap, decisions), starting from the stack defaults in stack-defaults | Original |
+| [stack-defaults](stack-defaults/SKILL.md) | Personal stack layer: base stacks, template repos, quality baseline, CI/CD, running costs, client accounts and contracts | Original |
 | [refine-idea](refine-idea/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
 | [market-research](market-research/SKILL.md) | Sourced market and competitor snapshot | Original, based on firecrawl-market-research and coreyhaines31 competitor-profiling |
 | [grilling](grilling/SKILL.md) | Round-based interview with recommended answers | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |

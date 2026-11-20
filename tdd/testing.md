@@ -1,6 +1,6 @@
 # Testing levels
 
-Integration-heavy, a few unit tests for pure logic, 1-3 Playwright journeys. Nothing else. Which behaviours get test-first is decided in [dev-loop](../dev-loop/SKILL.md). Stack picks live in [project-starter/tech-stack.md](../project-starter/tech-stack.md); this page says what to write at each level.
+Integration-heavy, a few unit tests for pure logic, 1-3 Playwright journeys. Nothing else. Which behaviours get test-first is decided in [dev-loop](../dev-loop/SKILL.md). Stack picks live in [stack-defaults/tech-stack.md](../stack-defaults/tech-stack.md); this page says what to write at each level.
 
 ## Which level
 

@@ -5,7 +5,7 @@ description: Use when designing or changing a database schema (adding a table or
 
 # Data modeling
 
-Stack-agnostic rules for relational schemas, written with Postgres in mind. Stack choices (Neon, Drizzle, RLS, migration workflow) live in [project-starter/tech-stack.md](../project-starter/tech-stack.md). Terms for the domain come from `docs/GLOSSARY.md` (see domain-modeling).
+Stack-agnostic rules for relational schemas, written with Postgres in mind. Stack choices (Neon, Drizzle, RLS, migration workflow) live in [stack-defaults/tech-stack.md](../stack-defaults/tech-stack.md). Terms for the domain come from `docs/GLOSSARY.md` (see domain-modeling).
 
 Deeper Postgres reference (RLS, locking, pooling, EXPLAIN, extensions): Supabase's MIT-licensed [supabase-postgres-best-practices](https://github.com/supabase/agent-skills/tree/main/skills/supabase-postgres-best-practices). Read its rule files on demand. It is not vendored here, so check the source rather than trusting memory of it.
 

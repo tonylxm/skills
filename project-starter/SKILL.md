@@ -20,14 +20,14 @@ Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate
 ## Steps
 
 1. **Idea.** One line: problem, user, outcome. Vague? Run refine-idea first. Offer market-research (`quick`) if the market is unclear.
-2. **Constraints.** Solo or team (sets the Workflow mode, [tech-stack.md → CI/CD](tech-stack.md#cicd)), timeline, hosting budget, compliance (privacy law wherever personal data is stored).
-3. **Stack.** Start from the defaults in [tech-stack.md](tech-stack.md). Deviate only when step 2 requires it, and say why. ADR for each lock-in choice.
+2. **Constraints.** Solo or team (sets the Workflow mode, [tech-stack.md → CI/CD](../stack-defaults/tech-stack.md#cicd)), timeline, hosting budget, compliance (privacy law wherever personal data is stored).
+3. **Stack.** Start from the defaults in [tech-stack.md](../stack-defaults/tech-stack.md). Deviate only when step 2 requires it, and say why. ADR for each lock-in choice.
 4. **Architecture.** Components (mermaid), core data model, key contracts, quality baseline (tests, security, deploy, NFRs) from tech-stack.md. If the domain has terms that are easy to confuse, run domain-modeling, which writes `docs/GLOSSARY.md`. ADR for the shape.
 5. **Design.** Run design-md. Skip for backend-only, CLI or library projects.
 6. **Write and hand off.**
    - Fill the doc templates into the layout below, then run agents-md for `AGENTS.md`.
    - Phase 0 in `docs/ROADMAP.md` is always the walking skeleton, created from the template or scaffold that tech-stack.md names for the chosen stack. Later phases stay one line each.
-   - For client work, draft the client's list from [clients.md](clients.md) (only the rows this project needs) and fill [contract-template.md](contract-template.md) from the quote and the PRD's MVP scope. Keep the filled contract out of the repo.
+   - For client work, draft the client's list from [clients.md](../stack-defaults/clients.md) (only the rows this project needs) and fill [contract-template.md](../stack-defaults/contract-template.md) from the quote and the PRD's MVP scope. Keep the filled contract out of the repo.
    - Report the files created, the 3 riskiest open questions, and the accounts Phase 0 will need (repo, hosting, data store, auth). They don't have to exist yet: `build` does the local work first and hands back a setup checklist. End with: "Start a new chat and run `/roadmap-next`" (Phase 0 is already planned, so it builds and closes the phase).
 
 ## Output

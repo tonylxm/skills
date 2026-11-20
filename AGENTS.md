@@ -10,7 +10,7 @@ Tony's personal agent skills (skills.sh format) for Claude Code, Codex and other
 ## Map
 - `<skill>/SKILL.md`: entry point. Supporting files (`references/`, `templates/`, `template.md`) sit beside it and are linked from it.
 - [README.md](README.md): skills table, workflow diagram, install steps.
-- Personal stack defaults: [project-starter/tech-stack.md](project-starter/tech-stack.md).
+- Personal stack defaults: [stack-defaults/tech-stack.md](stack-defaults/tech-stack.md).
 
 ## Conventions
 - Skills call each other by name. Before renaming or removing one, `rg '<name>'` across the repo and update every reference.

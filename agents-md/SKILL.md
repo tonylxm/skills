@@ -21,7 +21,7 @@ Write and maintain `AGENTS.md`, the instructions every coding agent reads at the
 - **Outdated APIs.** When an agent used a deprecated or outdated API or convention:
   - Prefer a lint or compiler rule that catches it (e.g. `no-deprecated`). Enable it and name the tool instead of writing a rule.
   - Otherwise add one version-stamped line under Conventions, or in `docs/<topic>.md` if there are several, e.g. ``Next 16+: `middleware.ts` is now `proxy.ts`.`` The stamp lets a later update delete the line once it no longer matters.
-  - If it applies to every project on that stack, record it in the shared skill (`project-starter/tech-stack.md`, `typescript-standards`) instead of each repo.
+  - If it applies to every project on that stack, record it in the shared skill (`stack-defaults/tech-stack.md`, `typescript-standards`) instead of each repo.
   - On update, delete stamped lines the installed versions have made irrelevant.
 - Rewrite in place. Never append a "learnings" log.
 - Keep blocks that a tool generates, such as `<!-- BEGIN:nextjs-agent-rules -->` … `<!-- END:… -->`, word for word, at the top of the file. The tool adds them back, so removing one only leaves an uncommitted diff.
