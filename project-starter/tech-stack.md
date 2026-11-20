@@ -60,7 +60,7 @@ A prototype gets client sign-off on flows and look during requirements. It is th
 - Pick the database region for the client's users and privacy law.
 
 ## Migrations
-Schema changes go only through committed migrations, never by hand on a shared database.
+Schema changes go only through committed migrations, never by hand on a shared database. Schema design rules (keys, constraints, indexes, transactions) are in the data-modeling skill.
 
 | Stack | Create | Apply in deploy |
 |---|---|---|
