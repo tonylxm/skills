@@ -13,6 +13,7 @@ Check the finished diff, not your intentions.
 - **Logs:** each carries the identifiers needed to trace it. None contains secrets or personal data.
 - **Diff scope:** every changed line serves the goal. Unrelated cleanups are listed as follow-ups.
 - **Library APIs:** calls match the installed version's docs, not memory.
+- **Security:** every route and action checks the session and the caller's right to that record. Queries are parameterized. No secret, token or personal data is logged, committed or sent to the client.
 
 ## Conventions
 
@@ -22,6 +23,9 @@ Check the finished diff, not your intentions.
 - **Config:** read from the environment once at startup and validated. Missing config fails the boot, not the first request.
 - **Fail fast:** reject invalid state early with a typed, named error. Do not continue with a guessed default.
 - **Side effects:** isolate them at the edges. Core logic takes values and returns values.
+- **Authorization:** deny by default. Check ownership on the server for every read and write, never trust ids, roles or prices sent by the client.
+- **Outbound requests:** a URL supplied by a user is allowlisted or resolved and checked before the server fetches it (SSRF).
+- **Secrets:** live in the environment or a secret store. Rotate any that reach a log, a commit or a chat.
 - **Concurrency:** state shared across requests is either avoided or guarded (transaction, lock, version check).
 - **Data model:** table and constraint design follows [data-modeling](../../data-modeling/SKILL.md).
 
@@ -56,6 +60,8 @@ The defaults agent-written code clusters around. The brief or an existing codeba
 - Mocks of your own code, or tests that assert how the code works instead of what it does.
 - Reformatting, renaming or reordering lines the change did not need to touch.
 - A passing test produced by special-casing the test's input.
+- Building SQL, shell commands or HTML by string concatenation with user input.
+- Client-side checks as the only guard on a permission or a price.
 - Reaching for a new dependency before checking the standard library and what the repo already has.
 
 ## Growing this list
