@@ -1,5 +1,7 @@
 # Optional per-repo overrides for the pipeline. Delete any line to use the default.
 merge: safe          # safe | all | none  (see pipeline/conventions.md)
+# checks: bash checks.sh                    # the gate command, run in each job's worktree
+# setup: pnpm install --frozen-lockfile     # once per new worktree (.env files are copied for you)
 # risk_paths:        # replaces the default list
 #   - src/auth
 #   - db/migrations

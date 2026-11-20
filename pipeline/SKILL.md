@@ -68,6 +68,20 @@ A finding is `{"severity":"blocker|major|minor","file":"","line":0,"issue":"","f
 
 `checks.sh` fails 3 times, review needs more than 2 rounds, or a job passes 90 minutes: the job goes to `needs-human`. Models, effort and the caps live in the runner's config, never in a skill, so a model upgrade changes one line.
 
+## Run it
+
+The runner is `scripts/run.mjs` (Node, no dependencies). It is a plain script, not an agent: it picks `ready` issues across the repos in `~/.config/pipeline/repos.txt` (`owner/name /path/to/clone` per line), makes a worktree and branch per job, and runs each stage as a fresh `claude -p` process. Models, effort and caps are in [scripts/lib/config.mjs](scripts/lib/config.mjs), overridable in `~/.config/pipeline/config.json`.
+
+```bash
+node ~/.agents/skills/pipeline/scripts/run.mjs check            # git, gh, claude, repos, labels, checks.sh
+node ~/.agents/skills/pipeline/scripts/run.mjs --dry-run        # what would start
+node ~/.agents/skills/pipeline/scripts/run.mjs --until 07:00    # run; stops starting jobs at 07:00
+node ~/.agents/skills/pipeline/scripts/run.mjs status           # queue, running, needs-human, merged today
+node ~/.agents/skills/pipeline/scripts/run.mjs clean            # remove worktrees of closed issues
+```
+
+Stopping and re-running resumes: a job's stage is derived from its PR's verdict comments. Tests: `node --test scripts/test/runner.test.mjs` (fake `gh` and `claude`).
+
 ## The repo kit
 
 Copy these into a repo (the template repos ship them). Git, PR and merge rules: [conventions.md](conventions.md).
