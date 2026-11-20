@@ -42,8 +42,10 @@ export function parseUntil(hhmm) {
   return t.getTime();
 }
 
+// One notification per run that did something. PIPELINE_NO_NOTIFY silences it (tests set it).
 const notify = (text) =>
-  process.platform === 'darwin' && run('osascript', ['-e', `display notification ${JSON.stringify(text)} with title "pipeline"`]);
+  process.platform === 'darwin' && !process.env.PIPELINE_NO_NOTIFY &&
+  run('osascript', ['-e', `display notification ${JSON.stringify(text)} with title "pipeline"`]);
 
 export async function main(cfg, repos, opts) {
   if (!repos.length) throw new Error('No repos configured. Add "owner/name /path/to/clone" lines to ~/.config/pipeline/repos.txt');
@@ -129,7 +131,7 @@ export async function main(cfg, repos, opts) {
       stuck.length ? 'Next: run `plan` to answer the needs-human issues, then run again.' : 'Next: nothing waiting. Plan new issues when ready.',
     ];
     console.log(lines.join('\n'));
-    await notify(lines[0]);
+    if (outcomes.length) await notify(lines[0]);
   }
   return outcomes;
 }

@@ -32,7 +32,7 @@ if [ "$n" -gt 0 ]; then echo $((n-1)) > "$f"; echo boom; exit 1; fi
   fs.writeFileSync(path.join(cfgDir, 'repos.txt'), `o/r ${clone}\n`);
   fs.writeFileSync(path.join(cfgDir, 'config.json'), JSON.stringify({ worktreeRoot: path.join(tmp, 'wt'), logRoot: path.join(tmp, 'logs'), ...config }));
   const env = { ...process.env, FAKE_DB: db, PIPELINE_GH: path.join(here, 'fake-gh.mjs'), PIPELINE_CLAUDE: path.join(here, 'fake-claude.mjs'),
-    PIPELINE_HOME: path.join(tmp, 'home'), PIPELINE_CONFIG_DIR: cfgDir, PIPELINE_NO_CAFFEINATE: '1', PIPELINE_CI_POLL_MS: '5',
+    PIPELINE_HOME: path.join(tmp, 'home'), PIPELINE_CONFIG_DIR: cfgDir, PIPELINE_NO_CAFFEINATE: '1', PIPELINE_NO_NOTIFY: '1', PIPELINE_CI_POLL_MS: '5',
     GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' };
   const go = (args = ['run']) => spawnSync('node', [RUN, ...args], { env, encoding: 'utf8', timeout: 90000 });
   const read = () => JSON.parse(fs.readFileSync(db, 'utf8'));
