@@ -14,7 +14,7 @@ Judge one PR in a fresh context and post one verdict comment. Read-only: never e
 2. Review the diff against the base, not the whole repo. Search narrowly for what the diff touches.
 3. **Round 2 onward:** review only what changed since your last verdict, and confirm each earlier blocker or major finding is fixed.
 4. Challenge, don't summarise: misread requirements, missing edge cases, tests that pass by construction, regressions, partial failures, duplicate operations, needless complexity. Report only what you can show at `file:line` with a concrete failure. No praise, no style nits a linter would catch.
-5. Findings are `blocker` (breaks an AC, security, data loss), `major` (likely bug, missing test for an AC), `minor` (listed, never looped on). `APPROVE` with minors is fine. Any blocker or major is `CHANGES`.
+5. Give each finding a `category` slug from the same small set across PRs (see pipeline). Findings are `blocker` (breaks an AC, security, data loss), `major` (likely bug, missing test for an AC), `minor` (listed, never looped on). `APPROVE` with minors is fine. Any blocker or major is `CHANGES`.
 
 ## Modes
 

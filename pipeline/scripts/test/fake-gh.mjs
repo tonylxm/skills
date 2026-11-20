@@ -22,7 +22,8 @@ else if (grp === 'auth') out('ok');
 else if (grp === 'label') out(db.labels.map((name) => ({ name })));
 else if (grp === 'issue' && cmd === 'list') {
   const label = flag('--label');
-  out(db.issues.filter((i) => i.state === 'OPEN' && i.labels.includes(label)).map((i) => ({ ...i, labels: i.labels.map((name) => ({ name })), createdAt: '2026-01-01' })));
+  const wanted = flag('--state') === 'all' ? () => true : (i) => i.state === 'OPEN';
+  out(db.issues.filter((i) => (label ? i.labels.includes(label) : true) && wanted(i)).map((i) => ({ ...i, labels: i.labels.map((name) => ({ name })), comments: i.comments.map((body) => ({ body })), createdAt: '2026-01-01', updatedAt: new Date().toISOString() })));
 } else if (grp === 'issue' && cmd === 'view') {
   const i = issue(a[2]);
   out({ state: i.state, comments: i.comments.map((body) => ({ body })) });
@@ -37,7 +38,7 @@ else if (grp === 'issue' && cmd === 'list') {
 } else if (grp === 'pr' && cmd === 'list') {
   const head = flag('--head');
   const state = flag('--state');
-  out(db.prs.filter((p) => (head ? p.branch === head : true) && (state === 'merged' ? p.state === 'MERGED' : true)));
+  out(db.prs.filter((p) => (head ? p.branch === head : true) && (state === 'merged' ? p.state === 'MERGED' : true)).map((p) => ({ ...p, comments: p.comments.map((body) => ({ body })) })));
 } else if (grp === 'pr' && cmd === 'view') {
   const p = pr(a[2]);
   out({ ...p, comments: p.comments.map((body) => ({ body })) });

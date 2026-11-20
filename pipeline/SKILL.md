@@ -62,7 +62,7 @@ VERDICT: <value>
 | review-* | `APPROVE` `CHANGES` | CHANGES: the same builder fixes from one merged findings list |
 | final | `APPROVE` `ESCALATE` | APPROVE: merge if the repo's merge policy allows. ESCALATE: `needs-human` |
 
-A finding is `{"severity":"blocker|major|minor","file":"","line":0,"issue":"","fix":""}`. Blockers and majors must be fixed. Minors are listed in the PR and not looped on.
+A finding is `{"severity":"blocker|major|minor","category":"","file":"","line":0,"issue":"","fix":""}`. `category` is a short stable slug (`missing-test`, `scope-creep`, `authz-check`, `responsive`), reused across PRs so retro can count repeats. Blockers and majors must be fixed. Minors are listed in the PR and not looped on.
 
 ## Caps
 

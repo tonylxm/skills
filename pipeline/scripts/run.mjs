@@ -8,7 +8,7 @@ const HELP = `Usage: node run.mjs <command> [options]
   status [--json]                                        Queue, running jobs, needs-human, merged today
   check                                                  Verify git, gh, claude, repos, labels and checks.sh
   clean                                                  Remove worktrees of closed issues
-  retro [--days N]                                       Propose improvements from recent verdicts
+  retro [--days N] [--collect-only]                                     Propose improvements from recent verdicts
   dashboard [--port N]                                   Local page showing the same state as status
 
 Repos: ~/.config/pipeline/repos.txt ("owner/name /path/to/clone"). Models and caps: ~/.config/pipeline/config.json`;
@@ -22,6 +22,7 @@ for (let i = 0; i < argv.length; i++) {
   if (a === '--help' || a === '-h') { console.log(HELP); process.exit(0); }
   else if (a === '--dry-run') opts.dryRun = true;
   else if (a === '--json') opts.json = true;
+  else if (a === '--collect-only') opts.collectOnly = true;
   else if (['--until', '--repo', '--days', '--port'].includes(a)) opts[a.slice(2)] = argv[++i];
   else { console.error(`unknown option ${a}\n\n${HELP}`); process.exit(2); }
 }
