@@ -21,7 +21,7 @@ Either way, prefer lists, tables and plain sections spaced for hierarchy over ca
 
 **Components:** build on the project's primitives (shadcn/ui on Base UI or Radix by default) restyled through `DESIGN.md` tokens, never shipped with stock radius, colour and type. Animated effect libraries (Aceternity, Magic UI) only when the brief earns one specific effect.
 
-**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the one list of generic AI defaults to avoid, in either mode. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist. **When adding or editing animation**, also read [references/motion.md](references/motion.md).
+**Before any UI edit**, read [references/craft-floor.md](references/craft-floor.md). Its Refuse list is the one list of generic AI defaults to avoid, in either mode. **When reviewing UI code**, check it against [references/web-interface-guidelines.md](references/web-interface-guidelines.md) and the craft-floor Refuse list, and report `file:line` findings with paths relative to the repo root. Note any plain bugs you spot too, but the rules are the checklist. **When adding or editing animation**, also read [references/motion.md](references/motion.md), and [references/tactile.md](references/tactile.md) for physical-feeling controls, skeletons and layout stability.
 
 ## Ground your designs in the subject matter
 
