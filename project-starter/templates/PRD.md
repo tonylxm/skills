@@ -16,9 +16,9 @@ _{Who} struggles with {problem}. {Product} lets them {outcome}. MVP succeeds if 
 |---|---|---|
 | F1 | | - {observable criterion} |
 
-The MVP ships when every feature above meets its criteria. [ROADMAP.md](ROADMAP.md) phases map to these IDs.
+The MVP ships when every feature above meets its criteria. Issues and milestones map to these IDs.
 
-**Non-goals:** {explicitly out of the MVP}. Deferred ideas: [ROADMAP.md → Later](ROADMAP.md#later).
+**Non-goals:** {explicitly out of the MVP}. Deferred ideas: unlabelled GitHub issues.
 
 ## Success metrics
 - {metric}: {target} by {when}

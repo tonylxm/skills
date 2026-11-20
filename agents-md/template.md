@@ -20,12 +20,12 @@
 
 ## Map
 - `{dir}/`: {what lives there}
-- [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) {drop when no UI} · [Roadmap](docs/ROADMAP.md) · [Decisions](docs/decisions/)
+- [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [Design](docs/DESIGN.md) {drop when no UI} · [Issues](../../issues) · [Decisions](docs/decisions/)
 - Terms: [GLOSSARY](docs/GLOSSARY.md) {drop this line when there is no glossary}
 
 ## Conventions
 - {Only conventions that tooling doesn't enforce and agents get wrong}
 
 ## Workflow
-- {Solo: commit to `main`; a pre-commit hook auto-formats; use a branch + PR for gnhf runs | Team: branch `feat|fix|chore/{slug}`; squash-merge PRs once CI is green}. Conventional Commits.
-- Work from `docs/ROADMAP.md` with `roadmap-next`. Ideas go in its Later section, not in scope.
+- Work comes from GitHub issues through the pipeline: branch `feat|fix|chore/<issue>-<slug>`, one PR that closes the issue, squash-merge once `checks.sh` is green. Conventional Commits. {Solo: small manual fixes may commit to `main`; a pre-commit hook auto-formats | Team: PRs only}.
+- New ideas become issues, not scope. Merge policy and overrides: `.pipeline.yml` (see the pipeline skill).

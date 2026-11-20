@@ -18,23 +18,21 @@ Some skills call others (for example, project-starter uses grilling, domain-mode
 
 ## Workflow
 
-Use auto mode for everything. You work in phases; tasks are the agent's steps inside a phase. After kickoff you only ever type `/roadmap-next`: it picks the step for the current phase, and whenever a choice is needed it asks a clickable question with the recommended option first.
+Work flows through GitHub issues. You plan once, then the run is hands-off: up to 3 jobs at a time, each in its own worktree and branch, each ending in one PR that closes its issue.
 
-| Chat | What happens | You | Skills it calls |
-| --- | --- | --- | --- |
-| Kickoff | `/project-starter "idea"` writes README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap with Phase 0 planned, decisions) and lists what only you can provide | Answer questions, set up the listed accounts and keys | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
-| Each phase, new chat | `/roadmap-next` → **plan**: asks every question up front, then confirms the task list. Phase 0 skips this | Answer, click confirm | |
-| | → **build**: every task in order, each in its own subagent, verified and committed locally. Never stops to ask; stuck tasks are marked `BLOCKED`, consequential choices `BLOCKED (decision)` (asked in the next `plan`) | Nothing | dev-loop (per task), tdd, typescript-standards, systematic-debugging, frontend-design, browser-e2e, decision-log |
-| | → **close** (automatic): review, re-verify, update docs, archive the phase, push, report | Try the app, read the assumptions | `/code-review`, `/security-review` (when relevant), `/simplify`, browser-e2e, agents-md |
-| | Report ends with "Start a new chat and run `/roadmap-next`" | New chat | |
+| Stage | Where | You |
+| --- | --- | --- |
+| Kickoff (new project) | `/project-starter "idea"` in Claude: docs, repo from your template, first issues | Answer questions, set up the listed accounts |
+| Plan | `/plan` in Claude: triages every open issue, asks everything in one batch | Answer, confirm |
+| Run | `node ~/.agents/skills/pipeline/scripts/run.mjs --until 07:00` in a terminal | Nothing. `run.mjs status` or the GitHub app shows progress |
+| Needs you | Issues labelled `needs-human` | Answer them in the next `/plan` |
+| Retro | `run.mjs retro`, weekly | Review the PRs it opens |
 
-- **Work outside the roadmap** (a bug fix, a client request, a repo without `docs/ROADMAP.md`): just ask for the change. dev-loop runs the same Goal → Explore → Plan → Implement → Verify → Review → Commit loop that each `build` task uses.
-- **Interrupted** (usage limit, laptop closed)? New chat, `/roadmap-next` resumes where it stopped.
-- **Lost?** `/roadmap-next status` shows where you are and offers the next step.
-- **Overnight:** plan the phase, then hand it to `/gnhf`, and run `/roadmap-next close` after the morning review.
-- **No accounts yet?** Fine. `build` does all the local work first, uses `gh` and connected tools where you're logged in, and ends with one setup checklist. Do it, then run `/roadmap-next` again and it resumes. The phase stays open until then.
-- **Solo `close` deploys.** It pushes `main`, which goes live before you try the app. For client work with real users, use Team mode (previews before merge).
-- `plan` only edits `docs/ROADMAP.md`, never code, so auto mode is safe there too.
+A job is build ([dev-loop](dev-loop/SKILL.md)) → `checks.sh` → [review](review/SKILL.md) (code, ui, security, routed by the diff) → final review → merge. Labels, verdict comments, caps and the per-repo kit: [pipeline](pipeline/SKILL.md).
+
+- **Work outside the pipeline** (a quick fix, a one-off): just ask for the change. dev-loop runs the same Goal → Explore → Plan → Implement → Verify → Review → Commit loop.
+- **Interrupted** (laptop closed, usage limit)? Run `run.mjs` again: each job's stage is read back from its PR.
+- **Overnight:** `--until` stops starting new jobs at that time. The laptop must stay plugged in with the lid open (the runner holds `caffeinate`).
 
 Generated docs stay lean. Root `AGENTS.md` is an index, every fact lives in one file, and docs grow by splitting into linked files instead of getting longer.
 
@@ -47,18 +45,17 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | Skill | Description | Origin |
 | --- | --- | --- |
 | **Kickoff and planning** | | |
-| [project-starter](project-starter/SKILL.md) | Kick off a project: produces README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap, decisions), starting from the stack defaults in stack-defaults | Original |
+| [project-starter](project-starter/SKILL.md) | Kick off a project: README, AGENTS.md and `docs/` (PRD, architecture, design, decisions), then the repo from your template and the first issues | Original |
 | [stack-defaults](stack-defaults/SKILL.md) | Personal stack layer: base stacks, template repos, quality baseline, CI/CD, running costs, client accounts and contracts | Original |
-| [refine-idea](refine-idea/SKILL.md) | Turn a raw idea into an actionable one-pager | Adapted from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) |
 | [market-research](market-research/SKILL.md) | Sourced market and competitor snapshot | Original, based on firecrawl-market-research and coreyhaines31 competitor-profiling |
 | [grilling](grilling/SKILL.md) | Round-based interview with recommended answers | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
-| [grill-with-docs](grill-with-docs/SKILL.md) | Grilling that also writes the glossary and ADRs | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [domain-modeling](domain-modeling/SKILL.md) | Build `docs/GLOSSARY.md` and sharpen domain terms | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [decision-log](decision-log/SKILL.md) | Record significant decisions as ADRs in `docs/decisions/` | Original |
 | [design-md](design-md/SKILL.md) | Define the visual design system in `docs/DESIGN.md` | Original, based on google-labs-code stitch design-md |
 | [agents-md](agents-md/SKILL.md) | Write and maintain a lean `AGENTS.md` (Claude Code reads it natively) | Original, based on the agents.md standard and github/awesome-copilot create-agentsmd |
 | **Building** | | |
-| [roadmap-next](roadmap-next/SKILL.md) | Plan a phase up front, then build and close it unattended | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |
+| [plan](plan/SKILL.md) | Triage GitHub issues into `ready`, split, needs-info or rejected: one batch of questions, issues rewritten to a concise format | Original |
+| [review](review/SKILL.md) | Code, UI, security and final review of a PR, posting one verdict comment | Original |
 | [pipeline](pipeline/SKILL.md) | Issue-to-merged-PR pipeline contracts: labels, issue body, verdict comments, caps, git and merge conventions, and the per-repo kit (issue forms, PR template, `checks.sh`) | Original |
 | [dev-loop](dev-loop/SKILL.md) | The loop for every code change: core rules, agentic pitfalls, test strategy, tiered verification, test integrity, review | Original |
 | [data-modeling](data-modeling/SKILL.md) | Relational schema rules: keys, constraints, types, indexes, transactions, idempotency, query pitfalls | Original |
@@ -68,14 +65,25 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [frontend-design](frontend-design/SKILL.md) | UI design that follows `DESIGN.md`: product vs marketing mode, rules against the generic AI look, and code-level interface guidelines | Adapted from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0), with rules from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0), [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) and [emilkowalski/skills](https://github.com/emilkowalski/skills) (MIT, motion) |
 | [browser-e2e](browser-e2e/SKILL.md) | Check a UI or full-stack change in the running app (widths, themes, console, keyboard, accessibility, flows), and decide what becomes a Playwright journey | Original |
 | [seo](seo/SKILL.md) | Technical SEO for client and small business sites (Next.js, Astro): build-in baseline, 10-minute pre-launch check (PageSpeed Insights, Rich Results Test), Search Console and Business Profile handover, AI search (GEO) basics | Original |
-| [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations / soft 8h deadline by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf) |
 | [typescript-standards](typescript-standards/SKILL.md) | TypeScript code standards: strict types, early returns, injected dependencies | Original |
 | [cli-tooling](cli-tooling/SKILL.md) | Fast, non-interactive shell tools: ast-grep, rg, fd, jq, yq, gh | Original |
-| [handoff](handoff/SKILL.md) | Compact a session into a handoff document for a fresh context | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **Meta** | | |
 | [refine-skill](refine-skill/SKILL.md) | Audit and improve an agent skill | Original, based on anthropics skill-creator and obra/superpowers writing-skills |
 | [refine-prompt](refine-prompt/SKILL.md) | Sharpen a rough prompt for an AI model | Original, based on Anthropic prompt guidance and stitch enhance-prompt |
 | [find-skills](find-skills/SKILL.md) | Discover agent skills and vendor them into this repo | Adapted from [vercel-labs/skills](https://github.com/vercel-labs/skills) |
+
+## Skill dependencies
+
+Install the whole set. The pipeline skills call these by name:
+
+| Skill | Calls or reads |
+| --- | --- |
+| plan | pipeline, grilling, market-research, domain-modeling, decision-log, tdd |
+| dev-loop (the build stage) | pipeline, review, tdd, typescript-standards, frontend-design, browser-e2e, data-modeling, systematic-debugging |
+| review | pipeline, dev-loop, browser-e2e, frontend-design |
+| project-starter | grilling, market-research, domain-modeling, design-md, agents-md, decision-log, stack-defaults, pipeline |
+
+The runner needs `git`, `gh`, `node` and `claude`: `node pipeline/scripts/run.mjs check` verifies them.
 
 The adapted skills are personalised, so they can differ from upstream. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for their licenses.
 

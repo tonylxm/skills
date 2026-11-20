@@ -1,6 +1,6 @@
 ---
 name: project-starter
-description: Use when starting a new project from an idea or short description and it needs a plan before code. Writes README.md, AGENTS.md and docs/ (PRD, architecture, design, roadmap, decisions).
+description: Use when starting a new project from an idea or short description and it needs a plan before code. Writes README.md, AGENTS.md and docs/ (PRD, architecture, design, decisions), then creates the repo and files the first issues.
 argument-hint: "\"<quick description>\""
 disable-model-invocation: true
 ---
@@ -19,16 +19,16 @@ Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate
 
 ## Steps
 
-1. **Idea.** One line: problem, user, outcome. Vague? Run refine-idea first. Offer market-research (`quick`) if the market is unclear.
+1. **Idea.** One line: problem, user, outcome. Vague? Run [grilling](../grilling/SKILL.md) to find the simplest version worth building. Offer market-research (`quick`) if the market is unclear.
 2. **Constraints.** Solo or team (sets the Workflow mode, [tech-stack.md → CI/CD](../stack-defaults/tech-stack.md#cicd)), timeline, hosting budget, compliance (privacy law wherever personal data is stored).
 3. **Stack.** Start from the defaults in [tech-stack.md](../stack-defaults/tech-stack.md). Deviate only when step 2 requires it, and say why. ADR for each lock-in choice.
 4. **Architecture.** Components (mermaid), core data model, key contracts, quality baseline (tests, security, deploy, NFRs) from tech-stack.md. If the domain has terms that are easy to confuse, run domain-modeling, which writes `docs/GLOSSARY.md`. ADR for the shape.
 5. **Design.** Run design-md. Skip for backend-only, CLI or library projects.
 6. **Write and hand off.**
    - Fill the doc templates into the layout below, then run agents-md for `AGENTS.md`.
-   - Phase 0 in `docs/ROADMAP.md` is always the walking skeleton, created from the template or scaffold that tech-stack.md names for the chosen stack. Later phases stay one line each.
+   - **Repo and issues.** Confirm each outward step with the user first. Create the repo from the template tech-stack.md names (`gh repo create <app> --template ... --private --clone`), copy the [pipeline kit](../pipeline/SKILL.md#the-repo-kit) if the template lacks it, run its `labels.sh`, and offer to add the repo to `~/.config/pipeline/repos.txt`. Then file the first issues in the [pipeline issue format](../pipeline/SKILL.md#issue-body) under a "Phase 0: walking skeleton" milestone: scaffold and verify the baseline, verify CI, provision the data store and env, deploy hello world (tech-stack.md → CI/CD). Templates ship most of it, so those are check-only. Each step that needs the user's accounts or keys is an issue labelled `needs-human` with numbered steps. Later phases are empty milestones, deferred ideas are unlabelled issues.
    - For client work, draft the client's list from [clients.md](../stack-defaults/clients.md) (only the rows this project needs) and fill [contract-template.md](../stack-defaults/contract-template.md) from the quote and the PRD's MVP scope. Keep the filled contract out of the repo.
-   - Report the files created, the 3 riskiest open questions, and the accounts Phase 0 will need (repo, hosting, data store, auth). They don't have to exist yet: `build` does the local work first and hands back a setup checklist. End with: "Start a new chat and run `/roadmap-next`" (Phase 0 is already planned, so it builds and closes the phase).
+   - Report the files created, the issues filed, the 3 riskiest open questions, and the accounts Phase 0 will need (repo, hosting, data store, auth). End with: "Run `/plan` on the new issues, then start the runner."
 
 ## Output
 
@@ -39,7 +39,6 @@ Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate
 | `docs/PRD.md` | Why and what: users, scope with AC, non-goals, metrics, risks | [templates/PRD.md](templates/PRD.md) |
 | `docs/ARCHITECTURE.md` | How: stack, diagram, data model, contracts, quality baseline | [templates/ARCHITECTURE.md](templates/ARCHITECTURE.md) |
 | `docs/DESIGN.md` | Look: tokens, type, components (UI only) | design-md |
-| `docs/ROADMAP.md` | Phases, tasks, and Later (deferred ideas) | [templates/ROADMAP.md](templates/ROADMAP.md) |
 | `docs/decisions/ADR-0001-<slug>.md` | One significant decision each | decision-log |
 | `docs/GLOSSARY.md` | Domain terms, only when step 4 needed them | domain-modeling |
 

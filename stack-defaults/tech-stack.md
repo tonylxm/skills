@@ -49,7 +49,7 @@ A prototype gets client sign-off on flows and look during requirements. It is th
 - **Data:** frontend only. Typed mock fixtures shaped like the domain, `localStorage` when a flow needs to persist, and a role switcher instead of a real login.
 - **Skip:** database, real auth, tests, CI, Husky, Dependabot and SEO.
 - **Accounts:** your Cloudflare account (`wrangler deploy`, shared by its `*.workers.dev` URL). Never real client or personal data.
-- **After approval:** create a new repo from the matching template rather than building on the prototype. Copy presentational components, layouts and design tokens (or `DESIGN.md`), turn screens and flows into the PRD and roadmap, and discard the mock data and state wiring.
+- **After approval:** create a new repo from the matching template rather than building on the prototype. Copy presentational components, layouts and design tokens (or `DESIGN.md`), turn screens and flows into the PRD and issues, and discard the mock data and state wiring.
 
 ## Data and auth
 - **Neon:** Drizzle on `node-postgres` (`pg`), so tests run on plain Postgres. Deployed Workers connect through Cloudflare Hyperdrive (Neon's direct connection string, caching off), which pools connections near Neon; it's included in every Workers plan, with a limit of 25 configs per Paid account. Change `sslmode=require` to `sslmode=verify-full`, or `pg` prints a deprecation warning. Auth is Better Auth with the Drizzle adapter (`better-auth`, `@better-auth/drizzle-adapter`), its tables in the app's own schema. Not Neon Auth (beta SDK, no MFA). Email verification and password reset need Resend. On Workers, build the database client and auth instance per request and never hold one at module level (see nextjs-neon-starter's `src/db/index.ts`).
@@ -123,7 +123,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 
 | | Solo (default) | Team |
 |---|---|---|
-| Commits | Straight to `main`; gnhf runs use a branch and PR | Branch and PR only, squash merge |
+| Commits | Straight to `main` for small manual fixes; pipeline jobs use a branch and PR | Branch and PR only, squash merge |
 | Pre-commit | Husky + lint-staged | None, CI is the gate |
 | CI | Runs on every push and PR, reports | Runs on PRs, blocks the merge |
 | Deploy | Production on push to `main` | Preview per PR, production on merge |
@@ -133,7 +133,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 
   | Stage | Flow | Who deploys |
   |---|---|---|
-  | Before launch (Solo) | push `main` → CI → deploy job | Pushing `main` (roadmap-next `close`) |
+  | Before launch (Solo) | push `main` → CI → deploy job | Merging the job's PR (or pushing `main`) |
   | After launch (Team, the switch below) | PR → CI and preview → merge → CI → deploy job | Merging the PR, after you or the client checked the preview |
   | Release on a chosen date | Enable the job's `workflow_dispatch` trigger and drop the `push` trigger | You, with the Run workflow button |
   | Emergency | `wrangler rollback`, or `pnpm run deploy` from your machine | You |
@@ -145,8 +145,8 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
   command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
   gitleaks git --pre-commit --staged --redact --no-banner
   ```
-- **Git:** Conventional Commits, small and green. Branches `feat|fix|chore/<slug>`, one ROADMAP task each. Solo → Team once there are real users or a second contributor: turn on branch protection requiring CI and update the `AGENTS.md` Workflow line (roadmap-next reads it).
-- **Deferred to the roadmap's Later section:** CodeQL, a staging environment, release automation, E2E beyond the 1-3 journeys.
+- **Git:** Conventional Commits, small and green. Branches `feat|fix|chore/<issue>-<slug>`, one issue each. Solo → Team once there are real users or a second contributor: turn on branch protection requiring CI and set `merge: none` in `.pipeline.yml` for client releases.
+- **Deferred (unlabelled issues):** CodeQL, a staging environment, release automation, E2E beyond the 1-3 journeys.
 
 ## Templates
 A template ships the Lint & format, Testing, Solo hook, `.env.example` with fail-fast validation, CI and Dependabot defaults on this page, green in CI, with auth deny-by-default where the stack has auth, and the seo skill's baseline (astro-site-starter adds a business config and service pages).
