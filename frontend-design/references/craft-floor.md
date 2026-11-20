@@ -32,6 +32,16 @@ The default behaviour of common controls. Break one only when the brief gives a 
 - **Labels:** every field has a visible label above it. A placeholder is an example, never the label. Mark whichever of optional or required is the minority, not both.
 - **Keyboard:** Enter submits a single-line form. Esc closes dialogs, menus and popovers (through the dirty-state check), and focus returns to the trigger.
 - **Targets:** at least 24×24px (WCAG 2.5.8), 44px on touch-first screens.
+- **URL state:** filters, tabs, search, sort and page live in the URL, so Back, refresh and a shared link restore the view.
+- **Link or button:** navigation is an `<a>`, an action is a `<button>`. Never a clickable `div`.
+- **Empty states:** say why the view is empty and offer the action that fills it. "No results" also offers clearing the filters.
+- **Optimistic updates:** low-risk changes (like, reorder, a switch) show at once and roll back with an error toast if the server fails. Never for payments, deletes or anything irreversible.
+- **Input attributes:** every field has the right `type`, `inputmode` and `autocomplete`. Never block paste.
+- **Tables:** numbers right-aligned, header sticky, sort direction shown, truncated text available in full on hover or focus.
+- **Dates:** relative ("3h ago") for recent activity, with the exact time on hover. Absolute where moments are compared (logs, chat, history). Always the user's locale and timezone.
+- **Icon-only buttons:** an `aria-label` and a tooltip with the same words.
+- **Primary action:** one per view. Dialog button order is the same across the app.
+- **Reduced motion:** under `prefers-reduced-motion`, movement becomes a fade or nothing.
 
 ## Refuse
 
