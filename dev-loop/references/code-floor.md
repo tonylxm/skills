@@ -25,6 +25,23 @@ Check the finished diff, not your intentions.
 - **Concurrency:** state shared across requests is either avoided or guarded (transaction, lock, version check).
 - **Data model:** table and constraint design follows [data-modeling](../../data-modeling/SKILL.md).
 
+## Comments
+
+Default is none. Keep or write one only when it guards something the code can't show. If a test, type or named constant can enforce it instead, use that.
+
+| Keep | Must include | Example |
+|---|---|---|
+| Workaround or trade-off | The cause (bug link, version, measurement) | `// Safari drops the event under 50ms (WebKit#123). Do not lower.` |
+| Coupling, order or sync | Both ends name each other | `// Must run before initializeAuth(), or session cookies fail to attach.` |
+| Business or regulatory rule | The source (rule, client decision, ticket) | `// GST applies to the pre-discount price (IRD guidance).` |
+| Lint or type suppression | A reason | `// eslint-disable-next-line rule -- reason`, `// @ts-expect-error reason` |
+
+- **Never write:** narration, history ("added", "changed from"), banners, commented-out code, or a TODO without an issue link. File headers only for a non-obvious entry point the name can't say.
+- **Don't delete a comment you don't understand.** Remove a guardrail only together with the code it guards.
+- **Stale is a bug.** Change guarded code, update or delete its comment in the same diff.
+- **Same warning in 3+ places** is a convention: put it in `AGENTS.md`.
+- **Existing code:** prune only in files you are already changing. No repo-wide sweeps.
+
 ## Refuse
 
 The defaults agent-written code clusters around. The brief or an existing codebase convention can earn one back; reaching for one without a reason means you were not deciding.
@@ -34,8 +51,8 @@ The defaults agent-written code clusters around. The brief or an existing codeba
 - A new helper beside an existing one that does the same thing.
 - A wrapper, manager or service class with one caller and no variation (see the deletion test in [codebase-design](../../codebase-design/SKILL.md)).
 - Options, parameters or interfaces "for future flexibility" nothing uses yet. SOLID is covered by depth, seams and injection; do not add abstraction to satisfy the acronym.
-- Comments that narrate the code, changelog notes in source, banners.
-- Casts, `any` or lint suppressions to make the compiler stop complaining.
+- Comments that narrate the code, changelog notes in source, banners (see Comments above).
+- Casts, `any` or lint suppressions to make the compiler stop complaining, or any suppression without a reason.
 - Mocks of your own code, or tests that assert how the code works instead of what it does.
 - Reformatting, renaming or reordering lines the change did not need to touch.
 - A passing test produced by special-casing the test's input.

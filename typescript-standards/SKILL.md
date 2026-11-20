@@ -55,7 +55,7 @@ description: Write or review TypeScript with strict types, clear control flow, d
 
 ## Comments
 
-- Comments only for a non-obvious *why* (constraints, workarounds, performance hacks, links to the algorithm or paper implemented). If code needs explaining, rename or extract until it doesn't.
+- Comment rules: [code-floor](../dev-loop/references/code-floor.md#comments). If code needs explaining, rename or extract until it doesn't. Use `@ts-expect-error` with a reason, never `@ts-ignore`.
 - Document public interfaces with JSDoc: expected behaviour and error conditions, not internals.
 
 ## Dependency injection
