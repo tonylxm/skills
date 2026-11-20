@@ -39,6 +39,7 @@ Decisions made, links.
 - `risk`: any of `auth`, `data`, `money`, `deps`, `infra`, `ui`. Drives model choice and which reviews run.
 - `touches`: areas of the repo. Two jobs with overlapping `touches` never run together.
 - New dependencies are named in Notes. An unnamed one escalates at final review.
+- `Depends on #N` in Notes: the runner skips the issue until #N is closed.
 
 ## Verdict comment
 
