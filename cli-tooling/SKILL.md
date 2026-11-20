@@ -13,6 +13,7 @@ Pick the fastest non-interactive tool for the job. Done when the task's shell wo
 2. **Just run it.** Don't pre-check with `which`. If a command is not found, use the fallback and carry on. Mention the install line once at the end only if the tool would have saved real effort.
 3. **Never block on a pager or prompt.** Set `GIT_PAGER=cat` or use `git --no-pager`, pass `--color=never` when piping, prefer `gh ... --json`, and avoid interactive flags (`-i`, `fzf`, editors).
 4. **Dry-run rewrites.** Preview every multi-file change, then apply it.
+5. **Keep output small.** Exploratory searches cap their output: `rg --max-columns 200 -m 5`, exclude lockfiles and builds (`--glob '!*.lock' --glob '!dist'`), pipe long lists to `head -50`. One minified file can flood the context.
 
 ## Tools
 
@@ -22,6 +23,7 @@ Pick the fastest non-interactive tool for the job. Done when the task's shell wo
 | Find files | `fd` | `fd -e ts` · `fd -t d components` · `fd -H .env` | `find . -name` |
 | Structural search | `ast-grep` | `ast-grep -p 'fetchData($$$ARGS)' -l ts` | `rg` with a careful regex |
 | Structural rewrite | `ast-grep` | `ast-grep -p 'old($A)' -r 'new($A)' -l ts` (preview), then add `-U` | Edit each match |
+| Text replace across files (strings, docs, config) | `perl` | `rg -l 'old'` (preview), then `rg -l 'old' \| xargs perl -pi -e 's/old/new/g'` | Edit each match |
 | Count structural matches | `ast-grep` | `ast-grep -p 'console.log($$$)' -l js --json=stream \| wc -l` | `rg -c` |
 | JSON | `jq` | `jq '.scripts' package.json` · `jq -r '.items[].name'` | `python3 -c 'import json,sys; ...'` |
 | YAML (read/edit) | `yq` (mikefarah, v4) | `yq '.jobs' ci.yml` · `yq -i '.version = "2.0.0"' f.yaml` · `yq -o=json f.yaml` | `python3` with PyYAML |
@@ -30,6 +32,8 @@ Pick the fastest non-interactive tool for the job. Done when the task's shell wo
 Notes:
 - Call it `ast-grep`, not `sg` (clashes with the Linux `sg` command). `$X` matches one node, `$$$` matches many.
 - `yq` means mikefarah's Go version. The Python `yq` wrapper has different syntax; check with `yq --version`.
+- Use `perl -pi -e`, not `sed -i`: BSD sed on macOS needs `-i ''` and GNU sed rejects it.
+- `gh`: never `gh run watch` or `gh pr checks --watch` (they block until CI ends); use `gh pr checks` for a snapshot. Add `--paginate` to `gh api` list calls, or only the first page comes back.
 - `rg` and `fd` respect `.gitignore` and skip hidden files. Add `--hidden` / `-H` (and `--no-ignore` / `-I`) when looking for dotfiles or ignored output.
 
 ## Install (macOS)
