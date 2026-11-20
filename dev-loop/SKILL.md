@@ -39,7 +39,7 @@ For non-trivial work, read the code you will touch, the patterns next to it, its
 For meaningful changes, a few lines: files, approach, how each criterion gets verified. Prefer the smallest change and the existing architecture unless there is a concrete reason to depart (then use decision-log). For UI, load frontend-design before planning, not just before building: its mode choice and design plan are part of the plan.
 
 ## 4. Implement
-Small increments, each left working. Preserve existing behaviour unless the requirement changes it. Follow the stack's standards skill (typescript-standards, dotnet-standards); UI follows frontend-design.
+Small increments, each left working. Preserve existing behaviour unless the requirement changes it. Follow the stack's standards skill (typescript-standards); UI follows frontend-design; schema and query work follows data-modeling. Read [references/code-floor.md](references/code-floor.md) before writing code.
 
 Pick the verification per behaviour, before writing code:
 
@@ -68,7 +68,7 @@ Cheapest effective check first. Never run the whole suite in the inner loop.
 **Test integrity.** Never change an existing test just to make the code pass. When one fails, decide: is the implementation wrong, the test wrong, the requirement changed, or the environment or data wrong? Change a test only for the second or third, and say why in the report and commit body.
 
 ## 6. Review
-Review in a fresh context with `/code-review`, plus `/security-review` when auth, input handling, secrets, permissions or dependencies changed. Risk decides, not size: always review changes to money, auth or permissions, user data, concurrency, external contracts or migrations, even a one-character fix. Skip only for copy, styling, docs, or a pure refactor already covered by tests; anything else is a judgment call. The reviewer challenges, not summarises: misread requirements, missing edge cases, tests overfit to the code, regressions, authorization holes, races, partial failures, duplicate operations, backwards compatibility, needless complexity. Fix findings or list them.
+Review in a fresh context with `/code-review`, plus `/security-review` when auth, input handling, secrets, permissions or dependencies changed. Risk decides, not size: always review changes to money, auth or permissions, user data, concurrency, external contracts or migrations, even a one-character fix. Skip only for copy, styling, docs, or a pure refactor already covered by tests; anything else is a judgment call. The reviewer challenges, not summarises: misread requirements, missing edge cases, tests overfit to the code, regressions, authorization holes, races, partial failures, duplicate operations, backwards compatibility, needless complexity. Check the diff against the Verify and Refuse lists in [references/code-floor.md](references/code-floor.md). Fix findings or list them.
 
 ## 7. Commit
 Commit at green checkpoints, one concern per commit, never mixing unrelated changes, so each is easy to review and revert. Branch and commit rules come from `AGENTS.md` Workflow.
@@ -79,4 +79,4 @@ Commit at green checkpoints, one concern per commit, never mixing unrelated chan
 - A noisy or overloaded context: write a handoff (the handoff skill) and continue in a fresh session.
 
 ## After a bug escapes
-Ask "why didn't the workflow catch this?" Codify the lesson only where it pays: a regression test, an E2E journey, an eval case, a lint rule, a script, one line in `AGENTS.md` (agents-md), or, for a recurring generic UI default, one line in frontend-design's craft-floor list. Don't add process for completeness.
+Ask "why didn't the workflow catch this?" Codify the lesson only where it pays: a regression test, an E2E journey, an eval case, a lint rule, a script, one line in `AGENTS.md` (agents-md), or, for a recurring generic UI default, one line in frontend-design's craft-floor list or dev-loop's [code-floor](references/code-floor.md). Don't add process for completeness.

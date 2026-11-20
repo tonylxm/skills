@@ -24,7 +24,7 @@ Use auto mode for everything. You work in phases; tasks are the agent's steps in
 | --- | --- | --- | --- |
 | Kickoff | `/project-starter "idea"` writes README, AGENTS.md and `docs/` (PRD, architecture, design, roadmap with Phase 0 planned, decisions) and lists what only you can provide | Answer questions, set up the listed accounts and keys | refine-idea, market-research, grilling, domain-modeling, decision-log, design-md, agents-md |
 | Each phase, new chat | `/roadmap-next` → **plan**: asks every question up front, then confirms the task list. Phase 0 skips this | Answer, click confirm | |
-| | → **build**: every task in order, each in its own subagent, verified and committed locally. Never stops to ask; stuck tasks are marked `BLOCKED`, consequential choices `BLOCKED (decision)` (asked in the next `plan`) | Nothing | dev-loop (per task), tdd, typescript-standards or dotnet-standards, systematic-debugging, frontend-design, browser-e2e, decision-log |
+| | → **build**: every task in order, each in its own subagent, verified and committed locally. Never stops to ask; stuck tasks are marked `BLOCKED`, consequential choices `BLOCKED (decision)` (asked in the next `plan`) | Nothing | dev-loop (per task), tdd, typescript-standards, systematic-debugging, frontend-design, browser-e2e, decision-log |
 | | → **close** (automatic): review, re-verify, update docs, archive the phase, push, report | Try the app, read the assumptions | `/code-review`, `/security-review` (when relevant), `/simplify`, browser-e2e, agents-md |
 | | Report ends with "Start a new chat and run `/roadmap-next`" | New chat | |
 
@@ -59,6 +59,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | **Building** | | |
 | [roadmap-next](roadmap-next/SKILL.md) | Plan a phase up front, then build and close it unattended | Original, based on obra/superpowers writing-plans, executing-plans and verification-before-completion |
 | [dev-loop](dev-loop/SKILL.md) | The loop for every code change: core rules, agentic pitfalls, test strategy, tiered verification, test integrity, review | Original |
+| [data-modeling](data-modeling/SKILL.md) | Relational schema rules: keys, constraints, types, indexes, transactions, idempotency, query pitfalls | Original |
 | [tdd](tdd/SKILL.md) | Test-driven development, red-green-refactor, for logic, invariants and regressions | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [codebase-design](codebase-design/SKILL.md) | Deep-module vocabulary, used by tdd | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [systematic-debugging](systematic-debugging/SKILL.md) | Debugging that finds the root cause first | Adapted from [obra/superpowers](https://github.com/obra/superpowers) |
@@ -67,7 +68,6 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [seo](seo/SKILL.md) | Technical SEO for client and small business sites (Next.js, Astro): build-in baseline, 10-minute pre-launch check (PageSpeed Insights, Rich Results Test), Search Console and Business Profile handover, AI search (GEO) basics | Original |
 | [gnhf](gnhf/SKILL.md) | Capped overnight agent loop (5M tokens / 20 iterations / soft 8h deadline by default) that works through the roadmap | Adapted from [kunchenguid/gnhf](https://github.com/kunchenguid/gnhf) |
 | [typescript-standards](typescript-standards/SKILL.md) | TypeScript code standards: strict types, early returns, injected dependencies | Original |
-| [dotnet-standards](dotnet-standards/SKILL.md) | C# and ASP.NET Core standards: nullable types, async all the way, minimal API endpoints, EF Core | Original |
 | [cli-tooling](cli-tooling/SKILL.md) | Fast, non-interactive shell tools: ast-grep, rg, fd, jq, yq, gh | Original |
 | [handoff](handoff/SKILL.md) | Compact a session into a handoff document for a fresh context | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **Meta** | | |

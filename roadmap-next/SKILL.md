@@ -82,7 +82,7 @@ Build every unchecked, non-`BLOCKED` task in the phase, in order, without stoppi
 **Order per task:** subagent report → you check the evidence → fix small issues yourself or re-run the subagent → tick → commit. Never commit before the check passes. For an `opus`-category task, read the core changed code yourself, not just the evidence; for auth or scoping code, confirm every unknown, missing or null identity path fails closed.
 
 1. **Restate the goal.** Task, ACs, and the files you expect to touch.
-2. **Implement it with the dev-loop skill**: it picks test-first (tdd) or another verification per behaviour, and applies the stack's standards skill (typescript-standards or dotnet-standards). For UI work, also use frontend-design and follow `docs/DESIGN.md`. When something fails unexpectedly, switch to systematic-debugging. Don't guess at fixes.
+2. **Implement it with the dev-loop skill**: it picks test-first (tdd) or another verification per behaviour, and applies the stack's standards skill (typescript-standards). For UI work, also use frontend-design and follow `docs/DESIGN.md`. When something fails unexpectedly, switch to systematic-debugging. Don't guess at fixes.
 3. **Verify before ticking.** Fresh evidence, run in this session:
    - dev-loop's verification tier 2 passes (whole-project lint and typecheck, tests for the changed area, the full suite when tier 2b applies). Show each command, exit code and pass/fail/skip counts.
    - Each AC is checked one by one.
