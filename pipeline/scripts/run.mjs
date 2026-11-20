@@ -28,6 +28,10 @@ for (let i = 0; i < argv.length; i++) {
   else { console.error(`unknown option ${a}\n\n${HELP}`); process.exit(2); }
 }
 
+// Nothing in an unattended run may wait on a terminal prompt.
+process.env.GIT_TERMINAL_PROMPT = '0';
+process.env.GH_PROMPT_DISABLED = '1';
+
 const cfg = loadConfig();
 const repos = loadRepos();
 

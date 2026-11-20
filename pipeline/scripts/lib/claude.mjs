@@ -3,12 +3,18 @@ import path from 'node:path';
 import { run, tail } from './exec.mjs';
 import { BIN } from './config.mjs';
 
+// Flags every headless stage gets. No prompt can hang (denied instead), and no MCP servers load,
+// so a stage cannot reach connector tools such as database, hosting or payment admin.
+export const baseArgs = (cfg, m) => [
+  '-p', '--model', m.model, '--effort', m.effort, '--permission-mode', cfg.permissionMode,
+  '--permission-prompts', 'none', '--strict-mcp-config', '--output-format', 'json', '--no-session-persistence',
+];
+
 // One stage = one fresh headless claude process in the job's worktree (clean context, killable).
 // The prompt's first line is a machine header; the rest names the skill to follow.
 export async function runStage(cfg, { stage, tier = stage, prompt, cwd, env, timeoutMs, logName }) {
   const m = cfg.models[tier] ?? cfg.models[stage];
-  const args = ['-p', '--model', m.model, '--effort', m.effort, '--permission-mode', cfg.permissionMode,
-    '--output-format', 'json', '--no-session-persistence'];
+  const args = baseArgs(cfg, m);
   if (cfg.maxBudgetUsd) args.push('--max-budget-usd', String(cfg.maxBudgetUsd));
   const r = await run(BIN.claude, args, { cwd, env, input: prompt, timeoutMs });
 

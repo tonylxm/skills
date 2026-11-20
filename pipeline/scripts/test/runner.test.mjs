@@ -110,6 +110,21 @@ test('merge policy none stops at ready-to-merge', () => {
   assert.equal(t.read().prs[0].state, 'OPEN');
 });
 
+test('policy safe holds a PR that touches a migration, even when every review approves', () => {
+  const t = setup({ issues: [issue(1, 'feat: x', ['a'])], behavior: { files: ['db/migrations/001_add.sql'] } });
+  const r = t.go();
+  assert.match(r.stdout, /0 merged, 1 need you/, r.stdout + r.stderr);
+  assert.match(t.read().issues[0].comments.join('\n'), /held for you/);
+  assert.equal(t.read().prs[0].state, 'OPEN');
+});
+
+test('policy all merges a migration PR, and hold_paths can be overridden per repo', () => {
+  const all = setup({ issues: [issue(1, 'feat: x', ['a'])], behavior: { files: ['db/migrations/001_add.sql'] }, repoYml: 'merge: all\n' });
+  assert.match(all.go().stdout, /1 merged/);
+  const own = setup({ issues: [issue(1, 'feat: x', ['a'])], behavior: { files: ['db/migrations/001_add.sql'] }, repoYml: 'hold_paths:\n  - billing/\n' });
+  assert.match(own.go().stdout, /1 merged/);
+});
+
 test('final ESCALATE hands the issue to the human', () => {
   const t = setup({ issues: [issue(1, 'feat: x', ['a'])], behavior: { final: 'ESCALATE' } });
   const r = t.go();

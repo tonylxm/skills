@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as gh from './github.mjs';
 import { run, tail } from './exec.mjs';
-import { BIN } from './config.mjs';
+import { BIN, DEFAULT_HOLD_PATHS } from './config.mjs';
 import { runStage } from './claude.mjs';
 import { branchFor, parseEvents, deriveState, route, verdictComment, isHard } from './verdicts.mjs';
 
@@ -172,6 +172,10 @@ export async function runJob(cfg, repo, issue, meta, slot) {
 
         case 'merge': {
           if (repo.rc.merge === 'none') throw new Escalate(`ready to merge, policy is none: ${pr.url}`);
+          if (repo.rc.merge === 'safe') {
+            const held = files.find((f) => (repo.rc.holdPaths ?? DEFAULT_HOLD_PATHS).some((p) => f.toLowerCase().includes(p.toLowerCase())));
+            if (held) throw new Escalate(`held for you: the PR touches ${held} (merge policy safe never auto-merges it): ${pr.url}`);
+          }
           if (!(await freshen())) break;
           const ci = await gh.waitForChecks(repo.name, pr.number);
           if (!ci.ok) throw new Escalate(ci.reason);

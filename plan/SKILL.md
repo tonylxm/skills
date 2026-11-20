@@ -18,7 +18,7 @@ The one interactive stage. The user answers every question here, once, so the un
    - for a UI direction that is the user's call: build 2-3 small HTML mockups in the OS temp dir and let them pick. Don't commit them
    - app-only or desktop-only. Default is responsive from 360px, so ask only when the issue is unclear
    - for `needs-human` issues, the question the stage left, with its options
-   - accounts, keys or paid services an issue needs, only to decide what the builder provisions itself and what goes on a setup list. Never ask for the values
+   - accounts, keys or paid services an issue needs. The builder never creates any, so each becomes a `needs-human` setup issue with numbered steps. Never ask for the values
 4. **Write the issues** in the body format from [pipeline](../pipeline/SKILL.md#issue-body). Concise: Goal, acceptance criteria, out of scope, notes. Answered decisions go in Notes. Then `size`, `risk`, `touches` (from the code you read).
 5. **Confirm, then apply.** Show one table: issue, outcome, size, risk, one-line reason. Ask: Apply (recommended) / Change something. Only then edit bodies, set labels, post the verdict comment, close rejects and create sub-issues.
 6. **Report:** counts per outcome, anything still `needs-human`, and the next command (the runner).

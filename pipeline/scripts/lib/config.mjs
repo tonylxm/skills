@@ -62,7 +62,8 @@ export function loadRepos() {
 
 // .pipeline.yml in the clone: merge, setup, checks (scalars) and risk_paths (list). No YAML library.
 export function loadRepoConfig(clone) {
-  const out = { merge: 'safe', setup: null, checks: 'bash checks.sh', riskPaths: null };
+  const out = { merge: 'safe', setup: null, checks: 'bash checks.sh', riskPaths: null, holdPaths: null };
+  const lists = { risk_paths: 'riskPaths', hold_paths: 'holdPaths' };
   const file = path.join(clone, '.pipeline.yml');
   if (!fs.existsSync(file)) return out;
   let list = null;
@@ -77,11 +78,14 @@ export function loadRepoConfig(clone) {
     const kv = /^([a-z_]+):\s*(.*)$/.exec(line);
     if (!kv) continue;
     list = null;
-    if (kv[1] === 'risk_paths') out.riskPaths = list = [];
+    if (kv[1] in lists) out[lists[kv[1]]] = list = [];
     else if (['merge', 'setup', 'checks'].includes(kv[1])) out[kv[1]] = kv[2] || out[kv[1]];
   }
   return out;
 }
+
+// Under merge policy `safe` a PR touching any of these is never auto-merged, whatever the reviewers said.
+export const DEFAULT_HOLD_PATHS = ['migrations/', '.env', 'wrangler', '.github/workflows', 'auth/'];
 
 export const DEFAULT_RISK_PATHS = [
   'auth', 'session', 'middleware', 'migrations', 'schema', '.env', 'wrangler',

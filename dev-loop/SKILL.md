@@ -5,7 +5,7 @@ description: Use when implementing any non-trivial code change (feature, bug fix
 
 # Dev loop
 
-The loop for one change: **Goal → Explore → Plan → Implement → Verify → Review → Commit**. Done means the acceptance criteria are met, with fresh evidence, and the change is committed or handed back. Ad-hoc work runs it directly. In the [pipeline](../pipeline/SKILL.md) it is the build stage: the job's worktree and branch exist already, Review is a separate fresh-context stage ([review](../review/SKILL.md)), and "stop and ask" means comment the question on the issue, label `needs-human` and stop, never wait.
+The loop for one change: **Goal → Explore → Plan → Implement → Verify → Review → Commit**. Done means the acceptance criteria are met, with fresh evidence, and the change is committed or handed back. Ad-hoc work runs it directly. In the [pipeline](../pipeline/SKILL.md) it is the build stage, and it never creates accounts, keys or paid resources or changes live infrastructure (see [conventions](../pipeline/conventions.md)): the job's worktree and branch exist already, Review is a separate fresh-context stage ([review](../review/SKILL.md)), and "stop and ask" means comment the question on the issue, label `needs-human` and stop, never wait.
 
 ## Core rules
 1. **Requirements over tests.** Never trade the actual requirement for a passing test.

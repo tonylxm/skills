@@ -166,6 +166,8 @@ export async function check(cfg, repos) {
   for (const repo of repos) {
     const git = await run(BIN.git, ['rev-parse', '--git-dir'], { cwd: repo.clone });
     ok(`${repo.name} clone`, git.code === 0, git.code === 0 ? repo.clone : `not a git repo: ${repo.clone}`);
+    const envFiles = fs.existsSync(repo.clone) ? fs.readdirSync(repo.clone).filter((f) => /^\.env/.test(f) && f !== '.env.example') : [];
+    if (envFiles.length) ok(`${repo.name} env files`, true, `${envFiles.join(', ')} are copied into every worktree: keep them dev-only`);
     ok(`${repo.name} checks.sh`, fs.existsSync(path.join(repo.clone, 'checks.sh')), 'copy pipeline/templates/checks.sh');
     const labels = await run(BIN.gh, ['label', 'list', '--repo', repo.name, '--json', 'name']);
     const have = labels.code === 0 ? JSON.parse(labels.stdout).map((l) => l.name) : [];

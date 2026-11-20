@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { BIN, HOME } from './config.mjs';
 import { run as exec } from './exec.mjs';
 import { parseEvents } from './verdicts.mjs';
+import { baseArgs } from './claude.mjs';
 
 const SKILLS_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const normalise = (s) => s.toLowerCase().replace(/\d+/g, 'N').replace(/`[^`]*`/g, '').replace(/\s+/g, ' ').trim().slice(0, 80);
@@ -70,7 +71,7 @@ export default async function retro(cfg, repos, opts) {
 
   const m = cfg.models.retro;
   console.log('Asking the retro agent for proposals (PRs only, nothing is merged)...');
-  const r = await exec(BIN.claude, ['-p', '--model', m.model, '--effort', m.effort, '--permission-mode', cfg.permissionMode, '--output-format', 'json', '--no-session-persistence'],
+  const r = await exec(BIN.claude, baseArgs(cfg, m),
     { cwd: SKILLS_ROOT, input: `PIPELINE-STAGE: retro | data=${file}\nFollow pipeline/retro.md on the data file. Open PRs only, never merge.\n`, timeoutMs: 30 * 60000 });
   console.log(r.code === 0 ? 'Retro agent finished. Review the PRs it opened.' : `Retro agent failed: ${r.stderr.trim().slice(0, 300) || r.stdout.slice(0, 300)}`);
 }

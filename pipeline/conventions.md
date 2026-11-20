@@ -10,8 +10,8 @@ One place for git, PR and merge rules. `checks.sh` enforces what a script can (b
 | PR | One concern per PR, roughly ≤400 changed lines. Body from [templates/pull_request_template.md](templates/pull_request_template.md), starting `Closes #N` |
 | Merge | Squash, delete branch. Only after `checks.sh` is green in CI |
 | UI changes | Before/after screenshots in the PR. Prefer the preview deploy URL. `gh` cannot upload images, so otherwise push them to an orphan `pr-assets` branch and link the raw URLs |
-| Worktrees | One per job, own install, own `.env`, own port. Removed after merge, then `git worktree prune` |
-| Never | `--no-verify`, force-push `main`, commit secrets, edit a test just to pass it |
+| Worktrees | One per job, own install, own port. Removed after merge, then `git worktree prune`. The clone's `.env*` files are copied into each one, so they must be dev-only |
+| Never | `--no-verify`, force-push `main`, commit secrets, edit a test just to pass it, create accounts, keys or paid resources, or change live infrastructure. Those become a `needs-human` setup issue with numbered steps |
 
 ## Merge policy
 
@@ -23,7 +23,7 @@ Per repo, in `.pipeline.yml` (default `safe`):
 | `all` | Always auto-merge. Pre-launch projects only |
 | `none` | Never auto-merge. Every PR waits for you. Use once a client site has real users |
 
-**Escalated under `safe`** (`all` ignores this list, `none` never merges): database migrations, auth or permissions, payments, major dependency bumps, an unnamed new dependency, production config or env, new repo bootstrap, size L.
+**Escalated under `safe`** (`all` ignores this list, `none` never merges). The runner holds a PR that touches `migrations/`, `.env`, `wrangler`, `.github/workflows` or `auth/` itself (override with `hold_paths` in `.pipeline.yml`); the final reviewer judges the rest: database migrations, auth or permissions, payments, major dependency bumps, an unnamed new dependency, production config or env, new repo bootstrap, size L.
 
 ## Risk paths
 
