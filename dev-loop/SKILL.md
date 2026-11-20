@@ -36,7 +36,7 @@ If the goal or criteria are ambiguous, ask before exploring further: one batch o
 For non-trivial work, read the code you will touch, the patterns next to it, its tests and the docs it cites (`AGENTS.md`, `docs/GLOSSARY.md`, ADRs for the area). Search narrowly with `rg`; skip anything the change can't reach.
 
 ## 3. Plan
-For meaningful changes, a few lines: files, approach, how each criterion gets verified. Prefer the smallest change and the existing architecture unless there is a concrete reason to depart (then use decision-log).
+For meaningful changes, a few lines: files, approach, how each criterion gets verified. Prefer the smallest change and the existing architecture unless there is a concrete reason to depart (then use decision-log). For UI, load frontend-design before planning, not just before building: its mode choice and design plan are part of the plan.
 
 ## 4. Implement
 Small increments, each left working. Preserve existing behaviour unless the requirement changes it. Follow the stack's standards skill (typescript-standards, dotnet-standards); UI follows frontend-design.
