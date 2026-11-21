@@ -26,7 +26,6 @@ export const DEFAULTS = {
   logRoot: path.join(HOME, 'logs'),
   basePort: 3100,
   models: {
-    plan: { model: 'opus', effort: 'high' },
     build: { model: 'sonnet', effort: 'medium' },
     buildHard: { model: 'opus', effort: 'high' },
     'review-code': { model: 'sonnet', effort: 'medium' },
