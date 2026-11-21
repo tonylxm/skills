@@ -40,7 +40,7 @@ Default is none. Keep or write one only when it guards something the code can't 
 | Business or regulatory rule | The source (rule, client decision, ticket) | `// GST applies to the pre-discount price (IRD guidance).` |
 | Lint or type suppression | A reason | `// eslint-disable-next-line rule -- reason`, `// @ts-expect-error reason` |
 
-- **Never write:** narration, history ("added", "changed from"), banners, commented-out code, or a TODO without an issue link. File headers only for a non-obvious entry point the name can't say.
+- **Never write:** narration, history ("added", "changed from"), banners, or commented-out code. File headers only for a non-obvious entry point the name can't say.
 - **Don't delete a comment you don't understand.** Remove a guardrail only together with the code it guards.
 - **Stale is a bug.** Change guarded code, update or delete its comment in the same diff.
 - **Same warning in 3+ places** is a convention: put it in `AGENTS.md`.
