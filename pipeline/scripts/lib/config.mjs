@@ -19,8 +19,8 @@ export const DEFAULTS = {
   jobMinutes: 90,
   maxCheckFails: 3,
   maxReviewRounds: 2,
-  maxBudgetUsd: null, // per claude call; null = no cap
-  jobBudgetUsd: null, // summed over a job; null = no cap
+  maxBudgetUsd: 5, // per claude call (claude --max-budget-usd); null = no cap
+  jobBudgetUsd: 15, // summed after each stage, so a job can overshoot by up to one call; null = no cap
   permissionMode: 'auto', // claude --permission-mode
   worktreeRoot: path.join(HOME, 'worktrees'),
   logRoot: path.join(HOME, 'logs'),

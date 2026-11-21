@@ -66,7 +66,7 @@ A finding is `{"severity":"blocker|major|minor","category":"","file":"","line":0
 
 ## Caps
 
-`checks.sh` fails 3 times, review needs more than 2 rounds, or a job passes 90 minutes: the job goes to `needs-human`. Models, effort and the caps live in the runner's config, never in a skill, so a model upgrade changes one line.
+`checks.sh` fails 3 times, review needs more than 2 rounds, or a job passes 90 minutes: the job goes to `needs-human`. Each `claude` call is capped at $5 and a job at $15 (checked after each stage, so a job can overshoot by up to one call). Models, effort and the caps live in the runner's config, never in a skill, so a model upgrade changes one line.
 
 ## Run it
 

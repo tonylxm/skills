@@ -102,6 +102,13 @@ test('UI and risk paths add the ui and security reviews', () => {
   assert.ok(stages.includes('review-ui') && stages.includes('review-security') && stages.includes('review-code'), stages.join());
 });
 
+test('a job whose summed spend passes the job cap escalates', () => {
+  const t = setup({ issues: [issue(1, 'feat: x', ['a'])], config: { jobBudgetUsd: 0.015 } });
+  const r = t.go();
+  assert.match(r.stdout, /0 merged, 1 need you/, r.stdout + r.stderr);
+  assert.match(t.read().issues[0].comments.join('\n'), /passed the \$0\.015 cap/);
+});
+
 test('merge policy none stops at ready-to-merge', () => {
   const t = setup({ issues: [issue(1, 'feat: x', ['a'])], repoYml: 'merge: none\n' });
   const r = t.go();
