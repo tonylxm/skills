@@ -11,7 +11,7 @@ _One row per skill: what has been proven in use, and what to re-check after chan
 | project-starter | proven, changed | none | Repo creation and issue filing are new. Doc steps unchanged |
 | agents-md | proven, changed | none | Template Workflow line now points at issues and the pipeline |
 | stack-defaults | proven, moved | none | Content unchanged. `deprecations.md` has two seed rows |
-| frontend-design, browser-e2e | proven, changed | none | Renamed `ui-standards.md`, added a Responsive section. Re-check at 360px |
+| frontend-design, browser-e2e | proven, changed | none | Renamed `ui-standards.md`, added a Responsive section. Re-check at 360px. Merged the UI tip lists: motion.md gained entrance, shake, stepper and tooltip rules; ui-standards.md gained radius, alpha border, OKLCH, dvh, mask, chip and IME rules |
 | tdd, systematic-debugging, codebase-design, data-modeling | proven | none | Link fixes only |
 | grilling, domain-modeling, decision-log, design-md, market-research | proven | none | No change |
 | typescript-standards, seo, cli-tooling | proven | none | No change |

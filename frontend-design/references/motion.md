@@ -27,7 +27,7 @@ Valid reasons: spatial consistency, state change, feedback, explaining, avoiding
 ## Timing
 - **Easing:** enter and exit use ease-out, on-screen movement uses ease-in-out, hover and color use `ease`, constant motion (marquee, progress) is `linear`. Never ease-in on UI.
 - **Curves:** built-in CSS easings are weak. Use `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)` and `--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1)`.
-- **Duration:** UI stays under 300ms.
+- **Duration:** UI stays under 300ms by default. Longer travel or a bigger element can earn more; keep feedback responsive.
 
 | Element | Duration |
 |---|---|
@@ -37,11 +37,18 @@ Valid reasons: spatial consistency, state change, feedback, explaining, avoiding
 | Modal, drawer | 200–500ms |
 
 - **Asymmetric:** slow where the user is deciding (hold-to-delete 2s), fast where the system responds (release 200ms).
+- **Exits:** about 20% shorter than the matching entrance.
 - **Stagger:** 30–80ms between items, decorative only, never blocks interaction.
 
 ## Physicality
 - Never `scale(0)`. Start from `scale(0.95)` plus opacity 0.
+- Small in-place entrances (a menu item, a chip) start from `scale(0.97)` plus opacity 0.
 - Popovers and tooltips scale from their trigger (`transform-origin`). Modals stay centered.
+- Tooltips: delay only the first. Once one is open, neighbours show instantly.
+- Don't tween a control while it is held (a dragged slider thumb follows the pointer directly).
+- A wrong input shakes (`translateX` 0, -10, 10, -6, 6, -3, 0px over 360ms) as well as turning red. Stay still under reduced motion.
+- A stepper or wizard slides the next step in from the direction of travel, not a crossfade.
+- Accordions: `interpolate-size: allow-keywords` lets `height: auto` animate. Chromium only, so elsewhere it jumps, which is fine.
 - Pressable elements: `scale(0.97)` on `:active`, 160ms ease-out.
 - Springs only for drag, momentum and interruptible gestures. Keep bounce at 0.1–0.3 or none.
 - A crossfade that shows two overlapping states: add `filter: blur(2px)` during it (under 20px, heavy blur is slow in Safari).

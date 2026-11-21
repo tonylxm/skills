@@ -14,7 +14,7 @@ Reference code and token values: the `@tonylxm` registry (`~/Projects/micro-anim
 Depth and bounce on every element reads as a toy. Spend it on the controls a person presses on purpose.
 
 ## Raised buttons
-- **Light from above:** a 1px inner top highlight (`inset 0 1px 0 rgb(255 255 255 / .2)`), a small tight shadow and a larger soft one below. Dark mode: lower the highlight to .08 and deepen the shadow, never glow.
+- **Light from above:** a 1px inner top highlight (`inset 0 1px 0 rgb(255 255 255 / .2)`), a small tight shadow and a larger soft one below. Dark mode: lower the highlight to .08 and deepen the shadow, never glow. This is for the button only; other surfaces show elevation with lighter fills (see ui-standards.md).
 - **Press:** `:active` goes to `scale(.97) translateY(1px)`, the outer shadow shrinks to nearly flat, the inner highlight fades, and the fill darkens one step. 100–160ms, ease-out.
 - **Release:** back to rest with the spring curve below, 200ms. The release is the part that feels alive, so it is slower than the press.
 - Put the transform on the button itself, and transition only `transform`, `box-shadow` and `background-color`. Never `transition: all`.

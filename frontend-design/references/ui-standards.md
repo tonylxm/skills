@@ -51,6 +51,15 @@ The default behaviour of common controls. Break one only when the brief gives a 
 - **Icon-only buttons:** an `aria-label` and a tooltip with the same words.
 - **Primary action:** one per view. Dialog button order is the same across the app.
 - **Reduced motion:** under `prefers-reduced-motion`, movement becomes a fade or nothing.
+- **Keyboard and IME:** Enter-to-submit and similar shortcuts ignore the key while text is being composed (`event.isComposing`), or a CJK user commits a candidate and submits by accident.
+- **Nested radius:** inner radius is the outer radius minus the padding between them.
+- **Borders and dividers:** alpha colours (`rgb(0 0 0 / .12)`), so they blend into any surface.
+- **Colour:** build palettes in OKLCH so equal lightness looks equal, and write gradients `in oklch` so they don't go grey in the middle.
+- **Dark mode depth:** raise elevation with lighter surfaces, since shadows barely show. A raised button still deepens its shadow.
+- **Viewport height:** full-height sections use `100dvh`, not `100vh`.
+- **Overflow edges:** a horizontal carousel or scroller fades its edges with `mask-image: linear-gradient(90deg, transparent, #000 15% 85%, transparent)`.
+- **Chips and tags:** wrap, or collapse into an operable `+n` that keeps focus and state. Meaning never rests on colour alone.
+- **Icon weight:** stroke width follows the adjacent text size, one stroke per size step.
 
 ## Refuse
 
@@ -89,7 +98,7 @@ Surface habits:
 - Sparklines, progress rings and soft-shadowed rounded rectangles standing in for content.
 - Monospace used to look "technical" rather than for code, data or measurement.
 - Tinted near-black (`#0B0B0B`, `#111`) standing in for black.
-- Emoji or unicode glyphs standing in for an icon system. Icons come from the project's icon set (Lucide by default) or authored SVG, in one consistent stroke and weight.
+- Emoji or unicode glyphs standing in for an icon system. Icons come from the project's icon set (Lucide by default) or authored SVG, in one consistent stroke and weight per text size (see Icon weight above).
 - Colour, light or dark chosen by category ("fintech is navy"). Choose from the use scene: who, where, under what light.
 - One radius on everything. Use a small radius scale tied to hierarchy (from `DESIGN.md`).
 - Floating pills, chips and badges with no clear owner. Anchor controls to what they act on.
