@@ -36,10 +36,12 @@ If the goal or criteria are ambiguous, ask before exploring further: one batch o
 For non-trivial work, read the code you will touch, the patterns next to it, its tests and the docs it cites (`AGENTS.md`, `docs/GLOSSARY.md`, ADRs for the area). Search narrowly with `rg`; skip anything the change can't reach.
 
 ## 3. Plan
-For meaningful changes, a few lines: files, approach, how each criterion gets verified. Prefer the smallest change and the existing architecture unless there is a concrete reason to depart (then use decision-log). For UI, load frontend-design before planning, not just before building: its mode choice and design plan are part of the plan.
+For meaningful changes, a few lines: files, approach, how each criterion gets verified. List every place the change must reach (callers, tests, fixtures, config, exports): that is the scope, and extra features are not. Prefer the smallest change and the existing architecture unless there is a concrete reason to depart (then use decision-log). For UI, load frontend-design before planning, not just before building: its mode choice and design plan are part of the plan.
 
 ## 4. Implement
-Small increments, each left working. Preserve existing behaviour unless the requirement changes it. Follow the stack's standards skill (typescript-standards); UI follows frontend-design; schema and query work follows data-modeling. Read [references/code-standards.md](references/code-standards.md) before writing code.
+Small increments, each left working. Preserve existing behaviour unless the requirement changes it.
+
+Before writing new code, take the first option that fully works: (1) skip it if nobody asked for it, and name what you skipped; (2) reuse what the codebase already has, the way the surrounding code uses it; (3) the standard library or a platform feature; (4) an installed dependency; (5) one line a reader gets at a glance; (6) only then the minimum new code. Be lazy about the solution, never about the change: finish every caller, test and fixture it breaks. Bug fix: grep every caller of the function you touch, then fix the root cause once in the shared code. Follow the stack's standards skill (typescript-standards); UI follows frontend-design; schema and query work follows data-modeling. Read [references/code-standards.md](references/code-standards.md) before writing code.
 
 Pick the verification per behaviour, before writing code:
 

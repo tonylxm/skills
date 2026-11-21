@@ -17,6 +17,7 @@ Check the finished diff, not your intentions.
 
 ## Conventions
 
+- **Equal size, safer choice:** between two options of the same size, take the one that is correct on edge cases.
 - **Single source of truth:** one place owns each fact (a constant, a type, a schema). Everything else derives from it.
 - **Network calls:** every call has a timeout. Retries are bounded, back off, and apply only to idempotent operations.
 - **External writes:** carry an idempotency key, so a retry or a double click cannot repeat the effect.
@@ -38,6 +39,7 @@ Default is none. Keep or write one only when it guards something the code can't 
 | Workaround or trade-off | The cause (bug link, version, measurement) | `// Safari drops the event under 50ms (WebKit#123). Do not lower.` |
 | Coupling, order or sync | Both ends name each other | `// Must run before initializeAuth(), or session cookies fail to attach.` |
 | Business or regulatory rule | The source (rule, client decision, ticket) | `// GST applies to the pre-discount price (IRD guidance).` |
+| Deliberate shortcut | The limit and when to upgrade, as `shortcut: <limit>, <upgrade trigger>` | `// shortcut: in-memory rate limit, move to Redis past one instance` |
 | Lint or type suppression | A reason | `// eslint-disable-next-line rule -- reason`, `// @ts-expect-error reason` |
 
 - **Never write:** narration, history ("added", "changed from"), banners, or commented-out code. File headers only for a non-obvious entry point the name can't say.

@@ -7,7 +7,7 @@ _One row per skill: what has been proven in use, and what to re-check after chan
 | pipeline (runner, kit) | new | none | 16 stub tests pass. Not yet run against real GitHub. Headless `claude -p` accepted the flags but failed auth when tried from a build session. Issue forms and `labels.sh` untested on GitHub. After a rebase, CI polling may read stale checks. Permission mode default `auto` is unverified for unattended runs. Hardened: prompts denied, no MCP servers, no git or gh prompts, runner-held hold paths. Spend caps on ($5 per call, $15 per job). Still open: read-only stages have no allow-list yet |
 | plan | new | none | Never run. Check that issues come out concise and that one batch of questions is enough |
 | review | new | none | Never run. `ui` mode needs a preview URL or a runnable app. Check findings carry stable `category` slugs |
-| dev-loop | proven, changed | none | Pipeline mode (push, open PR, verdict comment) is new. Core loop unchanged |
+| dev-loop | proven, changed | none | Pipeline mode (push, open PR, verdict comment) is new. Smallest-change rules from Ponytail added to Plan, Implement and code-standards: check builds stay small without skipping callers or tests |
 | project-starter | proven, changed | none | Repo creation and issue filing are new. Doc steps unchanged |
 | agents-md | proven, changed | none | Template Workflow line now points at issues and the pipeline |
 | stack-defaults | proven, moved | none | Content unchanged. `deprecations.md` has two seed rows |

@@ -57,7 +57,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [plan](plan/SKILL.md) | Triage GitHub issues into `ready`, split, needs-info or rejected: one batch of questions, issues rewritten to a concise format | Original |
 | [review](review/SKILL.md) | Code, UI, security and final review of a PR, posting one verdict comment | Original |
 | [pipeline](pipeline/SKILL.md) | Issue-to-merged-PR pipeline contracts: labels, issue body, verdict comments, caps, git and merge conventions, and the per-repo kit (issue forms, PR template, `checks.sh`) | Original |
-| [dev-loop](dev-loop/SKILL.md) | The loop for every code change: core rules, agentic pitfalls, test strategy, tiered verification, test integrity, review | Original |
+| [dev-loop](dev-loop/SKILL.md) | The loop for every code change: core rules, agentic pitfalls, test strategy, tiered verification, test integrity, review | Original, with the smallest-change rules adapted from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT) |
 | [data-modeling](data-modeling/SKILL.md) | Relational schema rules: keys, constraints, types, indexes, transactions, idempotency, query pitfalls | Original |
 | [tdd](tdd/SKILL.md) | Test-driven development, red-green-refactor, for logic, invariants and regressions | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [codebase-design](codebase-design/SKILL.md) | Deep-module vocabulary, used by tdd | Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) |
