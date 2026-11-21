@@ -2,6 +2,8 @@
 
 Read this with [motion.md](motion.md) when a control should feel physical: buttons, tabs, toggles, segmented controls, skeletons. Timing, easing basics and reduced motion live in motion.md and are not repeated here. A pinned brief or `DESIGN.md` overrides anything here.
 
+Reference code and token values: the `@tonylxm` registry (`~/Projects/micro-animated-ui-component-library`). Install `tactile`, `button`, `tabs`, `segmented-control` or `skeleton` from it before writing these by hand.
+
 ## Where it applies
 | Surface | Feel |
 |---|---|
@@ -23,12 +25,13 @@ Depth and bounce on every element reads as a toy. Spend it on the controls a per
 - **Overshoot, light:** `cubic-bezier(.34, 1.56, .64, 1)`. For a small pop (a checked box, a pill landing).
 - **Real spring:** CSS `linear()` easing sampled from a spring curve, e.g. `linear(0, .22 8%, .72 20%, 1.04 34%, 1.07 40%, .98 56%, 1.01 72%, 1)`. Generate the points once, store them as a token. Supported in current Chrome, Safari and Firefox, and ignored (falls back to the declared `ease-out`) elsewhere, so declare a plain fallback first.
 - Keep overshoot to 3–8%. More reads as a game.
+- Overshoot grows with distance, so use it only for small things (a press release, a squish, a pill landing in place). Anything that travels across a container (a sliding pill) uses a no-overshoot curve, or it leaves its track.
 - Use transitions, not keyframes, so a second click mid-flight retargets from the current state instead of restarting.
 - Reach for the `motion` library only for drag with momentum, exit-on-unmount or shared-layout animation. Ask first.
 
 ## Squish and pop tabs
-- The selection pill slides to the new item (see `SlidingIndicator` in Milly: it moves on the press, not when the server answers).
-- During the slide the pill stretches a little (`scaleX(1.04)`, origin on the side it moves toward) and settles with the light overshoot curve. The labels cross-fade colour only.
+- The selection pill slides to the new item (see the registry's `sliding-indicator`: it moves on the press, not when the server answers).
+- During the slide the pill stretches a little (`scaleX(1.04)`, origin on the side it moves toward) and settles with a no-overshoot ease-out (the registry's `--ease-slide`). The labels cross-fade colour only.
 - The pressed item squishes (`scale(.96)`), the arriving item pops back to 1.
 - Reduced motion keeps the colour change and drops the slide, the stretch and the squish.
 
