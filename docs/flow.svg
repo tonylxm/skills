@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 500" role="img" aria-labelledby="t d">
+<title id="t">The pipeline: issue to merged PR</title>
+<desc id="d">Plan, Build, Gate, three routed reviews, Final and Merge in one row. Fail and changes loop back to Build. Escalation goes to Needs human and back to Plan. Retro runs weekly after merge.</desc>
+<style>
+  svg { --bg: #fbfbfa; --fg: #1d1d1f; --muted: #66666b; --line: #888780; --frame: #b4b2a9;
+    --teal-f: #E1F5EE; --teal-k: #0F6E56; --teal-t: #085041; --teal-s: #0F6E56;
+    --purple-f: #EEEDFE; --purple-k: #534AB7; --purple-t: #3C3489; --purple-s: #534AB7;
+    --gray-f: #F1EFE8; --gray-k: #5F5E5A; --gray-t: #2C2C2A; --gray-s: #5F5E5A;
+    --fail: #D85A30; --changes: #378ADD;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  @media (prefers-color-scheme: dark) {
+    svg { --bg: #1e1e21; --fg: #ececee; --muted: #a0a0a8; --line: #a0a0a8; --frame: #5f5e5a;
+      --teal-f: #085041; --teal-k: #5DCAA5; --teal-t: #E1F5EE; --teal-s: #9FE1CB;
+      --purple-f: #3C3489; --purple-k: #AFA9EC; --purple-t: #EEEDFE; --purple-s: #CECBF6;
+      --gray-f: #444441; --gray-k: #B4B2A9; --gray-t: #F1EFE8; --gray-s: #D3D1C7;
+      --fail: #F0997B; --changes: #85B7EB; }
+  }
+  .bg { fill: var(--bg); }
+  .h { font-size: 20px; font-weight: 600; fill: var(--fg); }
+  .t { font-size: 15px; font-weight: 600; fill: var(--tt, var(--fg)); }
+  .s { font-size: 13px; fill: var(--ts, var(--muted)); }
+  .arr { fill: none; stroke: var(--line); stroke-width: 1.5; }
+  .fail { stroke: var(--fail); }
+  .changes { stroke: var(--changes); }
+  .dash { stroke-dasharray: 5 4; }
+  .frame { fill: none; stroke: var(--frame); stroke-width: 1; stroke-dasharray: 5 4; }
+  .node rect { fill: var(--f); stroke: var(--k); stroke-width: 1; }
+  .teal { --f: var(--teal-f); --k: var(--teal-k); --tt: var(--teal-t); --ts: var(--teal-s); }
+  .purple { --f: var(--purple-f); --k: var(--purple-k); --tt: var(--purple-t); --ts: var(--purple-s); }
+  .gray { --f: var(--gray-f); --k: var(--gray-k); --tt: var(--gray-t); --ts: var(--gray-s); }
+  text { dominant-baseline: central; }
+  .c { text-anchor: middle; }
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<rect class="bg" x="0" y="0" width="1040" height="500" rx="12"/>
+<text class="h" x="40" y="48">The pipeline: issue to merged PR</text>
+
+<text class="s c" x="100" y="156">GitHub issue</text>
+<line class="arr" x1="100" y1="168" x2="100" y2="192" marker-end="url(#a)"/>
+
+<g class="node teal"><rect x="40" y="194" width="120" height="56" rx="10"/><text class="t c" x="100" y="213">Plan</text><text class="s c" x="100" y="234">you + Opus</text></g>
+<g class="node purple"><rect x="196" y="194" width="120" height="56" rx="10"/><text class="t c" x="256" y="213">Build</text><text class="s c" x="256" y="234">Opus / Sonnet</text></g>
+<g class="node gray"><rect x="352" y="194" width="120" height="56" rx="10"/><text class="t c" x="412" y="213">Gate</text><text class="s c" x="412" y="234">checks.sh</text></g>
+
+<rect class="frame" x="508" y="100" width="180" height="244" rx="12"/>
+<text class="s c" x="598" y="120">routed by the diff</text>
+<g class="node purple"><rect x="522" y="138" width="152" height="56" rx="10"/><text class="t c" x="598" y="157">Code review</text><text class="s c" x="598" y="178">Sonnet / Opus (risky)</text></g>
+<g class="node purple"><rect x="522" y="206" width="152" height="56" rx="10"/><text class="t c" x="598" y="225">UI review</text><text class="s c" x="598" y="246">Sonnet, UI changes</text></g>
+<g class="node purple"><rect x="522" y="274" width="152" height="56" rx="10"/><text class="t c" x="598" y="293">Security review</text><text class="s c" x="598" y="314">Opus, security changes</text></g>
+
+<g class="node purple"><rect x="724" y="194" width="120" height="56" rx="10"/><text class="t c" x="784" y="213">Final</text><text class="s c" x="784" y="234">Opus</text></g>
+<g class="node gray"><rect x="880" y="194" width="120" height="56" rx="10"/><text class="t c" x="940" y="213">Merge</text><text class="s c" x="940" y="234">squash</text></g>
+
+<line class="arr" x1="160" y1="222" x2="194" y2="222" marker-end="url(#a)"/>
+<line class="arr" x1="316" y1="222" x2="350" y2="222" marker-end="url(#a)"/>
+<line class="arr" x1="472" y1="222" x2="506" y2="222" marker-end="url(#a)"/>
+<line class="arr" x1="688" y1="222" x2="722" y2="222" marker-end="url(#a)"/>
+<line class="arr" x1="844" y1="222" x2="878" y2="222" marker-end="url(#a)"/>
+
+<path class="arr fail" d="M412 250 L412 310 L286 310 L286 252" marker-end="url(#a)"/>
+<text class="s c" x="349" y="330">fail, max 3, then needs human</text>
+<path class="arr changes" d="M598 344 L598 390 L226 390 L226 252" marker-end="url(#a)"/>
+<text class="s c" x="412" y="410">changes, max 2 rounds, then needs human</text>
+
+<line class="arr" x1="784" y1="250" x2="784" y2="318" marker-end="url(#a)"/>
+<text class="s" x="794" y="284">escalate</text>
+<g class="node teal"><rect x="724" y="320" width="120" height="64" rx="10"/><text class="t c" x="784" y="342">Needs human</text><text class="s c" x="784" y="364">you decide</text></g>
+<line class="arr dash" x1="940" y1="250" x2="940" y2="318" marker-end="url(#a)"/>
+<g class="node teal"><rect class="dash" x="880" y="320" width="120" height="64" rx="10"/><text class="t c" x="940" y="342">Retro</text><text class="s c" x="940" y="364">weekly, Opus</text></g>
+<path class="arr dash" d="M784 384 L784 450 L100 450 L100 252" marker-end="url(#a)"/>
+<text class="s c" x="442" y="470">re-plan after you answer</text>
+
+</svg>

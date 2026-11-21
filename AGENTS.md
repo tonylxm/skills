@@ -11,7 +11,7 @@ Tony's personal agent skills (skills.sh format) for Claude Code, Codex and other
 - `<skill>/SKILL.md`: entry point. Supporting files (`references/`, `templates/`, `template.md`) sit beside it and are linked from it.
 - [README.md](README.md): skills table, workflow diagram, install steps.
 - Personal stack defaults: [stack-defaults/tech-stack.md](stack-defaults/tech-stack.md).
-- Pipeline: [pipeline/SKILL.md](pipeline/SKILL.md) (contracts and runner). Plan and decisions: [docs/pipeline-plan.md](docs/pipeline-plan.md). Flow diagram: [docs/flow.md](docs/flow.md). Skill status and weak points: [docs/skill-health.md](docs/skill-health.md), update it after a dry run or a core skill change.
+- Pipeline: [pipeline/SKILL.md](pipeline/SKILL.md) (contracts and runner). Plan and decisions: [docs/pipeline-plan.md](docs/pipeline-plan.md). Flow diagram: [docs/flow.html](docs/flow.html). Skill status and weak points: [docs/skill-health.md](docs/skill-health.md), update it after a dry run or a core skill change.
 
 ## Conventions
 - Skills call each other by name. Before renaming or removing one, `rg '<name>'` across the repo and update every reference.

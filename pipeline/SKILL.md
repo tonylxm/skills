@@ -82,7 +82,7 @@ node ~/.agents/skills/pipeline/scripts/run.mjs retro            # repeated probl
 node ~/.agents/skills/pipeline/scripts/run.mjs dashboard        # local page: needs-you, running, ready, merged, repeats, skill health (--demo for sample data)
 ```
 
-The flow as a diagram: [docs/flow.md](../docs/flow.md). Skill status and weak points: [docs/skill-health.md](../docs/skill-health.md).
+The flow as a diagram: [docs/flow.html](../docs/flow.html). Skill status and weak points: [docs/skill-health.md](../docs/skill-health.md).
 
 Stopping and re-running resumes: a job's stage is derived from its PR's verdict comments. Tests: `node --test scripts/test/runner.test.mjs` (fake `gh` and `claude`).
 
