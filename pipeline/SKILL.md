@@ -59,7 +59,7 @@ VERDICT: <value>
 |---|---|---|
 | plan | `READY` `SPLIT` `NEEDS-INFO` `REJECT` | NEEDS-INFO: ask the author, label `needs-human`. REJECT: say why, close |
 | build | `DONE` `BLOCKED` | BLOCKED: `needs-human` with evidence |
-| review-* | `APPROVE` `CHANGES` | CHANGES: the same builder fixes from one merged findings list |
+| review-* | `APPROVE` `CHANGES` | CHANGES: the same builder fixes from one merged findings list, checking each finding against the code first and disputing a wrong one with evidence in its `build` comment |
 | final | `APPROVE` `ESCALATE` | APPROVE: merge if the repo's merge policy allows. ESCALATE: `needs-human` |
 
 A finding is `{"severity":"blocker|major|minor","category":"","file":"","line":0,"issue":"","fix":""}`. `category` is a short stable slug (`missing-test`, `scope-creep`, `authz-check`, `responsive`), reused across PRs so retro can count repeats. Blockers and majors must be fixed. Minors are listed in the PR and not looped on.
