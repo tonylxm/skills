@@ -106,6 +106,7 @@ export async function main(cfg, repos, opts) {
         const p = runJob(cfg, repo, issue, meta, slot).then((o) => {
           running.delete(key);
           active.delete(key);
+          seen.add(key); // gh label listings lag behind edits: never restart an issue within one run
           outcomes.push(o);
           console.log(`${o.result === 'merged' ? 'merged' : 'needs-human'} ${key}: ${o.detail}`);
         });

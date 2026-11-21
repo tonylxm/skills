@@ -46,8 +46,8 @@ Decisions made, links.
 Every stage ends with one comment, always in this shape, and the runner parses only this:
 
 ````md
-<!-- pipeline:stage -->
-Short human summary (3 lines max).
+<!-- pipeline:<stage> -->
+Short human summary (3 lines max). The marker names the stage exactly as in the json (`<!-- pipeline:build -->`), never the word `stage`: the runner finds a stage's verdict by that marker.
 
 VERDICT: <value>
 ```json
