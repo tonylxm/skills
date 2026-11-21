@@ -4,12 +4,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { HOME } from './config.mjs';
 import { collectState } from './status.mjs';
+import * as gh from './github.mjs';
+import { parseEvents, branchFor } from './verdicts.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const PAGE = path.join(here, '..', 'dashboard');
 const HEALTH = path.resolve(here, '..', '..', '..', 'docs', 'skill-health.md');
 const FLOW = path.resolve(here, '..', '..', '..', 'docs', 'flow.svg');
 const TTL_MS = 20000;
+const FONT = path.join(PAGE, 'geist.woff2');
 
 // Rows of the first markdown table in docs/skill-health.md.
 export function parseHealth(md) {
@@ -26,6 +29,14 @@ function latestRetro() {
   if (!files.length) return null;
   const { since, jobs, recurring } = JSON.parse(fs.readFileSync(path.join(dir, files.at(-1)), 'utf8'));
   return { since, jobs, recurring, file: files.at(-1) };
+}
+
+// Issue body plus every verdict comment on its PR, oldest first. Fetched when a card is opened, not per poll.
+async function jobDetail(repo, n) {
+  const view = await gh.issueView(repo, n);
+  const pr = await gh.findPR(repo, branchFor({ number: n, title: view.title }));
+  const events = pr ? parseEvents(await gh.prComments(repo, pr.number)) : [];
+  return { title: view.title, issue: view.body ?? '', events };
 }
 
 const send = (res, code, type, body) => {
@@ -47,6 +58,14 @@ export default async function dashboard(cfg, repos, opts) {
         if (demo) return send(res, 200, 'application/json', JSON.stringify({ ...demo.state, generatedAt: new Date().toISOString() }));
         if (Date.now() - cache.t > TTL_MS) cache = { t: Date.now(), value: await collectState(repos) };
         return send(res, 200, 'application/json', JSON.stringify(cache.value));
+      }
+      if (req.url === '/geist.woff2' && fs.existsSync(FONT)) return send(res, 200, 'font/woff2', fs.readFileSync(FONT));
+      if (req.url.startsWith('/api/job?')) {
+        const q = new URL(req.url, 'http://x').searchParams;
+        const repo = q.get('repo') ?? '', n = Number(q.get('n'));
+        if (!/^[\w.-]+\/[\w.-]+$/.test(repo) || !Number.isInteger(n) || n < 1) return send(res, 400, 'application/json', JSON.stringify({ error: 'bad repo or number' }));
+        if (demo) return send(res, 200, 'application/json', JSON.stringify(demo.jobs?.[`${repo}#${n}`] ?? { issue: '', events: [] }));
+        return send(res, 200, 'application/json', JSON.stringify(await jobDetail(repo, n)));
       }
       if (req.url === '/api/retro') return send(res, 200, 'application/json', JSON.stringify(demo ? demo.retro : latestRetro()));
       if (req.url === '/api/health') {

@@ -26,7 +26,7 @@ else if (grp === 'issue' && cmd === 'list') {
   out(db.issues.filter((i) => (label ? i.labels.includes(label) : true) && wanted(i)).map((i) => ({ ...i, labels: i.labels.map((name) => ({ name })), comments: i.comments.map((body) => ({ body })), createdAt: '2026-01-01', updatedAt: new Date().toISOString() })));
 } else if (grp === 'issue' && cmd === 'view') {
   const i = issue(a[2]);
-  out({ state: i.state, comments: i.comments.map((body) => ({ body })) });
+  out({ state: i.state, title: i.title, body: i.body ?? '', comments: i.comments.map((body) => ({ body })) });
 } else if (grp === 'issue' && cmd === 'edit') {
   const i = issue(a[2]);
   i.labels = i.labels.filter((l) => !flags('--remove-label').includes(l));

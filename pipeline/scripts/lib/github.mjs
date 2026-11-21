@@ -15,6 +15,9 @@ export const listIssues = (repo, label) =>
 export const issueState = async (repo, n) =>
   (await json(['issue', 'view', String(n), '--repo', repo, '--json', 'state'])).state;
 
+export const issueView = (repo, n) =>
+  json(['issue', 'view', String(n), '--repo', repo, '--json', 'title,body']);
+
 export const setLabels = (repo, n, { add = [], remove = [] }) => {
   const args = ['issue', 'edit', String(n), '--repo', repo];
   for (const l of add) args.push('--add-label', l);
@@ -27,7 +30,7 @@ export const commentPR = (repo, n, body) => gh(['pr', 'comment', String(n), '--r
 
 export async function findPR(repo, branch) {
   const prs = await json(['pr', 'list', '--repo', repo, '--head', branch, '--state', 'all', '--limit', '5',
-    '--json', 'number,state,url,title,mergedAt']);
+    '--json', 'number,state,url,title,mergedAt,createdAt']);
   return prs.find((p) => p.state === 'OPEN') ?? prs[0] ?? null;
 }
 

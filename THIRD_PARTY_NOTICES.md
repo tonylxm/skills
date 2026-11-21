@@ -186,6 +186,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+## Geist font and Lucide icons (pipeline dashboard)
+
+`pipeline/scripts/dashboard/geist.woff2` is Geist Variable (latin subset) from `@fontsource-variable/geist`, Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font), licensed under the SIL Open Font License 1.1 (https://openfontlicense.org). The dashboard page also inlines a few icon shapes from Lucide, Copyright (c) 2026 Lucide Icons and Contributors, ISC license: permission to use, copy, modify, and/or distribute the software for any purpose with or without fee is granted, provided the copyright notice and this permission notice appear in all copies; the software is provided "as is" without warranty.
+
 ## Inspiration only (no code or text copied)
 
 These sources informed the original skills listed in the README; nothing is copied from them, so no licence text is needed:

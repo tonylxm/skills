@@ -88,5 +88,19 @@ export function deriveState(events, requiredByRoute) {
   return { phase, builds, checkFails, rounds, reviews, findings, required, reason, reviewRound };
 }
 
+// One row per build attempt, for the dashboard: build verdict, checks result, each review's verdict.
+// A new `build` event starts a new row, same as deriveState counts builds.
+export function roundsFrom(events) {
+  const rounds = [];
+  let final = null;
+  for (const e of events) {
+    if (e.stage === 'build') rounds.push({ build: e.verdict, checks: null, reviews: {} });
+    else if (e.stage === 'final') final = e.verdict;
+    else if (rounds.length && e.stage === 'checks') rounds.at(-1).checks = e.verdict;
+    else if (rounds.length && e.stage.startsWith('review-')) rounds.at(-1).reviews[e.stage.slice(7)] = e.verdict;
+  }
+  return { rounds, final };
+}
+
 export const overlaps = (a, b) =>
   !a.length || !b.length || a.some((x) => b.some((y) => x === y || x.startsWith(`${y}/`) || y.startsWith(`${x}/`)));

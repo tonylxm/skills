@@ -1,5 +1,5 @@
 import * as gh from './github.mjs';
-import { branchFor, parseEvents, deriveState, route, parseMeta } from './verdicts.mjs';
+import { branchFor, parseEvents, deriveState, route, parseMeta, roundsFrom } from './verdicts.mjs';
 import { loadRepoConfig } from './config.mjs';
 
 export async function collectState(repos) {
@@ -15,15 +15,20 @@ export async function collectState(repos) {
     const jobs = [];
     for (const issue of progress) {
       const pr = await gh.findPR(repo.name, branchFor(issue));
-      let phase = 'build', detail = 'no PR yet';
+      let phase = 'build', detail = 'no PR yet', rounds = [], required = [], final = null;
+      const meta = parseMeta(issue.body);
       if (pr) {
         const events = parseEvents(await gh.prComments(repo.name, pr.number));
         const files = await gh.prFiles(repo.name, pr.number).catch(() => []);
         const st = deriveState(events, route(files, parseMeta(issue.body) ?? { risk: [] }, rc.riskPaths));
         phase = st.phase;
+        ({ rounds, final } = roundsFrom(events));
+        required = st.required.map((m) => m.replace(/^review-/, ''));
         detail = `PR #${pr.number}, checks failed ${st.checkFails}x, review rounds ${st.rounds}`;
       }
-      jobs.push({ number: issue.number, title: issue.title, phase, detail });
+      jobs.push({ number: issue.number, title: issue.title, phase, detail, rounds, required, final,
+        pr: pr ? { number: pr.number, url: pr.url, createdAt: pr.createdAt } : null,
+        meta: meta ? { size: meta.size, risk: meta.risk } : null });
     }
     const blocked = [];
     for (const issue of human) {
