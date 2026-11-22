@@ -33,7 +33,7 @@ The one interactive stage. The user answers every question here, once, so the un
 | What assumption would sink it? | Name it in Notes. If cheap to check, check it now |
 | What can go wrong (data, money, auth, deps, rollback)? | Set `risk`. Consequential choices become questions |
 
-`REJECT` and `NEEDS-INFO` always say why, in one comment, in plain words. If the user is the author, ask in this session instead of on the issue.
+`REJECT` and `NEEDS-INFO` always say why, in one comment, in plain words. `NEEDS-INFO` always posts that comment and sets `needs-human`, even when the user is the author: the runner reads labels, not the session. If the user is the author, also ask the question here so they can answer now.
 
 ## Size and split
 
