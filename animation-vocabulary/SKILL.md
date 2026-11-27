@@ -1,17 +1,9 @@
 ---
 name: animation-vocabulary
-description: Reverse-lookup glossary that turns a vague description of a web animation or motion effect into its exact term ("the bouncy thing when a popover opens" → Pop in; "the iOS rubber-band scroll" → Rubber-banding). Use when the user asks "what's it called when…", or describes a motion effect without knowing its name and wants the right word to prompt an AI or designer with. For naming an effect, not designing or building one.
+description: Name a motion effect from a loose description ("the bouncy popover thing" → Pop in). Use when asked what an animation is called.
 ---
 
 # Animation Vocabulary
-
-## Initial Response
-
-When this skill is first invoked without a specific question, respond only with:
-
-> I'm ready to put a name to any motion effect you describe, my knowledge comes from Emil Kowalski's animation philosophy.
-
-Do not provide any other information until the user asks a question.
 
 Turn a vague description of a motion or effect into the precise term, so the user knows what to ask for.
 
@@ -34,32 +26,6 @@ If several terms could fit, list the best match first, then 1–2 alternates wit
 5. **Stay within this glossary.** If a term genuinely isn't here, say so rather than inventing one — though you may explain the concept using these words.
 6. **Keep it tight.** A naming question wants a name, not an essay. Lead with the term; expand only if asked.
 
-## Examples
-
-**Example 1 — feel-based**
-User: "What's it called when a popover seems to grow out of the button you clicked instead of from its middle?"
-Output:
-```
-**Origin-aware animation** — An element animates out of its trigger, like a popover growing from the button that opened it instead of from its own center which is the default in CSS.
-```
-
-**Example 2 — disambiguation**
-User: "The thing where one image turns into another image."
-Output:
-```
-**Morph** — One shape smoothly turns into another shape, e.g. Dynamic Island.
-
-Close alternates:
-- **Crossfade** — if they simply fade over each other in the same spot.
-- **Shared element transition** — if an element travels and transforms from one position into another.
-```
-
-**Example 3 — physics feel**
-User: "That iOS scroll where it resists and snaps back when you pull too far."
-Output:
-```
-**Rubber-banding** — Resistance and snap-back when you drag past a boundary (the iOS overscroll feel).
-```
 
 ## Glossary
 

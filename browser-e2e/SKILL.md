@@ -1,6 +1,6 @@
 ---
 name: browser-e2e
-description: Use after any user-facing UI or full-stack change (new screen, restyle, layout or component fix, form or API flow, UI bug fix) and before saying it is done, when asked to check, QA, test or screenshot the running app in a browser, or when deciding whether a flow deserves a Playwright E2E test.
+description: Use after any UI or full-stack change before saying it is done, when asked to QA, screenshot or test the running app, or to decide whether a flow needs a Playwright test.
 ---
 
 # Browser E2E

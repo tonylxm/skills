@@ -1,6 +1,6 @@
 ---
 name: data-modeling
-description: Use when designing or changing a database schema (adding a table or column, keys, constraints, indexes, relationships), writing a migration, designing multi-row transactions or idempotent writes, or reviewing queries for correctness and performance.
+description: Use when designing or changing a database schema, writing a migration, designing transactions or idempotent writes, or reviewing queries.
 ---
 
 # Data modeling

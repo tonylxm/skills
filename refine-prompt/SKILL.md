@@ -1,6 +1,6 @@
 ---
 name: refine-prompt
-description: Use when the user has a rough prompt, task description, or system prompt and wants it sharpened before giving it to an AI model or agent, or says "refine/improve/rewrite this prompt".
+description: Use when the user has a rough prompt or system prompt and wants it sharpened, or says "refine/improve this prompt".
 ---
 
 # Refine Prompt

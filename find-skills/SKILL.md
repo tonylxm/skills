@@ -1,6 +1,6 @@
 ---
 name: find-skills
-description: Use when the user asks "is there a skill for X", "find a skill for X", or "how do I do X" where X is a specialised task an existing agent skill may cover, or wants to add or vendor a skill into their personal skills repo.
+description: Use when asked "is there a skill for X" or "how do I do X" for a specialised task, or to add or vendor a skill into the personal skills repo.
 ---
 
 # Find Skills

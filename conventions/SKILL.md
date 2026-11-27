@@ -1,6 +1,6 @@
 ---
 name: conventions
-description: Use when writing code or UI, committing, naming a branch, opening or describing a PR, finishing any task, or adding a lasting preference or antipattern to the list. The single home for git, PR, code and UI rules.
+description: Use when writing code or UI, committing, naming a branch, opening a PR, finishing a task, or adding a lasting rule or antipattern. Home of git, PR, code and UI rules.
 ---
 
 # Conventions

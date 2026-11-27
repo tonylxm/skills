@@ -30,6 +30,7 @@ for d in */; do
   name=$(sed -n 's/^name: *//p' "$f" | head -1)
   [ "$name" = "$d" ] || report "name mismatch: $d ($name)"
   grep -q '^description: ..' "$f" || report "missing description: $d"
+  grep -qE '^description: [^"'"'"'].*(: | #)' "$f" && report "unquoted ': ' or ' #' in description (invalid YAML): $d"
   lines=$(wc -l < "$f" | tr -d " "); [ "$lines" -le 80 ] || echo "warning: $f is $lines lines (budget 80, not enforced)"
   while read -r ref; do
     [ -d "$ref" ] || report "broken skill ref in $d: $ref"

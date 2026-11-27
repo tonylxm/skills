@@ -1,6 +1,6 @@
 ---
 name: agents-md
-description: Use when a repo needs an AGENTS.md or CLAUDE.md created, updated, or slimmed down, when project conventions or non-negotiables should be recorded for coding agents, or after a phase of work taught the team new conventions.
+description: Use when a repo needs an AGENTS.md or CLAUDE.md created, updated or slimmed, or when new project conventions should be recorded for coding agents.
 ---
 
 # AGENTS.md

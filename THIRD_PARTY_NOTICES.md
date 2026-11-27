@@ -6,7 +6,7 @@ Some skills in this repository are adapted from the projects below, which are di
 
 Source: https://github.com/mattpocock/skills (commit `bbadaa6`). Used for: `grill-me`, `grilling`, `domain-modeling`, `codebase-design`, `tdd`, `to-spec`, `to-tickets`, `implement`, `retro`, `diagnosing-bugs`.
 
-Modifications: `to-spec`, `to-tickets`, `implement` and `retro` use GitHub issues and the built-in `/simplify` and `/code-review` instead of `/setup-matt-pocock-skills`, Pocock's `code-review` and `writing-for-agents`. Other files are renamed to kebab-case.
+Modifications: `to-spec`, `to-tickets`, `implement` and `retro` use GitHub issues and the built-in `/simplify` and `/code-review` instead of `/setup-matt-pocock-skills`, Pocock's `code-review` and `writing-for-agents`. `to-tickets` moves its wide-refactor paragraph to `wide-refactors.md`. `tdd` and `codebase-design` descriptions are shortened. Other files are renamed to kebab-case.
 
 ```
 MIT License
@@ -70,7 +70,7 @@ Modifications: condensed and reworded; removed references to Impeccable's hook, 
 
 Source: https://github.com/emilkowalski/skills (commit `64eb3de`). Used for: `animation-vocabulary` and `prototype`.
 
-Modifications: `PICKER.md` renamed to `picker.md`; content unchanged.
+Modifications: `PICKER.md` renamed to `picker.md`. In `animation-vocabulary` the description is shortened and the Initial Response and Examples sections are removed. In `prototype` the Initial Response section is removed.
 
 ```
 MIT License

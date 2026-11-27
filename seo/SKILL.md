@@ -1,6 +1,6 @@
 ---
 name: seo
-description: Use when building, launching or handing over a public website (client sites, landing pages, small business sites), or when asked to add SEO, metadata, a sitemap, structured data, AI search (GEO, AI Overviews, ChatGPT or Perplexity visibility), Search Console or Google Business Profile.
+description: Use when building, launching or handing over a public website, or when asked for SEO, metadata, a sitemap, structured data, AI search (GEO), Search Console or Google Business Profile.
 ---
 
 # SEO

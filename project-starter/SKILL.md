@@ -1,6 +1,6 @@
 ---
 name: project-starter
-description: Use when starting a new project from an idea or short description and it needs a plan before code. Writes README.md, AGENTS.md and docs/ (PRD, architecture, design, decisions), then creates the repo and files the first issues.
+description: Use when starting a new project from an idea. Writes README, AGENTS.md and docs/, then creates the repo and first issues.
 argument-hint: "\"<quick description>\""
 disable-model-invocation: true
 ---
