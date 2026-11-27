@@ -2,7 +2,7 @@
 
 Read this with [motion.md](motion.md) when a control should feel physical: buttons, tabs, toggles, segmented controls, skeletons. Timing, easing basics and reduced motion live in motion.md and are not repeated here. A pinned brief or `DESIGN.md` overrides anything here.
 
-Reference code and token values: the `@tonylxm` registry (`~/Projects/micro-animated-ui-component-library`). Install `tactile`, `button`, `tabs`, `segmented-control` or `skeleton` from it before writing these by hand.
+Reference code and token values: the `@tonylxm` registry (`~/Projects/micro-animated-ui-component-library`). Install `tactile`, `button`, `tabs`, `segmented-control` or `skeleton` from it before writing these by hand. A project must first list the registry in `components.json` (`"registries": { "@tonylxm": "https://micro-animated-ui-component-library.tonylim.workers.dev/r/{name}.json" }`), or `shadcn add @tonylxm/<name>` fails with "registry not configured". Then import `styles/tactile.css` once after the shadcn theme.
 
 ## Where it applies
 | Surface | Feel |
