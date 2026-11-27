@@ -7,7 +7,7 @@ Summary: Claude Code config that belongs with the skills: model-routed subagents
 | [agents/scout.md](agents/scout.md) | Haiku, read-only search and log triage |
 | [agents/reviewer.md](agents/reviewer.md) | Opus, fresh-context review of a diff |
 | [output-styles/lean.md](output-styles/lean.md) | Answer first, no filler, ends with `Next:` |
-| [hooks/notify.sh](hooks/notify.sh) | macOS alert on Stop and Notification (needs `jq`) |
+| [hooks/notify.sh](hooks/notify.sh) | macOS alert on Stop and Notification (needs `jq`). Not wired: the desktop app already notifies, and `osascript` alerts are labelled Script Editor. Use it for terminal sessions only |
 | [hooks/settings-snippet.json](hooks/settings-snippet.json) | Hooks and `outputStyle` to merge into `~/.claude/settings.json` |
 
 ## Model routing
@@ -20,7 +20,7 @@ Summary: Claude Code config that belongs with the skills: model-routed subagents
 
 ## Wire in (needs approval, changes every session)
 1. Link the agents and style: `ln -s` each file from `~/.claude/agents/` and `~/.claude/output-styles/`. Link files, not the directories: symlinked directories are undocumented.
-2. Merge `settings-snippet.json` into `~/.claude/settings.json` with the `update-config` skill. Restart so the output style loads.
+2. Merge `outputStyle` from `settings-snippet.json` into `~/.claude/settings.json`, and the `hooks` block only for terminal sessions. Restart so the output style loads.
 3. Update `~/.claude/CLAUDE.md`: point comment rules at `conventions`, fix the dead `code-floor.md` link, drop the UI line that names `frontend-design`.
 4. Merge `v2` into local `main`, then run the dry run before pushing `main`. Rollback is the `v1` tag.
 5. Install Impeccable per its README (until then v2 has no active design skill), and remove the "lives on branch `v2`" line from `AGENTS.md`.

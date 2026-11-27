@@ -29,7 +29,7 @@ One `docs/ROADMAP.md` per project (template: [project-starter/templates/ROADMAP.
 | Goal | Covered by |
 |---|---|
 | Visible parallel progress | Background sessions and the sidebar, `/tasks` |
-| Done alerts | Notification hooks ([harness/](../harness/README.md)) plus the desktop app's own |
+| Done alerts | The desktop app's own notifications (hooks in [harness/](../harness/README.md) are for terminal sessions only) |
 | History and changelog | Conventional Commits with the skill as scope, `git log -- <skill>`, release notes on tags |
 | Concise output | `lean` output style |
 | Prototyping | `prototype`, Impeccable `live` and `generate`, the browser pane |
