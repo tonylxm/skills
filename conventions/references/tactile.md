@@ -1,6 +1,6 @@
 # Tactile motion
 
-Read this with [motion.md](motion.md) when a control should feel physical: buttons, tabs, toggles, segmented controls, skeletons. Timing, easing basics and reduced motion live in motion.md and are not repeated here. A pinned brief or `DESIGN.md` overrides anything here.
+Read this with Impeccable `animate` and Emil's `animation-vocabulary` when a control should feel physical: buttons, tabs, toggles, segmented controls, skeletons. Timing, easing basics and reduced motion come from Impeccable and are not repeated here. A pinned brief or `DESIGN.md` overrides anything here.
 
 Reference code and token values: the `@tonylxm` registry (`~/Projects/micro-animated-ui-component-library`). Install `tactile`, `button`, `tabs`, `segmented-control` or `skeleton` from it before writing these by hand. A project must first list the registry in `components.json` (`"registries": { "@tonylxm": "https://micro-animated-ui-component-library.tonylim.workers.dev/r/{name}.json" }`), or `shadcn add @tonylxm/<name>` fails with "registry not configured". Then import `styles/tactile.css` once after the shadcn theme.
 
@@ -14,7 +14,7 @@ Reference code and token values: the `@tonylxm` registry (`~/Projects/micro-anim
 Depth and bounce on every element reads as a toy. Spend it on the controls a person presses on purpose.
 
 ## Raised buttons
-- **Light from above:** a 1px inner top highlight (`inset 0 1px 0 rgb(255 255 255 / .2)`), a small tight shadow and a larger soft one below. Dark mode: lower the highlight to .08 and deepen the shadow, never glow. This is for the button only; other surfaces show elevation with lighter fills (see ui-standards.md).
+- **Light from above:** a 1px inner top highlight (`inset 0 1px 0 rgb(255 255 255 / .2)`), a small tight shadow and a larger soft one below. Dark mode: lower the highlight to .08 and deepen the shadow, never glow. This is for the button only; other surfaces show elevation with lighter fills (see [ui.md](ui.md)).
 - **Press:** `:active` goes to `scale(.97) translateY(1px)`, the outer shadow shrinks to nearly flat, the inner highlight fades, and the fill darkens one step. 100–160ms, ease-out.
 - **Release:** back to rest with the spring curve below, 200ms. The release is the part that feels alive, so it is slower than the press.
 - Put the transform on the button itself, and transition only `transform`, `box-shadow` and `background-color`. Never `transition: all`.
