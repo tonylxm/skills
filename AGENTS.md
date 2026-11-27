@@ -13,7 +13,7 @@ Tony's personal agent skills (skills.sh format) for Claude Code, Codex and other
 - Personal stack defaults: [stack-defaults/tech-stack.md](stack-defaults/tech-stack.md).
 - Workflow, scenarios and model routing: [docs/workflow.md](docs/workflow.md). Trials and audit list: [docs/trials.md](docs/trials.md). The v1 set (pipeline runner included) is the `v1` tag.
 - Rules (git, code, UI, antipatterns): [conventions/SKILL.md](conventions/SKILL.md).
-- Harness (agents, hooks, output style) lives in [harness/](harness/README.md); wired into `~/.claude` at cutover.
+- Harness (agents, hooks, output style) lives in [harness/](harness/README.md).
 
 ## Conventions
 - Skills call each other by name. Before renaming or removing one, `rg '<name>'` across the repo and update every reference.
@@ -23,4 +23,4 @@ Tony's personal agent skills (skills.sh format) for Claude Code, Codex and other
 - Run `bash refine-skill/check.sh` before committing. CI runs it too.
 
 ## Workflow
-- Solo: commit to `main`. The v2 rebuild lives on branch `v2` (worktree `~/.agents/skills-v2`) until cutover. Conventional Commits, scope is the skill name (`feat(project-starter): ...`).
+- Solo: commit to `main`. Conventional Commits, scope is the skill name (`feat(project-starter): ...`).
