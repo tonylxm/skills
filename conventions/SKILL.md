@@ -12,7 +12,7 @@ Tony's rules in one place. A repo's `AGENTS.md` overrides this skill. Each fact 
 |---|---|
 | Branch | `feat\|fix\|chore/<issue>-<slug>`, e.g. `feat/42-contact-form`. Solo work on `main` follows the repo's Workflow line |
 | Commit | Conventional Commits, imperative, subject ≤72 chars, body says why. Scope is the area or skill name. No `Co-Authored-By` or "Generated with" lines |
-| PR | One concern, roughly ≤400 changed lines. Body from [pull-request-template.md](references/pull-request-template.md), starting `Closes #N`. Squash merge after CI is green |
+| PR | One concern, roughly ≤400 changed lines. Body from [pull-request-template.md](references/pull-request-template.md), starting `Closes #N`. Squash merge after CI is green. A PR branched from an unpushed branch says so in its body |
 | UI PR | Before/after screenshots or the preview URL. `gh` cannot upload images, so push them to an orphan `pr-assets` branch and link the raw URLs |
 | Worktree | Parallel work only, max 3 besides `main`, own install, `.env` and port. Remove after merge, then `git worktree prune` |
 | Never | `--no-verify`, force-push `main`, commit secrets, edit a test just to pass it, create accounts, keys or paid resources, or change live infrastructure without asking |
@@ -34,7 +34,7 @@ Take the first option that fully works: (1) skip it if nobody asked, and say wha
 - Add to this list only after a pattern recurs across projects. One line, stated as the rule.
 
 ## Finishing a task
-End every task with one line: `Next: <skill or command>, because <reason>`. Name the real next step (e.g. `/simplify` then `/code-review` then `/ship`, `to-tickets`, merge, or "done, nothing pending"). If the next move is the user's call, ask that one question instead.
+End every task with one line: `Next: <skill or command>, because <reason>`. Name the real next step (e.g. `/simplify` then `/code-review` then `/ship`, `to-tickets`, merge, or "done, nothing pending"). If the next move is the user's call, ask that one question instead. Do this after every step of a chain, not only the last.
 
 ## Adding a convention
 Write the rule where it belongs (table above), one line, with the reason if it isn't obvious. Edit in `~/.agents/skills`, never a project copy. `retro` proposes additions; Tony approves them.
