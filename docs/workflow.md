@@ -31,7 +31,7 @@ One `docs/ROADMAP.md` per project (template: [project-starter/templates/ROADMAP.
 | Visible parallel progress | Background sessions and the sidebar, `/tasks` |
 | Done alerts | Notification hooks ([harness/](../harness/README.md)) plus the desktop app's own |
 | History and changelog | Conventional Commits with the skill as scope, `git log -- <skill>`, release notes on tags |
-| Concise output | `concise` output style |
+| Concise output | `lean` output style |
 | Prototyping | `prototype`, Impeccable `live` and `generate`, the browser pane |
 | Self-improving | `retro` → `conventions` (Napkin on trial) |
 | No overlap | One skill per job; reviews stay with the built-ins |
