@@ -50,4 +50,6 @@ This pass is exploration: most of what it finds is fixed and needs no test. Writ
 - the flow is one of the project's 1-3 critical journeys (money, sign-in, the main conversion), or
 - you found a regression in a critical journey, which becomes a test so it can't return.
 
+Derive a journey's steps and assertions from the ticket's acceptance criteria or the spec's user stories, not from the implementation.
+
 Never add an E2E test per feature. Journeys assert user-visible outcomes, not markup or implementation details. Conventions: [e2e.md](e2e.md). Playwright tests in CI remain the regression gate; this pass is the human-eye check before a change is called done.

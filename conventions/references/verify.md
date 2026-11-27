@@ -29,7 +29,7 @@ Done means the acceptance criteria are met with fresh evidence. Evidence is the 
 Never change an existing test just to make code pass. When one fails, decide: implementation wrong, test wrong, requirement changed, or environment wrong. Change the test only for the second or third, and say why in the commit body.
 
 ## Review
-`/simplify`, then `/code-review` in a fresh context; add `/security-review` when auth, input handling, secrets, permissions or dependencies changed. Always review money, auth, user data, concurrency, external contracts and migrations, even for a one-character fix. Skip only for copy, styling, docs, or a refactor already covered by tests. Check each finding against the code: fix the real ones, dispute wrong ones with evidence, list what you left.
+`/simplify`, then `/code-review` in a fresh context; add `/security-review` when auth, input handling, secrets, permissions or dependencies changed. Always review money, auth, user data, concurrency, external contracts and migrations, even for a one-character fix. Skip only for copy, styling, docs, or a refactor already covered by tests. Stamp each finding `blocker`, `major` or `nit`. Check each against the code: fix the real ones, dispute wrong ones with evidence, list what you left. For risky changes (auth, money, user data, migrations), have `reviewer` (Opus, fresh context) re-check every blocker and major before acting.
 
 ## After a bug escapes
 Ask why the workflow missed it, and add the smallest durable guardrail: a regression test, E2E journey, lint rule, or one line in `conventions`. No process for completeness.
