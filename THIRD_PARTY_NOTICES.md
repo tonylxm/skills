@@ -4,7 +4,9 @@ Some skills in this repository are adapted from the projects below, which are di
 
 ## mattpocock/skills
 
-Source: https://github.com/mattpocock/skills. Used for: `grilling`, `domain-modeling`, `codebase-design`, `tdd`
+Source: https://github.com/mattpocock/skills (commit `bbadaa6`). Used for: `grill-me`, `grilling`, `domain-modeling`, `codebase-design`, `tdd`, `to-spec`, `to-tickets`, `implement`, `retro`, `diagnosing-bugs`.
+
+Modifications: `to-spec`, `to-tickets`, `implement` and `retro` use GitHub issues and the built-in `/simplify` and `/code-review` instead of `/setup-matt-pocock-skills`, Pocock's `code-review` and `writing-for-agents`. Other files are renamed to kebab-case.
 
 ```
 MIT License
@@ -58,79 +60,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## obra/superpowers
-
-Source: https://github.com/obra/superpowers. Used for: `systematic-debugging`
-
-```
-MIT License
-
-Copyright (c) 2025 Jesse Vincent
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-## anthropics/skills
-
-Source: https://github.com/anthropics/skills. Used for: `frontend-design`, under the Apache License 2.0. The full text is in [frontend-design/LICENSE.txt](frontend-design/LICENSE.txt).
-
-Modifications: added a note at the top of `SKILL.md` making the project's `DESIGN.md` the source of truth; added a product vs marketing mode, a "never by default" list, a references note, links to the reference files below, and an exception to confirming the subject with the client when the brief says not to ask.
-
 ## pbakaus/impeccable
 
-Source: https://github.com/pbakaus/impeccable (commit `508d7e8`). Used for: `frontend-design/references/ui-standards.md` and `frontend-design/references/product-ui.md`, adapted from `reference/craft-floor.md` and `reference/operate.md`, under the Apache License 2.0. The full licence text is in [frontend-design/LICENSE.txt](frontend-design/LICENSE.txt).
+Source: https://github.com/pbakaus/impeccable (commit `508d7e8`). Used for: `conventions/references/ui.md`, adapted from `reference/craft-floor.md`, under the Apache License 2.0. The full licence text is in [licenses/apache-2.0.txt](licenses/apache-2.0.txt).
 
 Modifications: condensed and reworded; removed references to Impeccable's hook, launcher and other commands; added the purple/indigo default rule; pointed verification at `browser-e2e`.
 
-## vercel-labs/web-interface-guidelines
-
-Source: https://github.com/vercel-labs/web-interface-guidelines (commit `e3d624b`). Used for: `frontend-design/references/web-interface-guidelines.md`. Modified: removed the command wrapper, and changed Title Case to sentence case.
-
-```
-MIT License
-
-Copyright (c) 2025 Vercel Labs
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
 ## emilkowalski/skills
 
-Source: https://github.com/emilkowalski/skills (commit `c8a7962`). Used for: `frontend-design/references/motion.md`, adapted from `skills/review-animations/STANDARDS.md` and `SKILL.md`.
+Source: https://github.com/emilkowalski/skills (commit `64eb3de`). Used for: `animation-vocabulary` and `prototype`.
 
-Modifications: condensed and reworded; added the tool-choice table for this stack; dropped the reviewer persona and canned response.
+Modifications: `PICKER.md` renamed to `picker.md`; content unchanged.
 
 ```
 MIT License
@@ -158,9 +98,9 @@ SOFTWARE.
 
 ## DietrichGebert/ponytail
 
-Source: https://github.com/DietrichGebert/ponytail (commit `96608e0`). Used for: `dev-loop/SKILL.md` (Plan scope list, Implement option ladder and bug-fix rule) and `dev-loop/references/code-standards.md` (equal-size rule, `shortcut:` comment), adapted from `skills/ponytail/SKILL.md`.
+Source: https://github.com/DietrichGebert/ponytail (commit `96608e0`). Used for: `conventions/SKILL.md` (option ladder and bug-fix rule) and `conventions/references/code.md` (equal-size rule, `shortcut:` comment), adapted from `skills/ponytail/SKILL.md`.
 
-Modifications: condensed and reworded; dropped the persona, levels, always-on mode, hooks and the "one small test" rule (dev-loop's test strategy applies instead).
+Modifications: condensed and reworded; dropped the persona, levels, always-on mode, hooks and the "one small test" rule (the test rules in `conventions` apply instead).
 
 ```
 MIT License
@@ -185,10 +125,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
-## Geist font and Lucide icons (pipeline dashboard)
-
-`pipeline/scripts/dashboard/geist.woff2` is Geist Variable (latin subset) from `@fontsource-variable/geist`, Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font), licensed under the SIL Open Font License 1.1 (https://openfontlicense.org). The dashboard page also inlines a few icon shapes from Lucide, Copyright (c) 2026 Lucide Icons and Contributors, ISC license: permission to use, copy, modify, and/or distribute the software for any purpose with or without fee is granted, provided the copyright notice and this permission notice appear in all copies; the software is provided "as is" without warranty.
 
 ## Inspiration only (no code or text copied)
 

@@ -4,7 +4,7 @@
 
 ## Non-negotiables
 - {Rule an agent must never break, with a reason if it isn't obvious}
-- Every important behaviour gets a verification strategy (`dev-loop`): test-first for business logic, validation, money or security rules and bug fixes. Never edit a test just to make it pass, and never claim done without showing the check output.
+- Every important behaviour gets a verification strategy (see the `conventions` skill): test-first for business logic, validation, money or security rules and bug fixes. Never edit a test just to make it pass, and never claim done without showing the check output.
 - Never commit secrets. Config comes from env vars; keep `.env.example` current.
 
 ## Commands
@@ -27,5 +27,5 @@
 - {Only conventions that tooling doesn't enforce and agents get wrong}
 
 ## Workflow
-- Work comes from GitHub issues through the pipeline: branch `feat|fix|chore/<issue>-<slug>`, one PR that closes the issue, squash-merge once `checks.sh` is green. Conventional Commits. {Solo: small manual fixes may commit to `main`; a pre-commit hook auto-formats | Team: PRs only}.
-- New ideas become issues, not scope. Merge policy and overrides: `.pipeline.yml` (see the pipeline skill).
+- Work comes from GitHub issues: branch `feat|fix|chore/<issue>-<slug>`, one PR that closes the issue, squash-merge once CI is green. Conventional Commits. {Solo: small manual fixes may commit to `main`; a pre-commit hook auto-formats | Team: PRs only}.
+- New ideas become issues, not scope. Roadmap: `docs/ROADMAP.md`.

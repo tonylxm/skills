@@ -23,12 +23,12 @@ Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate
 2. **Constraints.** Solo or team (sets the Workflow mode, [tech-stack.md → CI/CD](../stack-defaults/tech-stack.md#cicd)), timeline, hosting budget, compliance (privacy law wherever personal data is stored).
 3. **Stack.** Start from the defaults in [tech-stack.md](../stack-defaults/tech-stack.md). Deviate only when step 2 requires it, and say why. ADR for each lock-in choice.
 4. **Architecture.** Components (mermaid), core data model, key contracts, quality baseline (tests, security, deploy, NFRs) from tech-stack.md. If the domain has terms that are easy to confuse, run domain-modeling, which writes `docs/GLOSSARY.md`. ADR for the shape.
-5. **Design.** Run design-md. Skip for backend-only, CLI or library projects.
+5. **Design.** Run Impeccable (`/impeccable init`, then `document`), which writes `PRODUCT.md` and `DESIGN.md`. Skip for backend-only, CLI or library projects.
 6. **Write and hand off.**
    - Fill the doc templates into the layout below, then run agents-md for `AGENTS.md`.
-   - **Repo and issues.** Confirm each outward step with the user first. Create the repo from the template tech-stack.md names (`gh repo create <app> --template ... --private --clone`), copy the [pipeline kit](../pipeline/SKILL.md#the-repo-kit) if the template lacks it, run its `labels.sh`, and offer to add the repo to `~/.config/pipeline/repos.txt`. Then file the first issues in the [pipeline issue format](../pipeline/SKILL.md#issue-body) under a "Phase 0: walking skeleton" milestone: scaffold and verify the baseline, verify CI, provision the data store and env, deploy hello world (tech-stack.md → CI/CD). Templates ship most of it, so those are check-only. Each step that needs the user's accounts or keys is an issue labelled `needs-human` with numbered steps. Later phases are empty milestones, deferred ideas are unlabelled issues.
+   - **Repo and issues.** Confirm each outward step with the user first. Create the repo from the template tech-stack.md names (`gh repo create <app> --template ... --private --clone`). Then run `to-tickets` on the PRD's MVP scope, with Phase 0 as the first tickets under a "Phase 0: walking skeleton" milestone: scaffold and verify the baseline, verify CI, provision the data store and env, deploy hello world (tech-stack.md → CI/CD). Templates ship most of it, so those are check-only. Each step that needs the user's accounts or keys is an issue labelled `needs-human` with numbered steps. Later phases go on the roadmap, deferred ideas are unlabelled issues.
    - For client work, draft the client's list from [clients.md](../stack-defaults/clients.md) (only the rows this project needs) and fill [contract-template.md](../stack-defaults/contract-template.md) from the quote and the PRD's MVP scope. Keep the filled contract out of the repo.
-   - Report the files created, the issues filed, the 3 riskiest open questions, and the accounts Phase 0 will need (repo, hosting, data store, auth). End with: "Run `/plan` on the new issues, then start the runner."
+   - Report the files created, the issues filed, the 3 riskiest open questions, and the accounts Phase 0 will need (repo, hosting, data store, auth). End with: `Next: implement #<first ticket>`, as one background session per unblocked ticket.
 
 ## Output
 
@@ -38,7 +38,8 @@ Turn a quick description into a planned, agent-ready repo. Orchestrate; delegate
 | `AGENTS.md` | Agent index: rules, commands, map, workflow | agents-md |
 | `docs/PRD.md` | Why and what: users, scope with AC, non-goals, metrics, risks | [templates/PRD.md](templates/PRD.md) |
 | `docs/ARCHITECTURE.md` | How: stack, diagram, data model, contracts, quality baseline | [templates/ARCHITECTURE.md](templates/ARCHITECTURE.md) |
-| `docs/DESIGN.md` | Look: tokens, type, components (UI only) | design-md |
+| `docs/DESIGN.md` | Look: tokens, type, components (UI only) | Impeccable `document` |
+| `docs/ROADMAP.md` | Now / Next / Later / Done, each line an outcome linked to an issue | [templates/ROADMAP.md](templates/ROADMAP.md) |
 | `docs/decisions/ADR-0001-<slug>.md` | One significant decision each | decision-log |
 | `docs/GLOSSARY.md` | Domain terms, only when step 4 needed them | domain-modeling |
 

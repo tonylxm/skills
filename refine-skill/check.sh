@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Static checks for a skills repo: names, descriptions, skill references and relative links.
+# Static checks for a skills repo: names, descriptions, skill references and relative links, plus a SKILL.md length warning.
 # Templates are skipped because their links point into the generated project, not this repo.
 set -uo pipefail
 
@@ -30,6 +30,7 @@ for d in */; do
   name=$(sed -n 's/^name: *//p' "$f" | head -1)
   [ "$name" = "$d" ] || report "name mismatch: $d ($name)"
   grep -q '^description: ..' "$f" || report "missing description: $d"
+  lines=$(wc -l < "$f" | tr -d " "); [ "$lines" -le 80 ] || echo "warning: $f is $lines lines (budget 80, not enforced)"
   while read -r ref; do
     [ -d "$ref" ] || report "broken skill ref in $d: $ref"
   done < <(prose "$f" | grep -oE 'Skill tool (with|twice, for) "[^"]+"( and "[^"]+")?' | grep -oE '"[^"]+"' | tr -d '"')

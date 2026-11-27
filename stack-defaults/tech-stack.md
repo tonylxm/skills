@@ -107,7 +107,7 @@ Test a restore into a throwaway project once a quarter, and before handover.
   ```
   On oxlint projects (Vite) replace `eslint --fix` with `oxlint --fix`.
 
-**Testing** (strategy and verification tiers in the dev-loop skill; test-first with tdd where it applies)
+**Testing** (verification tiers in the conventions skill; test-first with tdd where it applies)
 | Stack | Tests |
 |---|---|
 | Astro site | Build, a phone-width Playwright smoke test, and the seo skill's launch checks |
@@ -123,7 +123,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
 
 | | Solo (default) | Team |
 |---|---|---|
-| Commits | Straight to `main` for small manual fixes; pipeline jobs use a branch and PR | Branch and PR only, squash merge |
+| Commits | Straight to `main` for small manual fixes; ticket work uses a branch and PR | Branch and PR only, squash merge |
 | Pre-commit | Husky + lint-staged | None, CI is the gate |
 | CI | Runs on every push and PR, reports | Runs on PRs, blocks the merge |
 | Deploy | Production on push to `main` | Preview per PR, production on merge |
@@ -145,7 +145,7 @@ Step 2's "solo or team" answer sets the workflow mode. Record it in the PRD and 
   command -v gitleaks >/dev/null || { echo "gitleaks not found: brew install gitleaks"; exit 1; }
   gitleaks git --pre-commit --staged --redact --no-banner
   ```
-- **Git:** Conventional Commits, small and green. Branches `feat|fix|chore/<issue>-<slug>`, one issue each. Solo → Team once there are real users or a second contributor: turn on branch protection requiring CI and set `merge: none` in `.pipeline.yml` for client releases.
+- **Git:** Conventional Commits, small and green. Branches `feat|fix|chore/<issue>-<slug>`, one issue each. Solo → Team once there are real users or a second contributor: turn on branch protection requiring CI and merge client releases by hand.
 - **Deferred (unlabelled issues):** CodeQL, a staging environment, release automation, E2E beyond the 1-3 journeys.
 
 ## Templates

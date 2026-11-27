@@ -55,7 +55,7 @@ description: Write or review TypeScript with strict types, clear control flow, d
 
 ## Comments
 
-- Comment rules: [code-standards](../dev-loop/references/code-standards.md#comments). If code needs explaining, rename or extract until it doesn't. Use `@ts-expect-error` with a reason, never `@ts-ignore`.
+- Comment rules: [conventions](../conventions/references/code.md#comments). If code needs explaining, rename or extract until it doesn't. Use `@ts-expect-error` with a reason, never `@ts-ignore`.
 - Document public interfaces with JSDoc: expected behaviour and error conditions, not internals.
 
 ## Dependency injection
