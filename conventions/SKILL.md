@@ -34,7 +34,7 @@ Take the first option that fully works: (1) skip it if nobody asked, and say wha
 - Add to this list only after a pattern recurs across projects. One line, stated as the rule.
 
 ## Finishing a task
-End every task with one line: `Next: <skill or command>, because <reason>`. Name the real next step (e.g. `/simplify` then `/code-review` then `/ship`, `to-tickets`, merge, or "done, nothing pending"). If the next move is the user's call, ask that one question instead. Do this after every step of a chain, not only the last.
+End every task with one line: `Next: <skill or command>, because <reason>`. Name the real next step (e.g. `/simplify` then `/code-review` then `/ship`, `to-tickets`, merge, or "done, nothing pending"). If the next move is the user's call, ask that one question instead. Do this after every step of a chain, not only the last. When a task skipped or could not check something, name it and any risk in one extra line.
 
 ## Adding a convention
 Write the rule where it belongs (table above), one line, with the reason if it isn't obvious. Edit in `~/.agents/skills`, never a project copy. `retro` proposes additions; Tony approves them.

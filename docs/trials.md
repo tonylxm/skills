@@ -9,8 +9,8 @@ Summary: what was evaluated for v2 and why. Research date 2026-11-28; star count
 | Emil Kowalski skills | **Adopted**: `animation-vocabulary`, `prototype` | Motion naming and variant picker that Impeccable lacks. Skip the rest (they repeat Impeccable) |
 | `/advisor`, `/ship`, `/simplify`, `/code-review`, `/batch` | **Use** | Built in, replace the v1 pipeline |
 | claude-code-setup plugin | Run once, then uninstall | One-off recommender |
-| Napkin (blader) | **Trial** 2 weeks vs `retro` | Small always-on mistakes log. Keep one of the two |
-| Ponytail | **Trial** core skill at `lite` | Overlaps built-ins in its review commands. Self-reported benchmarks |
+| Napkin (blader) | Skip (vendored and reviewed 2026-11-28) | Duplicates built-in memory and `retro`, adds a notes file to every repo and a read at every session start |
+| Ponytail | Skip (vendored and reviewed 2026-11-28) | Its option ladder is already in `conventions`. Only the closing "skipped or unchecked" line was new, now a rule there |
 | Cloudflare `security-audit` (named "cloudflare-security-review" in the brief) | Install on demand | Heavy, for pre-launch audits only |
 | superpowers | Skip | Overlaps Pocock 1:1 and is verbose. `systematic-debugging` replaced by `diagnosing-bugs` |
 | claude-mem | Skip | Bun, Chroma and an observer agent. Against "simple" and "token-efficient" |
