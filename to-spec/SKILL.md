@@ -16,7 +16,7 @@ Tracker: GitHub issues through `gh`. With no remote, write files under `docs/spe
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template below, then publish it with `gh issue create --label spec`. If it came from a `docs/ROADMAP.md` Next item, link the issue on that line.
+3. Write the spec using the template below, then publish it with `gh issue create --label spec` (run `gh label create spec --force` first; a missing label makes `gh` fail). If it came from a `docs/ROADMAP.md` Next item, link the issue on that line.
 
 <spec-template>
 

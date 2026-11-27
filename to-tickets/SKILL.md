@@ -57,7 +57,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the tickets
 
-Publish one issue per approved ticket in dependency order (blockers first), so each ticket's "Blocked by" can reference real issue numbers. Use the issue template below, add the label `ready`, and make each ticket a sub-issue of the spec issue. With no remote, write one file per ticket under `docs/specs/<feature-slug>/` using the same template.
+Publish one issue per approved ticket in dependency order (blockers first), so each ticket's "Blocked by" can reference real issue numbers. Use the issue template below, and add the label `ready` (run `gh label create ready --force` first; a missing label makes `gh` fail). The Parent section links the spec issue. With no remote, write one file per ticket under `docs/specs/<feature-slug>/` using the same template.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 

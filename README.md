@@ -8,7 +8,7 @@ My personal agent skills for Claude Code, Codex, and other agents that support t
 npx skills add tonylxm/skills
 ```
 
-Single skill: `npx skills add tonylxm/skills --skill conventions`. Some skills call others (project-starter uses grilling, to-spec, to-tickets, domain-modeling, agents-md and stack-defaults), so install the whole set unless you know a skill's dependencies.
+Single skill: `npx skills add tonylxm/skills --skill conventions`. Some skills call others (project-starter uses grilling, domain-modeling, agents-md, decision-log and stack-defaults), so install the whole set unless you know a skill's dependencies.
 
 ## Workflow
 

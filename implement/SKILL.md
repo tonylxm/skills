@@ -14,4 +14,4 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Once done, run `/simplify`, then `/code-review` (both built in) and fix what they report. Follow [conventions](../conventions/SKILL.md) for commits.
 
-Commit your work to the current branch. End with `Next: /ship`.
+Work on a branch named per [conventions](../conventions/SKILL.md). If you are on the default branch or a `worktree-*` branch, create `feat|fix|chore/<issue>-<slug>` first. Commit your work to it. End with `Next: /ship`.
