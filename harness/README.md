@@ -23,7 +23,7 @@ Summary: Claude Code config that belongs with the skills: model-routed subagents
 2. Merge `outputStyle` from `settings-snippet.json` into `~/.claude/settings.json`, and the `hooks` block only for terminal sessions. Restart so the output style loads.
 3. Update `~/.claude/CLAUDE.md`: point comment rules at `conventions`, fix the dead `code-floor.md` link, drop the UI line that names `frontend-design`.
 4. Merge `v2` into local `main`, then run the dry run before pushing `main`. Rollback is the `v1` tag.
-5. Install Impeccable per its README (until then v2 has no active design skill), and remove the "lives on branch `v2`" line from `AGENTS.md`.
+5. Impeccable is installed as a user-level plugin, disabled globally and enabled per UI project (commands in the README). Remove the "lives on branch `v2`" line from `AGENTS.md`.
 6. Check how subagents are set to Sonnet today (`jq '.env' ~/.claude/settings.json`) before relying on `CLAUDE_CODE_SUBAGENT_MODEL`.
 7. Alerts: a Stop alert, an `idle_prompt` alert and the desktop app's own give 2 or 3 per turn. Drop `idle_prompt` or Stop after the dry run.
 

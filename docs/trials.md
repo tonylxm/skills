@@ -5,7 +5,7 @@ Summary: what was evaluated for v2 and why. Research date 2026-11-28; star count
 | Item | Verdict | Why |
 |---|---|---|
 | Matt Pocock skills | **Adopted** (subset, vendored) | Terse and modular, 4 already vendored |
-| Impeccable | **Adopt**, install per project | Most complete design skill (`live`, `generate`, 62-rule detector). Ships a binary, so not vendored |
+| Impeccable | **Adopted** as a user-level plugin, off by default | Most complete design skill (`live`, `generate`, 62-rule detector). Its plugin ships Edit/Write and Stop hooks that would run in every project, so enable it per UI project only. Not for the starter repos: its `PRODUCT.md` is per client |
 | Emil Kowalski skills | **Adopted**: `animation-vocabulary`, `prototype` | Motion naming and variant picker that Impeccable lacks. Skip the rest (they repeat Impeccable) |
 | `/advisor`, `/ship`, `/simplify`, `/code-review`, `/batch` | **Use** | Built in, replace the v1 pipeline |
 | claude-code-setup plugin | Run once, then uninstall | One-off recommender |

@@ -66,7 +66,7 @@ Don't use `npx skills add` for this repo. Ask your agent to "add `<owner/repo>` 
 | [refine-prompt](refine-prompt/SKILL.md) | Sharpen a rough prompt for an AI model | Original, based on Anthropic prompt guidance and stitch enhance-prompt |
 | [find-skills](find-skills/SKILL.md) | Discover agent skills and vendor them into this repo | Adapted from [vercel-labs/skills](https://github.com/vercel-labs/skills) |
 
-[Impeccable](https://github.com/pbakaus/impeccable) is the design skill. It ships a binary, so it is installed per its README rather than vendored here.
+[Impeccable](https://github.com/pbakaus/impeccable) is the design skill. It is a Claude Code plugin with hooks, so it is not vendored here. Install once: `claude plugin marketplace add pbakaus/impeccable`, `claude plugin install impeccable@impeccable`, then `claude plugin disable impeccable@impeccable --scope user`. Turn it on per UI project: `claude plugin enable impeccable@impeccable --scope local`.
 
 Built-ins are used rather than duplicated: `/ship`, `/code-review`, `/security-review`, `/simplify`, `/batch`, `/advisor`, `/loop`, `/schedule`.
 
